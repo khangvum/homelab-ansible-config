@@ -1,0 +1,39 @@
+---
+# Test the host connection
+- name: VM Connection Test
+  hosts: vms
+  gather_facts: false
+  tags: host_connection_test
+  vars_files:
+    - windows_var.yml
+  tasks:
+  - name: Host Connection Test
+    ansible.windows.win_powershell:
+      script: |
+        $osInfo = Get-CimInstance Win32_OperatingSystem | Select-Object Caption, Version, ServicePackMajorVersion, OSArchitecture
+
+        $Ansible.Result = $osInfo
+        $Ansible.Changed = $false
+        $Ansible.Failed = $false
+    register: os_info
+  - debug: 
+      msg: "{{ os_info }}"
+
+# Windows configuration
+- name: Global Configuration
+  hosts: vms
+  gather_facts: false
+  tags: global_configuration
+  vars_files:
+    - windows_var.yml
+  tasks:
+    - import_role:
+        name: hostname_configuration
+    - import_role:
+        name: ntp_configuration
+    - import_role:
+        name: system_configuration
+    - import_role:
+        name: user_configuration
+    - import_role:
+        name: windows_updates

@@ -1,0 +1,8 @@
+---
+- name: NTP Server Configuration
+  ansible.windows.win_command:
+    cmd: "w32tm /config /syncfromflags:manual /manualpeerlist:'{{ ntp_servers }}'"
+
+- name: Time Zone Configuration
+  ansible.windows.win_command:
+    cmd: 'tzutil /s "{{ time_zone }}"'

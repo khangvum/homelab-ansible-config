@@ -1,0 +1,21 @@
+---
+host_key_checking: False
+ansible_shell_type: cmd
+ansible_connection: ssh
+ansible_ssh_retries: 3
+ansible_become_method: runas
+
+ntp_servers: time.windows.com
+time_zone: "Eastern Standard Time"
+
+# User configuration
+user_list:
+  - username: {{ USERNAME }}
+    password: {{ PASSWORD }}
+    state: present
+    account_disabled: false
+    password_never_expires: true
+    group: Administrators
+    host:
+      - KVM-PC01
+      - KVM-PC02
