@@ -43,3 +43,34 @@ Role                    |Description
 
     **_Accept the host key_** on first connection by typing `yes` when prompted.
 
+## Applying Configuration
+
+1.  **Update the inventory and variable files:**
+
+-   Update [`inventory.yml`](ansible-scripts/windows-config/inventory_template.yml) to list your actual Windows hosts.
+-   Update [`windows_var.yml`](ansible-scripts/windows-config/windows_var_template.yml) to fill in the environment-specific variables (_e.g._ usernames, passwords, hostnames, etc.)
+
+2.  **Start the Ansible environment:**
+
+    ```bash
+    docker compose up -d
+    ```
+
+3.  **Access the running Ansible container:**
+
+    ```bash
+    docker exec -it ansible_service /bin/bash
+    ```
+
+4.  **Execute the playbook to apply the settings:**
+
+    ```bash
+    ansible-playbook site.yml -i inventory.yml
+    ```
+
+>   [!NOTE]
+>   Use `-t` option to selectively run specific plays:
+>
+>   ```bash
+>   ansible-playbook site.yml -i inventory.yml -t global_configuration
+>   ```
