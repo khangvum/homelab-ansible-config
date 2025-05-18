@@ -44,7 +44,7 @@ RUN mkdir /run/sshd
 RUN chmod 0755 /run/sshd
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-WORKDIR /opt/ansible
+WORKDIR /opt/ansible/windows-config
 
 # Start the services when the server starts
 CMD ["/usr/bin/supervisord"]
