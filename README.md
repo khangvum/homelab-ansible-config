@@ -26,7 +26,7 @@ A **_Windows configuration automation_** solution powered by **_Ansible_**, cont
     │   │   │   └── windows_updates
     │   │   ├── inventory.yml
     │   │   ├── windows_var.yml
-    │   │   ├── site.yml
+    │   │   └── site.yml
     │   └── ansible.cfg
     └── docker-compose.yml
 ```
@@ -43,7 +43,7 @@ File                |Description
 
 ### ansible-scripts
 
-`site.yml` is the main playbook, executing all roles based on, including:
+`site.yml` is the main playbook, executing all roles based on defined tags, including:
 
 -   `inventory.yml`: Defines the list of **_Windows target hosts_**, grouped by environment or function.
 -   `windows_var.yml`: **_Variable declaration file_** used across roles for flexible configuration.
@@ -56,3 +56,27 @@ Role                    |Description
 `system_configuration`  |Applies **_system-wide settings_**
 `user_configuration`    |Manages **_local user accounts_** and **_passwords_**
 `windows_updates`       |Performs **_Windows updates_**
+
+## Prerequisites
+
+-   **_[OpenSSH Server](https://github.com/PowerShell/Win32-OpenSSH/releases/latest)_** installed on the targeted hosts.
+-   **_SSH Service_** enabled on the targeted hosts:
+
+    ```powershell
+    Start-Service sshd
+    Set-Service -Name sshd -StartupType 'Automatic'
+    ```
+
+-   **_SSH_** allowed through the **_firewall_**:
+
+    ```powershell
+    New-NetFirewallRule -Name 'OpenSSH-Server-In-TCP' -DisplayName 'OpenSSH Server (sshd)' -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22 -Profile Any
+    ```
+
+-   **_SSH connection_** verified **_once_** from the controller to each host:
+
+    ```bash
+    ssh administrator@<IP_ADDRESS>
+    ```
+
+    **_Accept the host key_** on first connection by typing `yes` when prompted.
