@@ -1,7 +1,7 @@
 ---
 # Test the host connection
 - name: VM Connection Test
-  hosts: vms
+  hosts: servers:vms
   gather_facts: false
   tags: host_connection_test
   vars_files:
@@ -21,7 +21,7 @@
 
 # Windows configuration
 - name: Global Configuration
-  hosts: vms
+  hosts: servers:vms
   gather_facts: false
   tags: global_configuration
   vars_files:
@@ -35,5 +35,5 @@
         name: system_configuration
     - import_role:
         name: user_configuration
-    - import_role:
-        name: windows_updates
+    # - import_role:
+    #     name: windows_updates

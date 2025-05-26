@@ -17,5 +17,6 @@ user_list:
     password_never_expires: true
     group: Administrators
     host:
+      - KVM-SRV01
       - KVM-PC01
       - KVM-PC02

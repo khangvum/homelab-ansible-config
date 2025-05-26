@@ -1,13 +1,20 @@
 ---
-vms:
+servers:
   hosts:
-    KVM-PC01:
+    KVM-SRV01:
       ansible_host: {{ IP_ADDRESS_1 }}
       computer_name: {{ HOSTNAME_1 }}
       ansible_user: {{ USERNAME }}
       ansible_password: {{ PASSWORD }}
-    KVM-PC02:
+vms:
+  hosts:
+    KVM-PC01:
       ansible_host: {{ IP_ADDRESS_2 }}
       computer_name: {{ HOSTNAME_2 }}
+      ansible_user: {{ USERNAME }}
+      ansible_password: {{ PASSWORD }}
+    KVM-PC02:
+      ansible_host: {{ IP_ADDRESS_3 }}
+      computer_name: {{ HOSTNAME_3 }}
       ansible_user: {{ USERNAME }}
       ansible_password: {{ PASSWORD }}
