@@ -35,5 +35,5 @@
         name: system_configuration
     - import_role:
         name: user_configuration
-    # - import_role:
-    #     name: windows_updates
+    - import_role:
+        name: windows_updates
