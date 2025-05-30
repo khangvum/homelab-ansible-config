@@ -4,6 +4,6 @@
     name: "{{ computer_name }}"
   register: result
 
-- name: Reboot
+- name: Reboot to Apply Hostname Change
   ansible.windows.win_reboot:
   when: result.reboot_required
