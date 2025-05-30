@@ -25,7 +25,7 @@ RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && \
 RUN export LC_ALL=C.UTF-8
 
 # Install required ansible-galaxy collections
-RUN ansible-galaxy collection install \
+RUN ansible-galaxy collection install --upgrade \
     ansible.windows \
     community.general \
     community.windows
