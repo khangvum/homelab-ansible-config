@@ -2,8 +2,8 @@
 - name: Hostname Update
   ansible.windows.win_hostname:
     name: "{{ computer_name }}"
-  register: result
+  register: hostname_update
 
 - name: Reboot to Apply Hostname Change
   ansible.windows.win_reboot:
-  when: result.reboot_required
+  when: hostname_update.reboot_required
