@@ -1,7 +1,15 @@
 ---
 - name: NTP Server Configuration
-  ansible.windows.win_command:
-    cmd: "w32tm /config /syncfromflags:manual /manualpeerlist:'{{ ntp_servers }}'"
+  ansible.windows.win_powershell:
+    script: |
+      $desired = "{{ ntp_servers }}"
+      $current = (Get-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Services\W32Time\Parameters' -Name NtpServer).NtpServer
+      if ($current -ne $desired) {
+        w32tm /config /syncfromflags:manual /manualpeerlist:"$desired"
+        $Ansible.Changed = $true
+      } else {
+        $Ansible.Changed = $false
+      }
 
 - name: Time Zone Configuration
   ansible.windows.win_timezone:
