@@ -1,6 +1,6 @@
 ---
 - name: Region Settings Configuration
-  community.windows.win_region:
+  ansible.windows.win_region:
     location: 39
     format: en-CA
   register: region_settings
