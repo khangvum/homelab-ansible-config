@@ -1,0 +1,12 @@
+---
+- name: Region Settings Configuration
+  ansible.windows.win_powershell:
+    script: |
+      Set-WinHomeLocation -GeoID 39
+
+- name: Language Settings Configuration
+  ansible.windows.win_powershell:
+    script: |
+      Set-WinUserLanguageList -LanguageList en-US -Force
+      Set-WinUILanguageOverride -Language en-US
+      Set-WinSystemLocale en-CA
