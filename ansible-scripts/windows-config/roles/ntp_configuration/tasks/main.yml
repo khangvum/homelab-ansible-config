@@ -4,5 +4,5 @@
     cmd: "w32tm /config /syncfromflags:manual /manualpeerlist:'{{ ntp_servers }}'"
 
 - name: Time Zone Configuration
-  community.windows.win_timezone:
+  ansible.windows.win_timezone:
     timezone: "{{ time_zone }}"
