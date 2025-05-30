@@ -1,12 +1,10 @@
 ---
 - name: Region Settings Configuration
-  ansible.windows.win_powershell:
-    script: |
-      Set-WinHomeLocation -GeoID 39
+  community.windows.win_region:
+    location: 39
+    format: en-CA
+  register: region_settings
 
-- name: Language Settings Configuration
-  ansible.windows.win_powershell:
-    script: |
-      Set-WinUserLanguageList -LanguageList en-US -Force
-      Set-WinUILanguageOverride -Language en-US
-      Set-WinSystemLocale en-CA
+- name: Reboot to Apply Region Settings
+  ansible.windows.win_reboot:
+  when: region_settings.restart_required
