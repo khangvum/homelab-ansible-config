@@ -1,0 +1,154 @@
+---
+- name: Hyper-V Parent Directory Creation If Not Exists
+  ansible.windows.win_file:
+    path: "{{ hyper_v_parent_dir }}"
+    state: directory
+
+- name: VM Subdirectory Creation If Not Exists
+  ansible.windows.win_file:
+    path: "{{ hyper_v_parent_dir }}\\{{ item.name }}"
+    state: directory
+  loop: "{{ vm_list }}"
+  when: item.host == computer_name
+
+- name: ISO File Copy
+  ansible.windows.win_copy:
+    src: "{{ item.iso_source }}"
+    dest: "{{ hyper_v_parent_dir }}\\{{ item.name }}\\{{ item.iso_destination }}"
+  loop: "{{ vm_list }}"
+  when: item.host == computer_name
+
+- name: VM Creation
+  ansible.windows.win_powershell:
+    script: |
+      $changed = $false
+      $state = "{{ item.state }}".ToLower()
+      $existingVM = Get-VM -Name "{{ item.name }}" -ErrorAction SilentlyContinue
+
+      if ($state -eq "present") {
+        $vmName = "{{ item.name }}"
+        $vmPath = "{{ hyper_v_parent_dir }}\$vmName"
+        $vmDisk = "$vmPath\$vmName.vhdx"
+        $vmISO  = "$vmPath\{{ item.iso_destination }}"
+
+        # If the VM does not exist, create it
+        if (-not $existingVM) {
+          New-VM -Name $vmName -MemoryStartupBytes {{ item.memory }}GB -BootDevice CD -NoVHD  -Path $vmPath -Generation {{ item.generation }} -Switch "{{ hyper_v_switch_name }}"
+
+          # Use an existing VHD if available
+          if (Test-Path $vmDisk) {
+            Add-VMHardDiskDrive -VMName $vmName -Path $vmDisk
+          } 
+          # Otherwise, create a new VHD
+          else {
+            New-VHD -Path $vmDisk -SizeBytes {{ item.storage }}GB -Dynamic
+            Add-VMHardDiskDrive -VMName $vmName -Path $vmDisk
+          } 
+
+          # Attach the ISO file if available
+          if (Test-Path $vmISO) {
+            Set-VMDvdDrive -VMName $vmName -Path $vmISO
+          }
+
+          # Set the CPU
+          Set-VMProcessor -VMName $vmName -Count {{ item.cpu }}
+
+          $changed = $true
+        }
+        # If the VM already exists, update the specs
+        else {
+          # Update the CPU
+          if ($existingVM.ProcessorCount -ne {{ item.cpu }}) {
+            Set-VMProcessor -VMName $vmName -Count {{ item.cpu }}
+            $changed = $true
+          }
+
+          # Update the memory
+          if (((Get-VMMemory -VMName $vmName).Startup / 1GB) -ne {{ item.memory }}) {
+            Set-VMMemory -VMName $vmName -StartupBytes {{ item.memory }}GB
+            $changed = $true
+          }
+
+          # Update the VHD path
+          $currentVHD = Get-VMHardDiskDrive -VMName $vmName
+          if ($currentVHD.Path -ne $vmDisk) {
+            Remove-VMHardDiskDrive -VMName $vmName -ControllerType $currentVHD.ControllerType -ControllerNumber $currentVHD.ControllerNumber -ControllerLocation $currentVHD.ControllerLocation
+
+            # Use an existing VHD if available
+            if (Test-Path $vmDisk) {
+              Add-VMHardDiskDrive -VMName $vmName -Path $vmDisk
+            } 
+            # Otherwise, create a new VHD
+            else {
+              New-VHD -Path $vmDisk -SizeBytes {{ item.storage }}GB -Dynamic
+              Add-VMHardDiskDrive -VMName $vmName -Path $vmDisk
+            }
+
+            $changed = $true
+          }
+
+          # Update the vSwitch
+          $currentSwitch = Get-VMNetworkAdapter -VMName $vmName
+          if ($currentSwitch.SwitchName -ne "{{ hyper_v_switch_name }}") {
+            Connect-VMNetworkAdapter -VMName $vmName -SwitchName "{{ hyper_v_switch_name }}"
+            $changed = $true
+          }
+
+          # Update the ISO file
+          $currentDVDDrive = Get-VMDvdDrive -VMName $vmName
+          if ($currentDVDDrive -and $currentDVDDrive.Path -ne $vmISO -and (Test-Path $vmISO)) {
+            Set-VMDvdDrive -VMName $vmName -Path $vmISO
+            $changed = $true
+          }
+        }
+      }
+      elseif ($state -eq "absent") {
+        if ($existingVM) {
+          # Stop the VM if it is running
+          if ($existingVM.State -eq "Running") {
+            Stop-VM -Name "{{ item.name }}" -Force
+          }
+
+          Remove-VM -Name "{{ item.name }}" -Force
+          $changed = $true
+        }
+
+        # Remove the VM's files
+        Get-ChildItem -Path "{{ hyper_v_parent_dir }}\{{ item.name }}" -Recurse -Force |
+        Where-Object { $_.Name -like "*{{ item.name }}*" } |
+        ForEach-Object {
+          Remove-Item -Path $_.FullName -Recurse -Force -ErrorAction SilentlyContinue
+        }
+      }
+      else {
+        Write-Error "Invalid state: $state. Use 'present' or 'absent'."
+        $Ansible.Failed = $true
+      }
+
+      $Ansible.Changed = $changed
+  loop: "{{ vm_list }}"
+  when: item.host == computer_name
+
+- name: VM Power On
+  ansible.windows.win_powershell:
+    script: |
+      $vmName = "{{ item.name }}"
+      $power = "{{ item.power }}".ToLower()
+      $state = "{{ item.state }}".ToLower()
+      $existingVM = Get-VM -Name $vmName -ErrorAction SilentlyContinue
+
+      $changed = $false
+      if ($existingVM -and $state -eq "present") {
+        if ($power -eq "true" -and ($existingVM.State -eq "Off" -or $existingVM.State -eq "Saved")) {
+          Start-VM -Name $vmName
+          $changed = $true
+        }
+        elseif ($power -eq "false" -and $existingVM.State -eq "Running") {
+          Stop-VM -Name $vmName -Force
+          $changed = $true
+        }
+      }
+
+      $Ansible.Changed = $changed
+  loop: "{{ vm_list }}"
+  when: item.host == computer_name
