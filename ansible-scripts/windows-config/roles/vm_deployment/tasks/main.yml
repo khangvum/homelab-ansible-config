@@ -30,10 +30,21 @@
         $vmPath = "{{ hyper_v_parent_dir }}\$vmName"
         $vmDisk = "$vmPath\$vmName.vhdx"
         $vmISO  = "$vmPath\{{ item.iso_destination }}"
+        $enableTPM = "{{ item.tpm }}".ToLower()
 
         # If the VM does not exist, create it
         if (-not $existingVM) {
           New-VM -Name $vmName -MemoryStartupBytes {{ item.memory }}GB -BootDevice CD -NoVHD  -Path $vmPath -Generation {{ item.generation }} -Switch "{{ hyper_v_switch_name }}"
+
+          # Disable dynamic memory
+          Set-VMMemory -VMName $vmName -DynamicMemoryEnabled $false
+
+          # Enable TPM if specified
+          if ($enableTPM -eq "true") {
+            Set-VMKeyProtector -VMName $vmName -NewLocalKeyProtector
+            Enable-VMTPM -VMName $vmName
+            $changed = $true
+          }
 
           # Use an existing VHD if available
           if (Test-Path $vmDisk) {
@@ -66,6 +77,18 @@
           # Update the memory
           if (((Get-VMMemory -VMName $vmName).Startup / 1GB) -ne {{ item.memory }}) {
             Set-VMMemory -VMName $vmName -StartupBytes {{ item.memory }}GB
+            $changed = $true
+          }
+
+          # Enable TPM if specified
+          $currentTPM = (Get-VMSecurity $vmName).TPMEnabled.ToString().ToLower()
+          if ($enableTPM -eq "true" -and $currentTPM -eq "false") {
+            Set-VMKeyProtector -VMName $vmName -NewLocalKeyProtector
+            Enable-VMTPM -VMName $vmName
+            $changed = $true
+          }
+          elseif ($enableTPM -eq "false" -and $currentTPM -eq "true") {
+            Disable-VMTPM -VMName $vmName
             $changed = $true
           }
 
