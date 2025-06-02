@@ -19,4 +19,6 @@ user_list:
     host:
       - KVM-SRV01
       - KVM-PC01
-      - KVM-PC02
+      - KVM-DC01
+      - KVM-WRK01
+      - KVM-WRK02
