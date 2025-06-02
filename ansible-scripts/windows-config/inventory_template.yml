@@ -2,19 +2,40 @@
 servers:
   hosts:
     KVM-SRV01:
-      ansible_host: {{ IP_ADDRESS_1 }}
-      computer_name: {{ HOSTNAME_1 }}
+      ansible_host: {{ SERVER_IP_ADDRESS }}
+      computer_name: {{ SERVER_HOSTNAME }}
       ansible_user: {{ USERNAME }}
       ansible_password: {{ PASSWORD }}
-vms:
+      win_license_key: {{ SERVER_WIN_LICENSE_KEY }}
+      hyper_v_switch_name: {{ SERVER_HYPER_V_SWITCH_NAME }}
+      hyper_v_adapter_name: {{ SERVER_HYPER_V_ADAPTER_NAME }}
+pcs:
   hosts:
     KVM-PC01:
-      ansible_host: {{ IP_ADDRESS_2 }}
-      computer_name: {{ HOSTNAME_2 }}
+      ansible_host: {{ PC_IP_ADDRESS }}
+      computer_name: {{ PC_HOSTNAME }}
       ansible_user: {{ USERNAME }}
       ansible_password: {{ PASSWORD }}
-    KVM-PC02:
-      ansible_host: {{ IP_ADDRESS_3 }}
-      computer_name: {{ HOSTNAME_3 }}
+      win_license_key: {{ PC_WIN_LICENSE_KEY }}
+      hyper_v_switch_name: {{ PC_HYPER_V_SWITCH_NAME }}
+      hyper_v_adapter_name: {{ PC_HYPER_V_ADAPTER_NAME }}
+vms:
+  hosts:
+    KVM-DC01:
+      ansible_host: {{ DC_IP_ADDRESS }}
+      computer_name: {{ DC_HOSTNAME }}
       ansible_user: {{ USERNAME }}
       ansible_password: {{ PASSWORD }}
+      win_license_key: {{ DC_WIN_LICENSE_KEY }}
+    KVM-WRK01:
+      ansible_host: {{ WRK_1_IP_ADDRESS }}
+      computer_name: {{ WRK_1_HOSTNAME }}
+      ansible_user: {{ USERNAME }}
+      ansible_password: {{ PASSWORD }}
+      win_license_key: {{ WRK_1_WIN_LICENSE_KEY }}
+    KVM-WRK02:
+      ansible_host: {{ WRK_2_IP_ADDRESS }}
+      computer_name: {{ WRK_2_HOSTNAME }}
+      ansible_user: {{ USERNAME }}
+      ansible_password: {{ PASSWORD }}
+      win_license_key: {{ WRK_2_WIN_LICENSE_KEY }}
