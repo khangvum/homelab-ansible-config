@@ -1,15 +1,26 @@
 ---
-- name: Hyper-V Installation
+- name: Window Server Hyper-V Installation
   ansible.windows.win_feature:
     name: Hyper-V
     include_sub_features: yes
     include_management_tools: yes
     state: present
-  register: hyper_v_installation
+  register: win_server_hyper_v_installation
+  when: "'servers' in group_names"
+
+- name: Windows Hyper-V Installation
+  ansible.windows.win_optional_feature:
+    name: Microsoft-Hyper-V-All
+    state: present
+  register: win_hyper_v_installation
+  when: "'pcs' in group_names"
 
 - name: Reboot to Apply Hyper-V Installation
   ansible.windows.win_reboot:
-  when: hyper_v_installation.reboot_required
+  when: >
+    (win_server_hyper_v_installation is defined and win_server_hyper_v_installation.reboot_required | default(false))
+    or
+    (win_hyper_v_installation is defined and win_hyper_v_installation.reboot_required | default(false))
 
 - name: Hyper-V Switch Create
   ansible.windows.win_powershell:
