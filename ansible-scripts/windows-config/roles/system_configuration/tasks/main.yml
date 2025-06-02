@@ -35,3 +35,4 @@
         }
       }
       $Ansible.Changed = $changed
+  when: "'pcs' not in group_names"
