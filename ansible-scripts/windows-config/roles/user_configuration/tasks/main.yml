@@ -9,4 +9,6 @@
     groups:
       - "{{ item.group }}"
   loop: "{{ user_list }}"
-  when: computer_name in item.host
+  when:
+    - computer_name in item.host
+    - "'pcs' not in group_names"
