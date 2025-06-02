@@ -1,7 +1,7 @@
 ---
 # Test the host connection
 - name: VM Connection Test
-  hosts: servers:vms
+  hosts: servers:pcs:vms
   gather_facts: false
   tags: host_connection_test
   vars_files:
@@ -14,14 +14,13 @@
 
         $Ansible.Result = $osInfo
         $Ansible.Changed = $false
-        $Ansible.Failed = $false
     register: os_info
   - debug: 
       msg: "{{ os_info }}"
 
-# Windows configuration
+# Global Configuration
 - name: Global Configuration
-  hosts: servers:vms
+  hosts: servers:pcs
   gather_facts: false
   tags: global_configuration
   vars_files:
@@ -31,6 +30,53 @@
         name: hostname_configuration
     - import_role:
         name: ntp_configuration
+    - import_role:
+        name: region_configuration
+    - import_role:
+        name: system_configuration
+    - import_role:
+        name: user_configuration
+    - import_role:
+        name: windows_updates
+
+# Hyper-V Host Configuration
+- name: Hyper-V Host Configuration
+  hosts: servers:pcs
+  gather_facts: false
+  tags: hyper-v_host_configuration
+  vars_files:
+    - vm_var.yml
+    - windows_var.yml
+  tasks:
+    - import_role:
+        name: hyper-v_configuration
+
+# VM Deployment
+- name: VM Deployment
+  hosts: servers:pcs
+  gather_facts: false
+  tags: vm_deployment
+  vars_files:
+    - vm_var.yml
+    - windows_var.yml
+  tasks:
+    - import_role:
+        name: vm_deployment
+
+# VM Configuration
+- name: VM Configuration
+  hosts: vms
+  gather_facts: false
+  tags: vm_configuration
+  vars_files:
+    - windows_var.yml
+  tasks:
+    - import_role:
+        name: hostname_configuration
+    - import_role:
+        name: ntp_configuration
+    - import_role:
+        name: region_configuration
     - import_role:
         name: system_configuration
     - import_role:
