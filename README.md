@@ -24,7 +24,12 @@ Role                    |Description
 
 ## Prerequisites
 
--   **_[OpenSSH Server](https://github.com/PowerShell/Win32-OpenSSH/releases/latest)_** installed on the targeted hosts.
+-   **_[OpenSSH Server](https://github.com/PowerShell/Win32-OpenSSH/releases/latest)_** installed on the targeted hosts. Alternatively, this can be installed via **_PowerShell_**:
+
+    ```powershell
+    Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
+    ```
+
 -   **_SSH Service_** enabled on the targeted hosts:
 
     ```powershell
