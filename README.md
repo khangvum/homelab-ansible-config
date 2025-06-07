@@ -14,9 +14,12 @@ A **_Windows configuration automation_** solution powered by **_Ansible_**, cont
 Role                    |Description
 :----------------------:|:----------------------------------
 `hostname_configuration`|Sets the **_hostname_** of Windows machines
+`hyper-v_configuration` |Installs **_Hyper-V_** and configures **_virtual switches_**
 `ntp_configuration`     |Configures **_NTP settings_** for time synchronization
+`region_configuration`  |Sets **_regional_** and **_locale settings_**
 `system_configuration`  |Applies **_system-wide settings_**
 `user_configuration`    |Manages **_local user accounts_** and **_passwords_**
+`vm_deployment`         |Creates **_VMs_** on **_Hyper-V hosts_**
 `windows_updates`       |Performs **_Windows updates_**
 
 ## Prerequisites
@@ -47,8 +50,9 @@ Role                    |Description
 
 1.  **Update the inventory and variable files:**
 
--   Update [`inventory.yml`](ansible-scripts/windows-config/inventory_template.yml) to list your actual Windows hosts.
--   Update [`windows_var.yml`](ansible-scripts/windows-config/windows_var_template.yml) to fill in the environment-specific variables (_e.g._ usernames, passwords, hostnames, etc.)
+-   Update [`inventory.yml`](ansible-scripts/windows-config/inventory_template.yml) to specify your actual Windows hosts.
+-   Update [`vm_var.yml`](ansible-scripts/windows-config/vm_var.yml) to define the VMs and their specifications to be created and configured.
+-   Update [`windows_var.yml`](ansible-scripts/windows-config/windows_var_template.yml) to indicate environment-specific variables (_e.g._ usernames, passwords, hostnames, etc.)
 
 2.  **Start the Ansible environment:**
 
