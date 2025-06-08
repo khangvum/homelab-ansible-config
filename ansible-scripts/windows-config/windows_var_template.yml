@@ -18,6 +18,7 @@ user_list:
     group: Administrators
     host:
       - KVM-SRV01
+      - KVM-SRV02
       - KVM-PC01
       - KVM-DC01
       - KVM-WRK01
