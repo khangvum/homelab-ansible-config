@@ -76,7 +76,7 @@
 
           # Update the memory
           if (((Get-VMMemory -VMName $vmName).Startup / 1GB) -ne {{ item.memory }}) {
-            Set-VMMemory -VMName $vmName -StartupBytes {{ item.memory }}GB
+            Set-VMMemory -VMName $vmName -StartupBytes {{ item.memory }}GB -DynamicMemoryEnabled $false
             $changed = $true
           }
 
