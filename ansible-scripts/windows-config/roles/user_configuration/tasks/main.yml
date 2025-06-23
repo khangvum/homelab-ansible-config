@@ -1,14 +1,27 @@
 ---
-- name: User Configuration
+- name: Local User Configuration
   ansible.windows.win_user:
     name: "{{ item.username }}"
+    password: "{{ item.password }}"
     state: "{{ item.state }}"
     update_password: always
     password_never_expires: "{{ item.password_never_expires }}"
     account_disabled: "{{ item.account_disabled }}"
     groups:
       - "{{ item.group }}"
-  loop: "{{ user_list }}"
-  when:
-    - computer_name in item.host
-    - "'pcs' not in group_names"
+  loop: "{{ local_user_list }}"
+  when: computer_name in item.host
+
+- name: Domain User Configuration
+  microsoft.ad.user:
+    name: "{{ item.username }}"
+    password: "{{ item.password }}"
+    update_password: when_changed
+    state: "{{ item.state }}"
+    password_never_expires: "{{ item.password_never_expires }}"
+    enabled: "{{ item.enabled }}"
+    groups:
+      add:
+        - "{{ item.group }}"
+  loop: "{{ domain_user_list }}"
+  when: computer_name in item.host
