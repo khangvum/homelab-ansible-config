@@ -9,7 +9,7 @@ ntp_servers: time.windows.com
 time_zone: "Eastern Standard Time"
 
 # User configuration
-user_list:
+local_user_list:
   - username: {{ USERNAME }}
     password: {{ PASSWORD }}
     state: present
@@ -19,7 +19,15 @@ user_list:
     host:
       - KVM-SRV01
       - KVM-SRV02
-      - KVM-PC01
-      - KVM-DC01
       - KVM-WRK01
       - KVM-WRK02
+
+domain_user_list:
+  - username: {{ USERNAME }}
+    password: {{ PASSWORD }}
+    state: present
+    enabled: true
+    password_never_expires: true
+    group: Domain Admins
+    host:
+      - KVM-DC01
