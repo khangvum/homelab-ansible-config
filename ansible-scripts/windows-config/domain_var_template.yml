@@ -1,0 +1,3 @@
+---
+domain_name: {{ DOMAIN_NAME }}
+safe_mode_password: {{ SAFE_MODE_PASSWORD }}
