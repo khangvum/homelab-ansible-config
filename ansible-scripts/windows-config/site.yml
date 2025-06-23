@@ -83,3 +83,14 @@
         name: user_configuration
     - import_role:
         name: windows_updates
+
+# Domain Configuration
+- name: Domain Configuration
+  hosts: dcs
+  gather_facts: false
+  tags: domain_configuration
+  vars_files:
+    - domain_var.yml
+  tasks:
+    - import_role:
+        name: domain_configuration
