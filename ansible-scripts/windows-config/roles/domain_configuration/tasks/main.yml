@@ -1,0 +1,15 @@
+---
+- name: Windows Domain Creation
+  microsoft.ad.domain:
+    dns_domain_name: "{{ domain_name }}"
+    safe_mode_password: "{{ safe_mode_password }}"
+    reboot: true
+
+# - name: Domain Controller Promotion
+#   microsoft.ad.domain_controller:
+#     dns_domain_name: "{{ domain_name }}"
+#     domain_admin_user: "{{ domain_admin_user }}"
+#     domain_admin_password: "{{ domain_admin_password }}"
+#     safe_mode_password: "{{ safe_mode_password }}"
+#     state: domain_controller
+#     reboot: true
