@@ -21,13 +21,13 @@ servers:
 pcs:
   hosts:
     KVM-PC01:
-      ansible_host: {{ PC_IP_ADDRESS }}
-      computer_name: {{ PC_HOSTNAME }}
+      ansible_host: {{ PC01_IP_ADDRESS }}
+      computer_name: {{ PC01_HOSTNAME }}
       ansible_user: {{ USERNAME }}
       ansible_password: {{ PASSWORD }}
-      win_license_key: {{ PC_WIN_LICENSE_KEY }}
-      hyper_v_switch_name: {{ PC_HYPER_V_SWITCH_NAME }}
-      hyper_v_adapter_name: {{ PC_HYPER_V_ADAPTER_NAME }}
+      win_license_key: {{ PC0_WIN_LICENSE_KEY }}
+      hyper_v_switch_name: {{ PC01_HYPER_V_SWITCH_NAME }}
+      hyper_v_adapter_name: {{ PC01_HYPER_V_ADAPTER_NAME }}
 vms:
   children:
     dcs:
@@ -46,9 +46,11 @@ vms:
           ansible_user: {{ USERNAME }}
           ansible_password: {{ PASSWORD }}
           win_license_key: {{ WRK01_WIN_LICENSE_KEY }}
+          hyper_v_adapter_name: {{ WRK01_HYPER_V_ADAPTER_NAME }}
         KVM-WRK02:
           ansible_host: {{ WRK02_IP_ADDRESS }}
           computer_name: {{ WRK02_HOSTNAME }}
           ansible_user: {{ USERNAME }}
           ansible_password: {{ PASSWORD }}
           win_license_key: {{ WRK02_WIN_LICENSE_KEY }}
+          hyper_v_adapter_name: {{ WRK02_HYPER_V_ADAPTER_NAME }}
