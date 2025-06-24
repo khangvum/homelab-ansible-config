@@ -86,11 +86,14 @@
 
 # Domain Configuration
 - name: Domain Configuration
-  hosts: dcs
+  hosts: vms
   gather_facts: false
   tags: domain_configuration
   vars_files:
     - domain_var.yml
+    - windows_var.yml
   tasks:
     - import_role:
-        name: domain_configuration
+        name: domain_creation
+    - import_role:
+        name: domain_join

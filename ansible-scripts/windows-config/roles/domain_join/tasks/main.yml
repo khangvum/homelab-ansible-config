@@ -1,0 +1,18 @@
+---
+- name: DNS Server Configuration
+  ansible.windows.win_dns_client:
+    adapter_names: "{{ hyper_v_adapter_name }}"
+    dns_servers: "{{ hostvars['KVM-DC01'].ansible_host }}"
+  when: "'workstations' in group_names"
+
+- name: Domain Join
+  microsoft.ad.membership:
+    dns_domain_name: "{{ domain_name }}"
+    hostname: "{{ computer_name }}"
+    domain_admin_user: "{{ domain_admin_user }}"
+    domain_admin_password: "{{ domain_admin_password }}"
+    domain_ou_path: "OU=Workstations,DC=khangvum,DC=lab"
+    domain_server: "{{ hostvars['KVM-DC01'].computer_name }}.{{ domain_name }}"
+    state: domain
+    reboot: true
+  when: "'workstations' in group_names"
