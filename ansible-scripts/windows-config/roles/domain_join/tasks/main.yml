@@ -1,4 +1,18 @@
 ---
+- name: IPv6 Disablement
+  ansible.windows.win_powershell:
+    script: |
+      $adapter = "{{ hyper_v_adapter_name }}"
+      $binding = "ms_tcpip6"
+      $current = Get-NetAdapterBinding -Name $adapter -ComponentID $binding
+      if ($current.Enabled) {
+        Disable-NetAdapterBinding -Name $adapter -ComponentID $binding -PassThru | Out-Null
+        $Ansible.Changed = $true
+      } else {
+        $Ansible.Changed = $false
+      }
+  when: "'workstations' in group_names"
+
 - name: DNS Server Configuration
   ansible.windows.win_dns_client:
     adapter_names: "{{ hyper_v_adapter_name }}"
