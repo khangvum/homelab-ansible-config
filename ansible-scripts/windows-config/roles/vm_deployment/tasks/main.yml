@@ -64,6 +64,9 @@
           # Set the CPU
           Set-VMProcessor -VMName $vmName -Count {{ item.cpu }}
 
+          # Set secure boot template
+          Set-VMFirmware -VMName $vmName -SecureBootTemplate "{{ item.secure_boot_template }}".replace(' ', '')
+
           $changed = $true
         }
         # If the VM already exists, update the specs
@@ -121,6 +124,12 @@
           $currentDVDDrive = Get-VMDvdDrive -VMName $vmName
           if ($currentDVDDrive -and $currentDVDDrive.Path -ne $vmISO -and (Test-Path $vmISO)) {
             Set-VMDvdDrive -VMName $vmName -Path $vmISO
+            $changed = $true
+          }
+
+          # Set secure boot template
+          if ((Get-VMFirmware -VMName $vmName).SecureBootTemplate -ne "{{ item.secure_boot_template }}".replace(' ', '')) {
+            Set-VMFirmware -VMName $vmName -SecureBootTemplate "{{ item.secure_boot_template }}".replace(' ', '')
             $changed = $true
           }
         }
