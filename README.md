@@ -13,6 +13,8 @@ A **_Windows configuration automation_** solution powered by **_Ansible_**, cont
 
 Role                    |Description
 :----------------------:|:----------------------------------
+`domain_creation`       |Creates a new **_AD forest_** along with its **_domains_** and **_OUs_**
+`domain_join`           |**_Joins computers_** to the **_domain_**
 `hostname_configuration`|Sets the **_hostname_** of Windows machines
 `hyper-v_configuration` |Installs **_Hyper-V_** and configures **_virtual switches_**
 `ntp_configuration`     |Configures **_NTP settings_** for time synchronization
@@ -55,9 +57,10 @@ Role                    |Description
 
 1.  **Update the inventory and variable files:**
 
+-   Update [`domain_var.yml`](ansible-scripts/windows-config/domain_var_template.yml) to capture the domain configuration.
 -   Update [`inventory.yml`](ansible-scripts/windows-config/inventory_template.yml) to specify your actual Windows hosts.
 -   Update [`vm_var.yml`](ansible-scripts/windows-config/vm_var.yml) to define the VMs and their specifications to be created and configured.
--   Update [`windows_var.yml`](ansible-scripts/windows-config/windows_var_template.yml) to indicate environment-specific variables (_e.g._ usernames, passwords, hostnames, etc.)
+-   Update [`windows_var.yml`](ansible-scripts/windows-config/windows_var_template.yml) to indicate environment-specific variables (_e.g.,_ usernames, passwords, hostnames, etc.)
 
 2.  **Start the Ansible environment:**
 
