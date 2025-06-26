@@ -2,6 +2,7 @@ domain_var.yml
 inventory.yml
 windows_var.yml
 command.txt
+ubuntu_server_24.04_unattend.iso
 windows_10_pro_x64_unattend.iso
 windows_11_pro_x64_unattend.iso
 windows_server_2025_standard_x64_unattend.iso
