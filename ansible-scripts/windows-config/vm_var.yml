@@ -11,6 +11,7 @@ vm_list:
     tpm: true
     iso_source: /opt/ansible/windows-config/installation-files/windows_11_pro_x64_unattend.iso
     iso_destination: windows_11_pro_x64_unattend.iso
+    secure_boot_template: "Microsoft Windows"
     power: on
     state: present
   - name: KVM-WRK02
@@ -22,6 +23,7 @@ vm_list:
     tpm: false
     iso_source: /opt/ansible/windows-config/installation-files/windows_10_pro_x64_unattend.iso
     iso_destination: windows_11_pro_x64_unattend.iso
+    secure_boot_template: "Microsoft Windows"
     power: on
     state: present
   - name: KVM-DC01
@@ -33,6 +35,19 @@ vm_list:
     tpm: false
     iso_source: /opt/ansible/windows-config/installation-files/windows_server_2025_standard_x64_unattend.iso
     iso_destination: windows_server_2025_standard_x64_unattend.iso
+    secure_boot_template: "Microsoft Windows"
+    power: on
+    state: present
+  - name: KVM-MONITOR
+    host: KVM-SRV01
+    cpu: 2
+    memory: 8
+    storage: 100
+    generation: 2
+    tpm: false
+    iso_source: /opt/ansible/windows-config/installation-files/ubuntu_server_24.04_unattend.iso
+    iso_destination: ubuntu_server_24.04_unattend.iso
+    secure_boot_template: "Microsoft UEFI Certificate Authority"
     power: on
     state: present
   - name: KVM-DC02
@@ -44,5 +59,6 @@ vm_list:
     tpm: false
     iso_source: /opt/ansible/windows-config/installation-files/windows_server_2025_standard_x64_unattend.iso
     iso_destination: windows_server_2025_standard_x64_unattend.iso
+    secure_boot_template: "Microsoft Windows"
     power: on
     state: present
