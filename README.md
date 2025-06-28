@@ -84,5 +84,5 @@ Role                    |Description
 >   Use `-t` option to selectively run specific plays:
 >
 >   ```bash
->   ansible-playbook site.yml -i inventory.yml -t host_connection_test
+>   ansible-playbook site.yml -i inventory.yml -t global_configuration
 >   ```
