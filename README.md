@@ -26,26 +26,26 @@ Role                    |Description
 
 ## Prerequisites
 
--   **_[OpenSSH Server](https://github.com/PowerShell/Win32-OpenSSH/releases/latest)_** installed on the targeted hosts. Alternatively, this can be installed via **_PowerShell_**:
+1.  **_[OpenSSH Server](https://github.com/PowerShell/Win32-OpenSSH/releases/latest)_** installed on the targeted hosts. Alternatively, this can be installed via **_PowerShell_**:
 
     ```powershell
     Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
     ```
 
--   **_SSH Service_** enabled on the targeted hosts:
+2.  **_SSH Service_** enabled on the targeted hosts:
 
     ```powershell
     Start-Service sshd
     Set-Service -Name sshd -StartupType 'Automatic'
     ```
 
--   **_SSH_** allowed through the **_firewall_**:
+3.  **_SSH_** allowed through the **_firewall_**:
 
     ```powershell
     New-NetFirewallRule -Name 'OpenSSH-Server-In-TCP' -DisplayName 'OpenSSH Server (sshd)' -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22 -Profile Any
     ```
 
--   **_SSH connection_** verified **_once_** from the controller to each host:
+4.  **_SSH connection_** verified **_once_** from the controller to each host:
 
     ```bash
     ssh administrator@<IP_ADDRESS>
