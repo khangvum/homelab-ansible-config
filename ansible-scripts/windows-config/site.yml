@@ -41,7 +41,7 @@
 
 # Hyper-V Host Configuration
 - name: Hyper-V Host Configuration
-  hosts: servers:pcs
+  hosts: servers:!KVM-SRV02:pcs
   gather_facts: false
   tags: hyper-v_host_configuration
   vars_files:
@@ -53,7 +53,7 @@
 
 # VM Deployment
 - name: VM Deployment
-  hosts: servers:pcs
+  hosts: servers:!KVM-SRV02:pcs
   gather_facts: false
   tags: vm_deployment
   vars_files:
