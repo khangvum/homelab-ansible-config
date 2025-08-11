@@ -2,30 +2,30 @@
 hyper_v_parent_dir: "C:\\Hyper-V Virtual Machines"
 
 vm_list:
-  - name: KVM-WRK01
-    host: KVM-PC01
-    cpu: 4
-    memory: 8
-    storage: 150
-    generation: 2
-    tpm: true
-    iso_source: /opt/ansible/windows-config/installation-files/windows_11_pro_x64_unattend.iso
-    iso_destination: windows_11_pro_x64_unattend.iso
-    secure_boot_template: "Microsoft Windows"
-    power: on
-    state: present
-  - name: KVM-WRK02
-    host: KVM-PC01
-    cpu: 4
-    memory: 8
-    storage: 150
-    generation: 2
-    tpm: false
-    iso_source: /opt/ansible/windows-config/installation-files/windows_10_pro_x64_unattend.iso
-    iso_destination: windows_11_pro_x64_unattend.iso
-    secure_boot_template: "Microsoft Windows"
-    power: on
-    state: present
+  # - name: KVM-WRK01
+  #   host: KVM-PC01
+  #   cpu: 4
+  #   memory: 8
+  #   storage: 150
+  #   generation: 2
+  #   tpm: true
+  #   iso_source: /opt/ansible/windows-config/installation-files/windows_11_pro_x64_unattend.iso
+  #   iso_destination: windows_11_pro_x64_unattend.iso
+  #   secure_boot_template: "Microsoft Windows"
+  #   power: on
+  #   state: present
+  # - name: KVM-WRK02
+  #   host: KVM-PC01
+  #   cpu: 4
+  #   memory: 8
+  #   storage: 150
+  #   generation: 2
+  #   tpm: false
+  #   iso_source: /opt/ansible/windows-config/installation-files/windows_10_pro_x64_unattend.iso
+  #   iso_destination: windows_11_pro_x64_unattend.iso
+  #   secure_boot_template: "Microsoft Windows"
+  #   power: on
+  #   state: present
   - name: KVM-DC01
     host: KVM-SRV01
     cpu: 2
