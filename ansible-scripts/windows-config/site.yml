@@ -53,7 +53,8 @@
 
 # VM Deployment
 - name: VM Deployment
-  hosts: servers:!KVM-SRV02:pcs
+  # hosts: servers:!KVM-SRV02:pcs
+  hosts: servers:!KVM-SRV02
   gather_facts: false
   tags: vm_deployment
   vars_files:
