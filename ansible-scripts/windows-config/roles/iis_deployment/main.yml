@@ -1,0 +1,13 @@
+---
+- name: Window Server IIS (Internet Information Services) Installation
+  ansible.windows.win_feature:
+    name: Web-Server
+    include_sub_features: yes
+    include_management_tools: yes
+    state: present
+  register: win_server_iis_installation
+  when: "'webs' in group_names"
+
+- name: Reboot to Apply IIS Installation
+  ansible.windows.win_reboot:
+  when: win_server_iis_installation.reboot_required
