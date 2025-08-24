@@ -33,11 +33,21 @@ vms:
     dcs:
       hosts:
         KVM-DC01:
-          ansible_host: {{ DC_IP_ADDRESS }}
-          computer_name: {{ DC_HOSTNAME }}
+          ansible_host: {{ DC01_IP_ADDRESS }}
+          computer_name: {{ DC01_HOSTNAME }}
           ansible_user: {{ USERNAME }}
           ansible_password: {{ PASSWORD }}
-          win_license_key: {{ DC_WIN_LICENSE_KEY }}
+          win_license_key: {{ DC01_WIN_LICENSE_KEY }}
+          ansible_shell_type: cmd
+    webs:
+      hosts:
+        KVM-WEB01:
+          ansible_host: {{ WEB01_IP_ADDRESS }}
+          computer_name: {{ WEB01_HOSTNAME }}
+          ansible_user: {{ USERNAME }}
+          ansible_password: {{ PASSWORD }}
+          win_license_key: {{ WEB01_WIN_LICENSE_KEY }}
+          ansible_shell_type: cmd
     workstations:
       hosts:
         KVM-WRK01:

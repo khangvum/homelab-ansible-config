@@ -38,6 +38,18 @@ vm_list:
     secure_boot_template: "Microsoft Windows"
     power: on
     state: present
+  - name: KVM-WEB01
+    host: KVM-SRV01
+    cpu: 2
+    memory: 16
+    storage: 100
+    generation: 2
+    tpm: false
+    iso_source: /opt/ansible/windows-config/installation-files/windows_server_2025_standard_x64_unattend.iso
+    iso_destination: windows_server_2025_standard_x64_unattend.iso
+    secure_boot_template: "Microsoft Windows"
+    power: on
+    state: present
   - name: KVM-MONITOR
     host: KVM-SRV01
     cpu: 2
