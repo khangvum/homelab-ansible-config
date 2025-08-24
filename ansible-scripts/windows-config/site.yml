@@ -98,3 +98,14 @@
         name: domain_creation
     - import_role:
         name: domain_join
+
+# IIS Configuration
+- name: IIS Configuration
+  hosts: webs
+  gather_facts: false
+  tags: iis_configuration
+  vars_files:
+    - windows_var.yml
+  tasks:
+    - import_role:
+        name: iis_deployment
