@@ -8,6 +8,8 @@
   register: win_server_iis_installation
   when: "'webs' in group_names"
 
-- name: Reboot to Apply IIS Installation
-  ansible.windows.win_reboot:
-  when: win_server_iis_installation.reboot_required
+# Unnecessary for IIS
+# - name: Reboot to Apply IIS Installation
+#   ansible.windows.win_reboot:
+#   when: win_server_iis_installation.reboot_required
+
