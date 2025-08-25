@@ -11,22 +11,36 @@
       } else {
         $Ansible.Changed = $false
       }
-  when: "'workstations' in group_names"
+  when: "'dcs' not in group_names"
 
-- name: DNS Server Configuration
+- name: DNS Server Configuration for non-Domain Controllers
   ansible.windows.win_dns_client:
     adapter_names: "{{ hyper_v_adapter_name }}"
     dns_servers: "{{ hostvars['KVM-DC01'].ansible_host }}"
-  when: "'workstations' in group_names"
+  when: "'dcs' not in group_names"
 
-- name: Domain Join
+# OU=Workstations
+- name: Workstation Domain Join
   microsoft.ad.membership:
     dns_domain_name: "{{ domain_name }}"
     hostname: "{{ computer_name }}"
     domain_admin_user: "{{ domain_admin_user }}"
     domain_admin_password: "{{ domain_admin_password }}"
-    domain_ou_path: "OU=Workstations,DC=khangvum,DC=lab"
+    domain_ou_path: "OU=Workstations,OU=Khangvum,DC=khangvum,DC=lab"
     domain_server: "{{ hostvars['KVM-DC01'].computer_name }}.{{ domain_name }}"
     state: domain
     reboot: true
   when: "'workstations' in group_names"
+
+# OU=Servers,OU=IIS
+- name: IIS Domain Join
+  microsoft.ad.membership:
+    dns_domain_name: "{{ domain_name }}"
+    hostname: "{{ computer_name }}"
+    domain_admin_user: "{{ domain_admin_user }}"
+    domain_admin_password: "{{ domain_admin_password }}"
+    domain_ou_path: "OU=IIS,OU=Servers,OU=Khangvum,DC=khangvum,DC=lab"
+    domain_server: "{{ hostvars['KVM-DC01'].computer_name }}.{{ domain_name }}"
+    state: domain
+    reboot: true
+  when: "'webs' in group_names"
