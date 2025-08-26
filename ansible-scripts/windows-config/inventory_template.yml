@@ -7,9 +7,13 @@ servers:
       ansible_user: {{ USERNAME }}
       ansible_password: {{ PASSWORD }}
       win_license_key: {{ SRV01_WIN_LICENSE_KEY }}
-      hyper_v_switch_name: {{ SRV01_HYPER_V_SWITCH_NAME }}
-      hyper_v_adapter_name: {{ SRV01_HYPER_V_ADAPTER_NAME }}
-      ansible_shell_type: cmd
+      hyper_v_switches:
+        - name: "KVM-SRV01-SW01"
+          adapter: "Wi-Fi"
+          ip: {{ SRV01_SW01_IP }}
+        - name: "KVM-SRV01-SW02"
+          adapter: "Ethernet"
+          ip: {{ SRV01_SW02_IP }}
     KVM-SRV02:
       ansible_host: {{ SRV02_IP_ADDRESS }}
       computer_name: {{ SRV02_HOSTNAME }}
@@ -25,7 +29,7 @@ pcs:
       computer_name: {{ PC01_HOSTNAME }}
       ansible_user: {{ USERNAME }}
       ansible_password: {{ PASSWORD }}
-      win_license_key: {{ PC0_WIN_LICENSE_KEY }}
+      win_license_key: {{ PC01_WIN_LICENSE_KEY }}
       hyper_v_switch_name: {{ PC01_HYPER_V_SWITCH_NAME }}
       hyper_v_adapter_name: {{ PC01_HYPER_V_ADAPTER_NAME }}
 vms:
@@ -38,7 +42,13 @@ vms:
           ansible_user: {{ USERNAME }}
           ansible_password: {{ PASSWORD }}
           win_license_key: {{ DC01_WIN_LICENSE_KEY }}
-          ansible_shell_type: cmd
+          hyper_v_switches:
+            - name: "KVM-SRV01-SW01"
+              adapter: "Wi-Fi"
+              ip: {{ DC01_SW01_IP }}
+            - name: "KVM-SRV01-SW02"
+              adapter: "Ethernet"
+              ip: {{ DC01_SW02_IP }}
     webs:
       hosts:
         KVM-WEB01:
@@ -47,7 +57,13 @@ vms:
           ansible_user: {{ USERNAME }}
           ansible_password: {{ PASSWORD }}
           win_license_key: {{ WEB01_WIN_LICENSE_KEY }}
-          ansible_shell_type: cmd
+          hyper_v_switches:
+            - name: "KVM-SRV01-SW01"
+              adapter: "Wi-Fi"
+              ip: {{ WEB01_SW01_IP }}
+            - name: "KVM-SRV01-SW02"
+              adapter: "Ethernet"
+              ip: {{ WEB01_SW02_IP }}
     workstations:
       hosts:
         KVM-WRK01:

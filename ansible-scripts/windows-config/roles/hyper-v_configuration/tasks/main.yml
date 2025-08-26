@@ -25,8 +25,8 @@
 - name: Hyper-V Switch Create
   ansible.windows.win_powershell:
     script: |
-      $switchName = "{{ hyper_v_switch_name }}"
-      $adapterName = "{{ hyper_v_adapter_name }}"
+      $switchName = "{{ item.name }}"
+      $adapterName = "{{ item.adapter }}"
       $existingSwitch = Get-VMSwitch -Name $switchName -ErrorAction SilentlyContinue
 
       if (-not $existingSwitch) {
@@ -35,6 +35,8 @@
       } else {
           $Ansible.Changed = $false
       }
+  loop: "{{ hyper_v_switches }}"
+  when: hyper_v_switches is defined
 
 - name: Default VM Location Update
   ansible.windows.win_powershell:

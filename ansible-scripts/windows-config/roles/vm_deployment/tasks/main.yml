@@ -34,7 +34,17 @@
 
         # If the VM does not exist, create it
         if (-not $existingVM) {
-          New-VM -Name $vmName -MemoryStartupBytes {{ item.memory }}GB -BootDevice CD -NoVHD  -Path $vmPath -Generation {{ item.generation }} -Switch "{{ hyper_v_switch_name }}"
+          New-VM -Name $vmName -MemoryStartupBytes {{ item.memory }}GB -BootDevice CD -NoVHD  -Path $vmPath -Generation {{ item.generation }}
+
+          # Attach all switches from the list
+          $allSwitches = @(
+            {% for sw in hostvars[item.host].hyper_v_switches %}
+              @{ name = '{{ sw.name }}'; adapter = '{{ sw.adapter }}' }
+            {% endfor %}
+          )
+          foreach ($switch in $allSwitches) {
+            Add-VMNetworkAdapter -VMName $vmName -SwitchName $switch.name
+          }
 
           # Disable dynamic memory
           Set-VMMemory -VMName $vmName -DynamicMemoryEnabled $false
@@ -114,10 +124,17 @@
           }
 
           # Update the vSwitch
-          $currentSwitch = Get-VMNetworkAdapter -VMName $vmName
-          if ($currentSwitch.SwitchName -ne "{{ hyper_v_switch_name }}") {
-            Connect-VMNetworkAdapter -VMName $vmName -SwitchName "{{ hyper_v_switch_name }}"
-            $changed = $true
+          $currentSwitches = (Get-VMNetworkAdapter -VMName $vmName).SwitchName
+          $allSwitches = @(
+            {% for sw in hostvars[item.host].hyper_v_switches %}
+              @{ name = '{{ sw.name }}'; adapter = '{{ sw.adapter }}' }
+            {% endfor %}
+          )
+          foreach ($switch in $allSwitches) {
+            if ($currentSwitches -notcontains $switch.name) {
+              Connect-VMNetworkAdapter -VMName $vmName -SwitchName $switch.name
+              $changed = $true
+            }
           }
 
           # Update the ISO file

@@ -8,32 +8,24 @@
 
 - name: DNS Server Configuration for Domain Controllers
   ansible.windows.win_dns_client:
-    adapter_names: "{{ hyper_v_adapter_name }}"
+    adapter_names: "{{ item.adapter }}"
     dns_servers: 127.0.0.1
+  loop: "{{ hyper_v_switches }}"
   when: "'dcs' in group_names"
 
 # OU Structure
 # ---------------------------------------------
-# OU=Khangvum
+# khangvum.lab
 # ├── OU=Workstations
 # └── OU=Servers
 #     └── OU=IIS
-
-# Computers parent OU
-- name: Khangvum OU Creation
-  microsoft.ad.ou:
-    name: "Khangvum"
-    description: "Top-Level Organizational Unit for All Objects in the Khangvum Domain"
-    path: "DC=khangvum,DC=lab"
-    state: present
-  when: "'dcs' in group_names"
 
 # Workstations OU
 - name: Workstations OU Creation
   microsoft.ad.ou:
     name: "Workstations"
     description: "Organizational Unit for Workstations"
-    path: "OU=Khangvum,DC=khangvum,DC=lab"
+    path: "DC=khangvum,DC=lab"
     state: present
   when: "'dcs' in group_names"
 
@@ -42,7 +34,7 @@
   microsoft.ad.ou:
     name: "Servers"
     description: "Organizational Unit for Servers"
-    path: "OU=Khangvum,DC=khangvum,DC=lab"
+    path: "DC=khangvum,DC=lab"
     state: present
   when: "'dcs' in group_names"
 
@@ -51,7 +43,7 @@
   microsoft.ad.ou:
     name: "IIS"
     description: "Organizational Unit for IIS Servers"
-    path: "OU=Servers,OU=Khangvum,DC=khangvum,DC=lab"
+    path: "OU=Servers,DC=khangvum,DC=lab"
     state: present
   when: "'dcs' in group_names"
 
