@@ -11,18 +11,19 @@ A **_Windows configuration automation_** solution powered by **_Ansible_**, cont
 
 ## Roles
 
-Role                    |Description
-:----------------------:|:----------------------------------
-`domain_creation`       |Creates a new **_AD forest_** along with its **_domains_** and **_OUs_**
-`domain_join`           |**_Joins computers_** to the **_domain_**
-`hostname_configuration`|Sets the **_hostname_** of Windows machines
-`hyper-v_configuration` |Installs **_Hyper-V_** and configures **_virtual switches_**
-`ntp_configuration`     |Configures **_NTP settings_** for time synchronization
-`region_configuration`  |Sets **_regional_** and **_locale settings_**
-`system_configuration`  |Applies **_system-wide settings_**
-`user_configuration`    |Manages **_local user accounts_** and **_passwords_**
-`vm_deployment`         |Creates **_VMs_** on **_Hyper-V hosts_**
-`windows_updates`       |Performs **_Windows updates_**
+Role                                                                                                    |Description
+:------------------------------------------------------------------------------------------------------:|:----------------------------------
+[`domain_creation`](ansible-scripts/windows-config/roles/domain_creation/tasks/main.yml)                |Creates a new **_AD forest_** along with its **_domains_** and **_OUs_**
+[`domain_join`](ansible-scripts/windows-config/roles/domain_join/tasks/main.yml)                        |**_Joins computers_** to the **_domain_**
+[`hostname_configuration`](ansible-scripts/windows-config/roles/hostname_configuration/tasks/main.yml)  |Sets the **_hostname_** of Windows machines
+[`hyper-v_configuration`](ansible-scripts/windows-config/roles/hyper-v_configuration/tasks/main.yml)    |Installs **_Hyper-V_** and configures **_virtual switches_**
+[`iis_deployment`](ansible-scripts/windows-config/roles/iis_deployment/tasks/main.yml)                  |Installs and configures **_Internet Information Services_** (**_IIS_**)
+[`ntp_configuration`](ansible-scripts/windows-config/roles/ntp_configuration/tasks/main.yml)            |Configures **_NTP settings_** for time synchronization
+[`region_configuration`](ansible-scripts/windows-config/roles/region_configuration/tasks/main.yml)      |Sets **_regional_** and **_locale settings_**
+[`system_configuration`](ansible-scripts/windows-config/roles/system_configuration/tasks/main.yml)      |Applies **_system-wide settings_**
+[`user_configuration`](ansible-scripts/windows-config/roles/user_configuration/tasks/main.yml)          |Manages **_local user accounts_** and **_passwords_**
+[`vm_deployment`](ansible-scripts/windows-config/roles/vm_deployment/tasks/main.yml)                    |Creates **_VMs_** on **_Hyper-V hosts_**
+[`windows_updates`](ansible-scripts/windows-config/roles/windows_updates/tasks/main.yml)                |Performs **_Windows updates_**
 
 ## Prerequisites
 
