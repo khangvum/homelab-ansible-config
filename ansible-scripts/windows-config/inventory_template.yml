@@ -6,7 +6,7 @@ servers:
       computer_name: {{ SRV01_HOSTNAME }}
       ansible_user: {{ USERNAME }}
       ansible_password: {{ PASSWORD }}
-      win_license_key: {{ SRV01_WIN_LICENSE_KEY }}
+      win_license_key: {{ WIN_SERVER_2025_STANDARD_LICENSE_KEY }}
       hyper_v_switches:
         - name: "KVM-SRV01-SW01"
           adapter: "Wi-Fi"
@@ -19,7 +19,7 @@ servers:
       computer_name: {{ SRV02_HOSTNAME }}
       ansible_user: {{ USERNAME }}
       ansible_password: {{ PASSWORD }}
-      win_license_key: {{ SRV02_WIN_LICENSE_KEY }}
+      win_license_key: {{ WIN_SERVER_2025_STANDARD_LICENSE_KEY }}
       hyper_v_switch_name: {{ SRV02_HYPER_V_SWITCH_NAME }}
       hyper_v_adapter_name: {{ SRV02_HYPER_V_ADAPTER_NAME }}
 pcs:
@@ -29,7 +29,7 @@ pcs:
       computer_name: {{ PC01_HOSTNAME }}
       ansible_user: {{ USERNAME }}
       ansible_password: {{ PASSWORD }}
-      win_license_key: {{ PC01_WIN_LICENSE_KEY }}
+      win_license_key: {{ WIN_11_PRO_LICENSE_KEY }}
       hyper_v_switch_name: {{ PC01_HYPER_V_SWITCH_NAME }}
       hyper_v_adapter_name: {{ PC01_HYPER_V_ADAPTER_NAME }}
 vms:
@@ -41,7 +41,7 @@ vms:
           computer_name: {{ DC01_HOSTNAME }}
           ansible_user: {{ USERNAME }}
           ansible_password: {{ PASSWORD }}
-          win_license_key: {{ DC01_WIN_LICENSE_KEY }}
+          win_license_key: {{ WIN_SERVER_2025_STANDARD_LICENSE_KEY }}
           hyper_v_switches:
             - name: "KVM-SRV01-SW01"
               adapter: "Wi-Fi"
@@ -56,7 +56,7 @@ vms:
           computer_name: {{ WEB01_HOSTNAME }}
           ansible_user: {{ USERNAME }}
           ansible_password: {{ PASSWORD }}
-          win_license_key: {{ WEB01_WIN_LICENSE_KEY }}
+          win_license_key: {{ WIN_SERVER_2025_STANDARD_LICENSE_KEY }}
           hyper_v_switches:
             - name: "KVM-SRV01-SW01"
               adapter: "Wi-Fi"
@@ -71,12 +71,12 @@ vms:
           computer_name: {{ WRK01_HOSTNAME }}
           ansible_user: {{ USERNAME }}
           ansible_password: {{ PASSWORD }}
-          win_license_key: {{ WRK01_WIN_LICENSE_KEY }}
+          win_license_key: {{ WIN_11_PRO_LICENSE_KEY }}
           hyper_v_adapter_name: {{ WRK01_HYPER_V_ADAPTER_NAME }}
         KVM-WRK02:
           ansible_host: {{ WRK02_IP_ADDRESS }}
           computer_name: {{ WRK02_HOSTNAME }}
           ansible_user: {{ USERNAME }}
           ansible_password: {{ PASSWORD }}
-          win_license_key: {{ WRK02_WIN_LICENSE_KEY }}
+          win_license_key: {{ WIN_11_PRO_LICENSE_KEY }}
           hyper_v_adapter_name: {{ WRK02_HYPER_V_ADAPTER_NAME }}
