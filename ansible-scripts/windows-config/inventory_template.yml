@@ -64,6 +64,21 @@ vms:
             - name: "KVM-SRV01-SW02"
               adapter: "Ethernet"
               ip: {{ WEB01_SW02_IP }}
+    databases:
+      hosts:
+        KVM-DB01:
+          ansible_host: {{ DB01_IP_ADDRESS }}
+          computer_name: KVM-DB01
+          ansible_user: {{ USERNAME }}
+          ansible_password: {{ PASSWORD }}
+          win_license_key: {{ WIN_SERVER_2025_STANDARD_LICENSE_KEY }}
+          hyper_v_switches:
+            - name: "KVM-SRV01-SW01"
+              adapter: "Wi-Fi"
+              ip: {{ DB01_SW01_IP }}
+            - name: "KVM-SRV01-SW02"
+              adapter: "Ethernet"
+              ip: {{ DB01_SW02_IP }}
     workstations:
       hosts:
         KVM-WRK01:
