@@ -36,6 +36,9 @@
         if (-not $existingVM) {
           New-VM -Name $vmName -MemoryStartupBytes {{ item.memory }}GB -BootDevice CD -NoVHD  -Path $vmPath -Generation {{ item.generation }}
 
+          # Remove the default network adapter
+          Remove-VMNetworkAdapter -VMName $vmName -Name "Network Adapter"
+
           # Attach all switches from the list
           $allSwitches = @(
             {% for sw in hostvars[item.host].hyper_v_switches %}
