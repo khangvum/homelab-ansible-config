@@ -16,8 +16,10 @@
 # OU Structure
 # ---------------------------------------------
 # khangvum.lab
+# ├── OU=Domain Controllers (Default)
 # ├── OU=Workstations
 # └── OU=Servers
+#     ├── OU=Databases
 #     └── OU=IIS
 
 # Workstations OU
@@ -35,6 +37,15 @@
     name: "Servers"
     description: "Organizational Unit for Servers"
     path: "DC=khangvum,DC=lab"
+    state: present
+  when: "'dcs' in group_names"
+
+# Databases OU, child of Servers OU
+- name: Databases OU Creation
+  microsoft.ad.ou:
+    name: "Databases"
+    description: "Organizational Unit for Database Servers"
+    path: "OU=Servers,DC=khangvum,DC=lab"
     state: present
   when: "'dcs' in group_names"
 

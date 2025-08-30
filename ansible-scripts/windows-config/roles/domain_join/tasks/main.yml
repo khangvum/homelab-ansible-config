@@ -34,6 +34,19 @@
     reboot: true
   when: "'workstations' in group_names"
 
+# OU=Servers.OU=Databases
+- name: Databases Domain Join
+  microsoft.ad.membership:
+    dns_domain_name: "{{ domain_name }}"
+    hostname: "{{ computer_name }}"
+    domain_admin_user: "{{ domain_admin_user }}"
+    domain_admin_password: "{{ domain_admin_password }}"
+    domain_ou_path: "OU=Databases,OU=Servers,DC=khangvum,DC=lab"
+    domain_server: "{{ hostvars['KVM-DC01'].computer_name }}.{{ domain_name }}"
+    state: domain
+    reboot: true
+  when: "'databases' in group_names"
+
 # OU=Servers,OU=IIS
 - name: IIS Domain Join
   microsoft.ad.membership:
