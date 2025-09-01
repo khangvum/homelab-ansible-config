@@ -67,6 +67,8 @@ Property          |Value
     +   Under **Process Model** > **Identity**, set to **Custom account**, and add the domain administrator (_e.g.,_ `KHANGVUM\Administrator`)
     +   Recycle the pool.
 
+-   Install **_[Hosting Bundle](https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/iis/hosting-bundle)_**.
+
 ## 5. DNS Setup
 
 -   On the **_DNS server_** (_e.g.,_ **_`KVM-DC01`_**), open **_DNS Manager_** (`dnsmgmt.msc`).
