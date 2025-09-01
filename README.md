@@ -81,7 +81,7 @@ Role                                                                            
     ansible-playbook site.yml -i inventory.yml
     ```
 
->   [!NOTE]
+>   [!TIP]
 >   Use `-t` option to selectively run specific plays:
 >
 >   ```bash
