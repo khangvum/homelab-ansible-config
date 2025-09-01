@@ -83,7 +83,7 @@ Property          |Value
 >   [!NOTE]
 >   **Optional**: Enable **Create associated pointer (PTR) record**.
 
--   Test the resolution:
+-   Verify DNS resolution:
 
     ```powershell
     nslookup info3181casestudy.khangvum.lab
@@ -92,3 +92,12 @@ Property          |Value
 ## 6. Site Access Test
 
 Once everything is configured, browse to `http://info3181casestudy.khangvum.lab`.
+
+>   [!CAUTION]
+>   Instead of running the application pool under a domain admin like `KHANGVUM\Administrator`, use a **_dedicated service account_** for **_security_**:
+>
+>   -   Create a **_service account_** in **_Active Directory_**.
+>   -   **_Grant_** this account **_db_owner_** on your **_application database_**.
+>   -   Configure **_IIS Application Pool Identity_** to use this account.
+>
+>   This keeps the environment more **_secure_** while still **_allowing_** the application to **_connect_** to **_SQL Server_**.
