@@ -14,7 +14,7 @@
   loop: "{{ hyper_v_switches }}"
   when: "'dcs' not in group_names"
 
-- name: DNS Server Configuration for non-Domain Controllers
+- name: DNS Server Configuration for Non-Domain Controllers
   ansible.windows.win_dns_client:
     adapter_names: "{{ item.adapter }}"
     dns_servers: "{{ hostvars['KVM-DC01'].hyper_v_switches | selectattr('adapter', 'equalto', item.adapter) | map(attribute='ip') | first }}"
