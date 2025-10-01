@@ -7,11 +7,11 @@ A **_web application deployment_** process for Windows, leveraging **_Internet I
 -   Install **_[SQL Server 2022 Developer Edition](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)_** on **_`KVM-DB01`_**.
 -   During setup, add these accounts to **_sysadmin_** (**_SAD_**):
 
-Account                 | Description
-:----------------------:|------------------------------------------
-`KVM-DB01\Administrator`| Local admin on the SQL Server host
-`KHANGVUM\Administrator`| Domain admin
-`Domain Admins`         | Security group (optional but recommended)
+    Account                 | Description
+    :----------------------:|------------------------------------------
+    `KVM-DB01\Administrator`| Local admin on the SQL Server host
+    `KHANGVUM\Administrator`| Domain admin
+    `Domain Admins`         | Security group (optional but recommended)
 
 >   [!TIP]
 >   **Optional**: Install **_[SQL Server Management Studio (SSMS)](https://learn.microsoft.com/en-us/ssms/install/install)_**.
@@ -54,11 +54,11 @@ Account                 | Description
 -   Copy the **_content_** of **_`publish` folder_** into **_`C:\inetpub\wwwroot\info3181casestudy.khangvum.lab`_** on **_`KVM-WEB01`_**.
 -   Open **_Internet Informtation Services (IIS) Manager_** (`inetmgr`), right-click **Sites** > **Add Website...**:
 
-Property          |Value
-:----------------:|-------------------------
-**Site name**     |`info3181casestudy.khangvum.lab`
-**Physical path** |`C:\inetpub\wwwroot\info3181casestudy.khangvum.lab`
-**Binding**       |Type: `http`<br>IP address: `All Unassigned`<br>Port: `80`<br>Host name: `info3181casestudy.khangvum.lab`
+    Property          |Value
+    :----------------:|-------------------------
+    **Site name**     |`info3181casestudy.khangvum.lab`
+    **Physical path** |`C:\inetpub\wwwroot\info3181casestudy.khangvum.lab`
+    **Binding**       |Type: `http`<br>IP address: `All Unassigned`<br>Port: `80`<br>Host name: `info3181casestudy.khangvum.lab`
 
 -   Configure **_application pool_**:
 
@@ -77,10 +77,10 @@ Property          |Value
     +   Navigate to **Forward Lookup Zone** > the domain (_e.g.,_ `khangvum.lab`).
     +   Right click > **New Host (A or AAAA)...**:
 
-    Property      |Value
-    :------------:|-------------------------
-    **Name**      |`info3181casestudy`
-    **IP address**|The IP of the IIS Server `KVM-WEB01`
+        Property      |Value
+        :------------:|-------------------------
+        **Name**      |`info3181casestudy`
+        **IP address**|The IP of the IIS Server `KVM-WEB01`
 
 >   [!NOTE]
 >   **Optional**: Enable **Create associated pointer (PTR) record**.
