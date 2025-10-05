@@ -23,7 +23,7 @@ if ($state -eq "present") {
             @{ name = '<SWITCH2>'; adapter = '<ADAPTER2>' }
         )
         foreach ($switch in $allSwitches) {
-            Add-VMNetworkAdapter -VMName $vmName -SwitchName $switch.name
+            Add-VMNetworkAdapter -VMName $vmName -SwitchName $switch.name -Name $switch.adapter
         }
 
         # Disable dynamic memory
@@ -112,7 +112,7 @@ if ($state -eq "present") {
         )
         foreach ($switch in $allSwitches) {
             if ($currentSwitches -notcontains $switch.name) {
-                Connect-VMNetworkAdapter -VMName $vmName -SwitchName $switch.name
+                Connect-VMNetworkAdapter -VMName $vmName -SwitchName $switch.name -Name $switch.adapter
                 $changed = $true
             }
         }
