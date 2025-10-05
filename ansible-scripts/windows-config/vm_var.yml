@@ -1,5 +1,5 @@
 ---
-hyper_v_parent_dir: "V:\\Hyper-V Virtual Machines"
+hyper_v_parent_dir: "V:\\"
 
 vm_list:
   # - name: KVM-WRK01
