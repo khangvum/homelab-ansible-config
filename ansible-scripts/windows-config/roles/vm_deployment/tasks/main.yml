@@ -84,20 +84,61 @@
         }
         # If the VM already exists, update the specs
         else {
+          $wasRunning = $false
+          $needsShutdown = $false
+          
+          # Check if any changes require VM shutdown
+          if ($existingVM.ProcessorCount -ne {{ item.cpu }}) {
+            $needsShutdown = $true
+          }
+          
+          $currentTPM = (Get-VMSecurity $vmName).TPMEnabled.ToString().ToLower()
+          if (($enableTPM -eq "true" -and $currentTPM -eq "false") -or ($enableTPM -eq "false" -and $currentTPM -eq "true")) {
+            $needsShutdown = $true
+          }
+          
+          $currentVHD = Get-VMHardDiskDrive -VMName $vmName
+          if ($currentVHD.Path -ne $vmDisk) {
+            $needsShutdown = $true
+          }
+          
+          $currentSwitches = (Get-VMNetworkAdapter -VMName $vmName).SwitchName
+          $allSwitches = @(
+            {% for sw in hostvars[item.host].hyper_v_switches %}
+              @{ name = '{{ sw.name }}'; adapter = '{{ sw.adapter }}' }
+            {% endfor %}
+          )
+          foreach ($switch in $allSwitches) {
+            if ($currentSwitches -notcontains $switch.name) {
+              $needsShutdown = $true
+              break
+            }
+          }
+          
+          if ((Get-VMFirmware -VMName $vmName).SecureBootTemplate -ne "{{ item.secure_boot_template }}".replace(' ', '')) {
+            $needsShutdown = $true
+          }
+          
+          # Shutdown VM if needed
+          if ($needsShutdown -and $existingVM.State -eq "Running") {
+            Write-Host "Stopping $vmName for configuration changes..."
+            Stop-VM -Name $vmName -Force
+            $wasRunning = $true
+          }
+
           # Update the CPU
           if ($existingVM.ProcessorCount -ne {{ item.cpu }}) {
             Set-VMProcessor -VMName $vmName -Count {{ item.cpu }}
             $changed = $true
           }
 
-          # Update the memory
+          # Update the memory (can be done while running)
           if (((Get-VMMemory -VMName $vmName).Startup / 1GB) -ne {{ item.memory }}) {
             Set-VMMemory -VMName $vmName -StartupBytes {{ item.memory }}GB -DynamicMemoryEnabled $false
             $changed = $true
           }
 
           # Enable TPM if specified
-          $currentTPM = (Get-VMSecurity $vmName).TPMEnabled.ToString().ToLower()
           if ($enableTPM -eq "true" -and $currentTPM -eq "false") {
             Set-VMKeyProtector -VMName $vmName -NewLocalKeyProtector
             Enable-VMTPM -VMName $vmName
@@ -109,7 +150,6 @@
           }
 
           # Update the VHD path
-          $currentVHD = Get-VMHardDiskDrive -VMName $vmName
           if ($currentVHD.Path -ne $vmDisk) {
             Remove-VMHardDiskDrive -VMName $vmName -ControllerType $currentVHD.ControllerType -ControllerNumber $currentVHD.ControllerNumber -ControllerLocation $currentVHD.ControllerLocation
 
@@ -127,12 +167,6 @@
           }
 
           # Update the vSwitch
-          $currentSwitches = (Get-VMNetworkAdapter -VMName $vmName).SwitchName
-          $allSwitches = @(
-            {% for sw in hostvars[item.host].hyper_v_switches %}
-              @{ name = '{{ sw.name }}'; adapter = '{{ sw.adapter }}' }
-            {% endfor %}
-          )
           foreach ($switch in $allSwitches) {
             if ($currentSwitches -notcontains $switch.name) {
               Connect-VMNetworkAdapter -VMName $vmName -SwitchName $switch.name -Name $switch.adapter
@@ -140,7 +174,7 @@
             }
           }
 
-          # Update the ISO file
+          # Update the ISO file (can be done while running)
           $currentDVDDrive = Get-VMDvdDrive -VMName $vmName
           if ($currentDVDDrive -and $currentDVDDrive.Path -ne $vmISO -and (Test-Path $vmISO)) {
             Set-VMDvdDrive -VMName $vmName -Path $vmISO
@@ -151,6 +185,12 @@
           if ((Get-VMFirmware -VMName $vmName).SecureBootTemplate -ne "{{ item.secure_boot_template }}".replace(' ', '')) {
             Set-VMFirmware -VMName $vmName -SecureBootTemplate "{{ item.secure_boot_template }}".replace(' ', '')
             $changed = $true
+          }
+
+          # Start the VM if it was running before being stopped
+          if ($wasRunning) {
+            Write-Host "Starting $vmName..."
+            Start-VM -Name $vmName
           }
         }
       }
