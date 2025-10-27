@@ -1,27 +1,63 @@
+param (
+    [Parameter(Mandatory = $true)]
+    [ValidateSet("present", "absent")]
+    [string]$State,
+
+    [Parameter(Mandatory = $true)]
+    [string]$Hostname,
+
+    [Parameter(Mandatory = $true)]
+    [int]$CPU,
+
+    [Parameter(Mandatory = $true)]
+    [UInt64]$Memory,   # GB
+
+    [Parameter(Mandatory = $true)]
+    [UInt64]$Storage,  # GB
+
+    [Parameter(Mandatory = $true)]
+    [int]$Generation,
+
+    [Parameter(Mandatory = $false)]
+    [bool]$TPM = $false,
+
+    [Parameter(Mandatory = $true)]
+    [string]$ParentDir,
+
+    [Parameter(Mandatory = $false)]
+    [string]$ISODestination,
+
+    [Parameter(Mandatory = $false)]
+    [string]$SecureBootTemplate = "MicrosoftWindows",
+
+    [Parameter(Mandatory = $false)]
+    [array]$Switches = @(
+        @{ name = 'KVM-SRV01-SW01'; adapter = 'Wi-Fi' },
+        @{ name = 'KVM-SRV01-SW02'; adapter = 'Ethernet' }
+    )
+)
+
+# Initialize variables from the parameters
 $changed = $false
-$state = "<STATE>".ToLower()
-$existingVM = Get-VM -Name "<HOSTNAME>" -ErrorAction SilentlyContinue
+$state = $State.ToLower()
+$existingVM = Get-VM -Name $Hostname -ErrorAction SilentlyContinue
 
 if ($state -eq "present") {
-    $vmName = "<HOSTNAME>"
-    $vmPath = "<PARENT_DIR>\$vmName"
+    $vmName = $Hostname
+    $vmPath = "$ParentDir\$vmName"
     $vmDisk = "$vmPath\$vmName.vhdx"
-    $vmISO  = "$vmPath\<ISO_PATH>"
-    $enableTPM = "<TPM>".ToLower()
+    $vmISO  = "$vmPath\$ISODestination"
+    $enableTPM = "$TPM".ToLower()
 
     # If the VM does not exist, create it
     if (-not $existingVM) {
-        New-VM -Name $vmName -MemoryStartupBytes <MEMORY>GB -BootDevice CD -NoVHD -Path $vmPath -Generation <GENERATION>
+        New-VM -Name $vmName -MemoryStartupBytes $Memory -BootDevice CD -NoVHD -Path $vmPath -Generation $Generation
 
         # Remove the default network adapter
         Remove-VMNetworkAdapter -VMName $vmName -Name "Network Adapter"
 
         # Attach all switches from the list
-        $allSwitches = @(
-            # Example: @{ name = '<SWITCH_NAME>'; adapter = '<ADAPTER_NAME>' }
-            @{ name = '<SWITCH1>'; adapter = '<ADAPTER1>' }
-            @{ name = '<SWITCH2>'; adapter = '<ADAPTER2>' }
-        )
+        $allSwitches = $Switches
         foreach ($switch in $allSwitches) {
             Add-VMNetworkAdapter -VMName $vmName -SwitchName $switch.name -Name $switch.adapter
         }
@@ -42,7 +78,7 @@ if ($state -eq "present") {
         } 
         # Otherwise, create a new VHD
         else {
-            New-VHD -Path $vmDisk -SizeBytes <STORAGE>GB -Dynamic
+            New-VHD -Path $vmDisk -SizeBytes $Storage -Dynamic
             Add-VMHardDiskDrive -VMName $vmName -Path $vmDisk
         } 
 
@@ -52,10 +88,10 @@ if ($state -eq "present") {
         }
 
         # Set the CPU
-        Set-VMProcessor -VMName $vmName -Count <CPU>
+        Set-VMProcessor -VMName $vmName -Count $CPU
 
         # Set secure boot template
-        Set-VMFirmware -VMName $vmName -SecureBootTemplate "<SECURE_BOOT_TEMPLATE>"
+        Set-VMFirmware -VMName $vmName -SecureBootTemplate $SecureBootTemplate
 
         $changed = $true
     }
@@ -65,7 +101,7 @@ if ($state -eq "present") {
         $needsShutdown = $false
         
         # Check if any changes require VM shutdown
-        if ($existingVM.ProcessorCount -ne <CPU>) {
+        if ($existingVM.ProcessorCount -ne $CPU) {
             $needsShutdown = $true
         }
         
@@ -80,11 +116,7 @@ if ($state -eq "present") {
         }
         
         $currentSwitches = (Get-VMNetworkAdapter -VMName $vmName).SwitchName
-        $allSwitches = @(
-            # Example: @{ name = '<SWITCH_NAME>'; adapter = '<ADAPTER_NAME>' }
-            @{ name = '<SWITCH1>'; adapter = '<ADAPTER1>' }
-            @{ name = '<SWITCH2>'; adapter = '<ADAPTER2>' }
-        )
+        $allSwitches = $Switches
         foreach ($switch in $allSwitches) {
             if ($currentSwitches -notcontains $switch.name) {
                 $needsShutdown = $true
@@ -92,7 +124,7 @@ if ($state -eq "present") {
             }
         }
         
-        if ((Get-VMFirmware -VMName $vmName).SecureBootTemplate -ne "<SECURE_BOOT_TEMPLATE>") {
+        if ((Get-VMFirmware -VMName $vmName).SecureBootTemplate -ne $SecureBootTemplate) {
             $needsShutdown = $true
         }
         
@@ -104,14 +136,14 @@ if ($state -eq "present") {
         }
 
         # Update the CPU
-        if ($existingVM.ProcessorCount -ne <CPU>) {
-            Set-VMProcessor -VMName $vmName -Count <CPU>
+        if ($existingVM.ProcessorCount -ne $CPU) {
+            Set-VMProcessor -VMName $vmName -Count $CPU
             $changed = $true
         }
 
         # Update the memory (can be done while running)
-        if (((Get-VMMemory -VMName $vmName).Startup / 1GB) -ne <MEMORY>) {
-            Set-VMMemory -VMName $vmName -StartupBytes <MEMORY>GB -DynamicMemoryEnabled $false
+        if (((Get-VMMemory -VMName $vmName).Startup / 1GB) -ne $Memory) {
+            Set-VMMemory -VMName $vmName -StartupBytes $Memory -DynamicMemoryEnabled $false
             $changed = $true
         }
 
@@ -136,7 +168,7 @@ if ($state -eq "present") {
             } 
             # Otherwise, create a new VHD
             else {
-                New-VHD -Path $vmDisk -SizeBytes <STORAGE>GB -Dynamic
+                New-VHD -Path $vmDisk -SizeBytes $Storage -Dynamic
                 Add-VMHardDiskDrive -VMName $vmName -Path $vmDisk
             }
 
@@ -159,8 +191,8 @@ if ($state -eq "present") {
         }
 
         # Set secure boot template
-        if ((Get-VMFirmware -VMName $vmName).SecureBootTemplate -ne "<SECURE_BOOT_TEMPLATE>") {
-            Set-VMFirmware -VMName $vmName -SecureBootTemplate "<SECURE_BOOT_TEMPLATE>"
+        if ((Get-VMFirmware -VMName $vmName).SecureBootTemplate -ne $SecureBootTemplate) {
+            Set-VMFirmware -VMName $vmName -SecureBootTemplate $SecureBootTemplate
             $changed = $true
         }
         
@@ -175,16 +207,16 @@ elseif ($state -eq "absent") {
     if ($existingVM) {
         # Stop the VM if it is running
         if ($existingVM.State -eq "Running") {
-            Stop-VM -Name "<HOSTNAME>" -Force
+            Stop-VM -Name $vmName -Force
         }
 
-        Remove-VM -Name "<HOSTNAME>" -Force
+        Remove-VM -Name $vmName -Force
         $changed = $true
     }
 
     # Remove the VM's files
-    Get-ChildItem -Path "<PARENT_DIR>\<HOSTNAME>" -Recurse -Force |
-    Where-Object { $_.Name -like "*<HOSTNAME>*" } |
+    Get-ChildItem -Path "$ParentDir\$vmName" -Recurse -Force |
+    Where-Object { $_.Name -like "*$vmName*" } |
     ForEach-Object {
         Remove-Item -Path $_.FullName -Recurse -Force -ErrorAction SilentlyContinue
     }
