@@ -58,22 +58,6 @@
     state: present
   when: "'dcs' in group_names"
 
-# - name: Workstations OU Creation
-#   microsoft.ad.ou:
-#     name: "Workstations"
-#     description: "Organizational Unit for Workstations"
-#     path: "DC=khangvum,DC=lab"
-#     state: present
-#   when: "'dcs' in group_names"
-
-# - name: IIS OU Creation
-#   microsoft.ad.ou:
-#     name: "IIS"
-#     description: "Organizational Unit for IIS Servers"
-#     path: "DC=khangvum,DC=lab"
-#     state: present
-#   when: "'dcs' in group_names"
-
 # - name: Domain Controller Promotion
 #   microsoft.ad.domain_controller:
 #     dns_domain_name: "{{ domain_name }}"
