@@ -13,3 +13,24 @@
 #   ansible.windows.win_reboot:
 #   when: win_server_iis_installation.reboot_required
 
+- name: Default Web Site Stop
+  microsoft.iis.website:
+    name: Default Web Site
+    state: stopped
+
+- name: info3181casestudy Application Pool Creation
+  microsoft.iis.web_app_pool:
+    name: info3181casestudy
+    state: started
+
+- name: INFO-3181 Casestudy Creation
+  microsoft.iis.website:
+    name: INFO-3181 Casestudy
+    state: started
+    bindings:
+      set:
+        - ip: '*'
+          port: 80
+          hostname: info3181casestudy.khangvum.lab
+    physical_path: C:\inetpub\wwwroot\info3181casestudy.khangvum.lab
+    application_pool: info3181casestudy
