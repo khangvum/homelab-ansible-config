@@ -12,7 +12,7 @@
         $Ansible.Changed = $false
       }
   loop: "{{ hyper_v_switches }}"
-  when: "'dcs' not in group_names"
+  # when: "'dcs' not in group_names"
 
 - name: DNS Server Configuration for Non-Domain Controllers
   ansible.windows.win_dns_client:
