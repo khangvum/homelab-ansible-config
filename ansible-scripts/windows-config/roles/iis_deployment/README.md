@@ -56,13 +56,13 @@ A **_web application deployment_** process for Windows, leveraging **_Internet I
 
     Property          |Value
     :----------------:|-------------------------
-    **Site name**     |`info3181casestudy.khangvum.lab`
+    **Site name**     |`INFO-3181 Casestudy`
     **Physical path** |`C:\inetpub\wwwroot\info3181casestudy.khangvum.lab`
     **Binding**       |Type: `http`<br>IP address: `All Unassigned`<br>Port: `80`<br>Host name: `info3181casestudy.khangvum.lab`
 
 -   Configure **_application pool_**:
 
-    +   In **IIS Manager** > **Application Pools**, locate the site’s pool (_e.g.,_ `info3181casestudy.khangvum.lab`).
+    +   In **IIS Manager** > **Application Pools**, locate the site’s pool (_e.g.,_ `info3181casestudy`).
     +   Right-click the site's pool > **Advanced Settings...**.
     +   Under **Process Model** > **Identity**, set to **Custom account**, and add the domain administrator (_e.g.,_ `KHANGVUM\Administrator`)
     +   Recycle the pool.
