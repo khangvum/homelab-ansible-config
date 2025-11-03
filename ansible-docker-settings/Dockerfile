@@ -25,11 +25,15 @@ RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && \
 RUN export LC_ALL=C.UTF-8
 
 # Install required ansible-galaxy collections
+# Docs:
+#   - microsoft.ad: https://docs.ansible.com/ansible/latest/collections/microsoft/ad/
+#   - microsoft.iis: https://docs.ansible.com/ansible/latest/collections/microsoft/iis/
 RUN ansible-galaxy collection install --upgrade \
     ansible.windows \
     community.general \
     community.windows \
-    microsoft.ad
+    microsoft.ad \
+    microsoft.iis
 
 # Create the working directory
 RUN mkdir /opt/ansible
