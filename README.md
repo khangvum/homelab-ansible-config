@@ -15,6 +15,7 @@ Role                                                                            
 :------------------------------------------------------------------------------------------------------:|:----------------------------------
 [`domain_creation`](ansible-scripts/windows-config/roles/domain_creation/tasks/main.yml)                |Creates a new **_AD forest_** along with its **_domains_** and **_OUs_**
 [`domain_join`](ansible-scripts/windows-config/roles/domain_join/tasks/main.yml)                        |**_Joins computers_** to the **_domain_**
+[`firewall_configuration`](ansible-scripts/windows-config/roles/firewall_configuration/tasks/main.yml)  |Configures **_firewall rules_**
 [`hostname_configuration`](ansible-scripts/windows-config/roles/hostname_configuration/tasks/main.yml)  |Sets the **_hostname_** of Windows machines
 [`hyper-v_configuration`](ansible-scripts/windows-config/roles/hyper-v_configuration/tasks/main.yml)    |Installs **_Hyper-V_** and configures **_virtual switches_**
 [`iis_deployment`](ansible-scripts/windows-config/roles/iis_deployment/tasks/main.yml)                  |Installs and configures **_Internet Information Services_** (**_IIS_**)

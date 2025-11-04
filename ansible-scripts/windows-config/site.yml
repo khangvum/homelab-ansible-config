@@ -73,6 +73,8 @@
     - windows_var.yml
   tasks:
     - import_role:
+        name: firewall_configuration
+    - import_role:
         name: hostname_configuration
     - import_role:
         name: ntp_configuration
