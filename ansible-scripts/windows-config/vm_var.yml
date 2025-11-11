@@ -1,5 +1,6 @@
 ---
-hyper_v_parent_dir: "V:"
+srv_hyper_v_parent_dir: "V:"
+pc_hyper_v_parent_dir: "C:\\Hyper-V Virtual Machines"
 
 vm_list:
   - name: KVM-DC01
