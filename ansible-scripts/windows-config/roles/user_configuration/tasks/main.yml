@@ -9,7 +9,7 @@
     account_disabled: "{{ item.account_disabled }}"
     groups:
       - "{{ item.group }}"
-  loop: "{{ local_user_list }}"
+  loop: "{{ local_admin_list }}"
   when: computer_name in item.host
 
 - name: Domain User Configuration
@@ -23,5 +23,5 @@
     groups:
       add:
         - "{{ item.group }}"
-  loop: "{{ domain_user_list }}"
+  loop: "{{ domain_admin_list }}"
   when: computer_name in item.host
