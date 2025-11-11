@@ -5,7 +5,7 @@
   gather_facts: false
   tags: host_connection_test
   vars_files:
-    - windows_var.yml
+    - variables/windows_var.yml
   tasks:
   - name: Host Connection Test
     ansible.windows.win_powershell:
@@ -24,8 +24,8 @@
   gather_facts: false
   tags: global_configuration
   vars_files:
-    - windows_var.yml
-    - domain_var.yml
+    - variables/windows_var.yml
+    - variables/domain_var.yml
   tasks:
     - import_role:
         name: hostname_configuration
@@ -46,8 +46,8 @@
   gather_facts: false
   tags: hyper-v_host_configuration
   vars_files:
-    - vm_var.yml
-    - windows_var.yml
+    - variables/vm_var.yml
+    - variables/windows_var.yml
   tasks:
     - import_role:
         name: hyper-v_configuration
@@ -59,8 +59,8 @@
   gather_facts: false
   tags: vm_deployment
   vars_files:
-    - vm_var.yml
-    - windows_var.yml
+    - variables/vm_var.yml
+    - variables/windows_var.yml
   tasks:
     - import_role:
         name: vm_deployment
@@ -71,8 +71,8 @@
   gather_facts: false
   tags: vm_configuration
   vars_files:
-    - windows_var.yml
-    - domain_var.yml
+    - variables/windows_var.yml
+    - variables/domain_var.yml
   tasks:
     - import_role:
         name: firewall_configuration
@@ -95,8 +95,8 @@
   gather_facts: false
   tags: domain_configuration
   vars_files:
-    - domain_var.yml
-    - windows_var.yml
+    - variables/domain_var.yml
+    - variables/windows_var.yml
   tasks:
     - import_role:
         name: domain_creation
@@ -109,7 +109,7 @@
   gather_facts: false
   tags: iis_configuration
   vars_files:
-    - windows_var.yml
+    - variables/windows_var.yml
   tasks:
     - import_role:
         name: iis_deployment
