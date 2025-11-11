@@ -25,6 +25,7 @@
   tags: global_configuration
   vars_files:
     - windows_var.yml
+    - domain_var.yml
   tasks:
     - import_role:
         name: hostname_configuration
@@ -71,6 +72,7 @@
   tags: vm_configuration
   vars_files:
     - windows_var.yml
+    - domain_var.yml
   tasks:
     - import_role:
         name: firewall_configuration

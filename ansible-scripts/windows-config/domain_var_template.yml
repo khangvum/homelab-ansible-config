@@ -3,3 +3,14 @@ domain_name: {{ DOMAIN_NAME }}
 domain_admin_user: {{ DOMAIN_ADMIN_USER }}
 domain_admin_password: {{ DOMAIN_ADMIN_PASSWORD }}
 safe_mode_password: {{ SAFE_MODE_PASSWORD }}
+
+# Domain administrator configuration
+domain_admin_list:
+  - username: {{ USERNAME }}
+    password: {{ PASSWORD }}
+    state: present
+    enabled: true
+    password_never_expires: true
+    group: Domain Admins
+    host:
+      - KVM-DC01
