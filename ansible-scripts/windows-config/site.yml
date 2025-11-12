@@ -48,6 +48,8 @@
   vars_files:
     - variables/vm_var.yml
     - variables/windows_var.yml
+  vars:
+    hyper_v_parent_dir: "{{ srv_hyper_v_parent_dir if 'servers' in group_names else pc_hyper_v_parent_dir }}"
   tasks:
     - import_role:
         name: hyper-v_configuration
@@ -61,6 +63,8 @@
   vars_files:
     - variables/vm_var.yml
     - variables/windows_var.yml
+  vars:
+    hyper_v_parent_dir: "{{ srv_hyper_v_parent_dir if 'servers' in group_names else pc_hyper_v_parent_dir }}"
   tasks:
     - import_role:
         name: vm_deployment

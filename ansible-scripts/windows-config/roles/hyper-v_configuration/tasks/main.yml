@@ -41,7 +41,7 @@
 - name: Default VM Location Update
   ansible.windows.win_powershell:
     script: |
-      $hyperVParentDir = "{% if 'servers' in group_names %}{{ srv_hyper_v_parent_dir }}{% else %}{{ pc_hyper_v_parent_dir }}{% endif %}\"
+      $hyperVParentDir = "{{ hyper_v_parent_dir }}\"
       Write-Output "HyperV parent dir: $hyperVParentDir"
       Write-Host "HyperV parent dir: $hyperVParentDir"
       $currentVMPath = (Get-VMHost).VirtualMachinePath
