@@ -18,7 +18,7 @@ local_admin_list:
     group: Administrators
     host:
       - KVM-SRV01
-      - KVM-SRV02
+      # - KVM-SRV02
       - KVM-DB01
       - KVM-WEB01
       - KVM-WRK01
