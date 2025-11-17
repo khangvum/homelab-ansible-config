@@ -1,0 +1,27 @@
+---
+domain_user_list:
+  - name: Khang Vu
+    firstname: Khang
+    surname: Vu
+    display_name: Khang Vu
+    sam_account_name: Khang.Vu
+    upn: Khang.Vu@khangvum.lab
+    email: Khang.Vu@khangvum.lab
+    path: "CN=Users,DC=khangvum,DC=lab"
+    password: {{ PASSWORD }}
+    password_never_expires: true
+    state: present
+    enabled: true
+    # Built-in attributes
+    street: {{ STREET }}
+    city: {{ CITY }}
+    state_province: {{ STATE_PROVINCE }}
+    postal_code: {{ POSTAL_CODE }}
+    country: {{ COUNTRY }}
+    # Custom attributes
+    attributes:
+      set:  
+        title: {{ TITLE }}
+        department: {{ DEPARTMENT }}
+        company: {{ COMPANY }}
+        telephoneNumber: {{ TELEPHONE_NUMBER }}
