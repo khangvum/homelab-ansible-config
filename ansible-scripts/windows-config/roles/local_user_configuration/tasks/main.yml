@@ -10,4 +10,3 @@
     groups:
       - "{{ item.group }}"
   loop: "{{ local_admin_list }}"
-  # when: computer_name in item.host
