@@ -104,11 +104,11 @@
     - variables/user_var.yml
     - variables/windows_var.yml
   tasks:
-    # - include_role:
-    #     name: domain_creation
-    #   when: "'dcs' in group_names"
-    # - import_role:
-    #     name: domain_join
+    - include_role:
+        name: domain_creation
+      when: "'dcs' in group_names"
+    - import_role:
+        name: domain_join
     - include_role:
         name: domain_user_configuration
       when: "'dcs' in group_names"
