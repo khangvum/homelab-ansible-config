@@ -4,14 +4,12 @@
     dns_domain_name: "{{ domain_name }}"
     safe_mode_password: "{{ safe_mode_password }}"
     reboot: true
-  when: "'dcs' in group_names"
 
 - name: DNS Server Configuration for Domain Controllers
   ansible.windows.win_dns_client:
     adapter_names: "{{ item.adapter }}"
     dns_servers: 127.0.0.1
   loop: "{{ hyper_v_switches }}"
-  when: "'dcs' in group_names"
 
 # OU Structure
 # ---------------------------------------------
@@ -29,7 +27,6 @@
     description: "Organizational Unit for Workstations"
     path: "DC=khangvum,DC=lab"
     state: present
-  when: "'dcs' in group_names"
 
 # Servers OU
 - name: Servers OU Creation
@@ -38,7 +35,6 @@
     description: "Organizational Unit for Servers"
     path: "DC=khangvum,DC=lab"
     state: present
-  when: "'dcs' in group_names"
 
 # Databases OU, child of Servers OU
 - name: Databases OU Creation
@@ -47,7 +43,6 @@
     description: "Organizational Unit for Database Servers"
     path: "OU=Servers,DC=khangvum,DC=lab"
     state: present
-  when: "'dcs' in group_names"
 
 # IIS OU, child of Servers OU
 - name: IIS OU Creation
@@ -56,7 +51,6 @@
     description: "Organizational Unit for IIS Servers"
     path: "OU=Servers,DC=khangvum,DC=lab"
     state: present
-  when: "'dcs' in group_names"
 
 # - name: Domain Controller Promotion
 #   microsoft.ad.domain_controller:
