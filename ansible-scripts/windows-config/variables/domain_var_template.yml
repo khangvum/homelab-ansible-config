@@ -12,5 +12,3 @@ domain_admin_list:
     enabled: true
     password_never_expires: true
     group: Domain Admins
-    host:
-      - KVM-DC01
