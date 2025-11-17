@@ -1,0 +1,40 @@
+---
+- name: Domain Administrator Configuration
+  microsoft.ad.user:
+    name: "{{ item.username }}"
+    password: "{{ item.password }}"
+    update_password: when_changed
+    state: "{{ item.state }}"
+    password_never_expires: "{{ item.password_never_expires }}"
+    enabled: "{{ item.enabled }}"
+    groups:
+      add:
+        - "{{ item.group }}"
+  loop: "{{ domain_admin_list }}"
+
+- name: Domain User Configuration
+  microsoft.ad.user:
+    name: "{{ item.name }}"
+    firstname: "{{ item.firstname }}"
+    surname: "{{ item.surname }}"
+    sam_account_name: "{{ item.sam_account_name }}"
+    upn: "{{ item.upn }}"
+    email: "{{ item.email }}"
+    path: "{{ item.path }}"
+    state: "{{ item.state }}"
+    enabled: "{{ item.enabled }}"
+    groups:
+      add:
+        - "Domain Users"
+    password: "{{ item.password }}"
+    update_password: when_changed
+    password_never_expires: "{{ item.password_never_expires }}"
+    # Built-in attributes
+    street: "{{ item.street | default(omit) }}"
+    city: "{{ item.city | default(omit) }}"
+    state_province: "{{ item.state_province | default(omit) }}"
+    postal_code: "{{ item.postal_code | default(omit) }}"
+    country: "{{ item.country | default(omit) }}"
+    # Custom attributes
+    attributes: "{{ item.attributes | default(omit) }}"
+  loop: "{{ domain_user_list }}"

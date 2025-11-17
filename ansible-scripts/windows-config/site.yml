@@ -20,7 +20,7 @@
 
 # Global Configuration
 - name: Global Configuration
-  hosts: servers:pcs
+  hosts: servers:!KVM-SRV02:pcs
   gather_facts: false
   tags: global_configuration
   vars_files:
@@ -36,7 +36,7 @@
     - import_role:
         name: system_configuration
     - import_role:
-        name: user_configuration
+        name: local_user_configuration
     - import_role:
         name: windows_updates
 
@@ -88,8 +88,9 @@
         name: region_configuration
     - import_role:
         name: system_configuration
-    - import_role:
-        name: user_configuration
+    - include_role:
+        name: local_user_configuration
+      when: "'dcs' not in group_names"
     - import_role:
         name: windows_updates
 
@@ -100,12 +101,17 @@
   tags: domain_configuration
   vars_files:
     - variables/domain_var.yml
+    - variables/user_var.yml
     - variables/windows_var.yml
   tasks:
-    - import_role:
-        name: domain_creation
-    - import_role:
-        name: domain_join
+    # - include_role:
+    #     name: domain_creation
+    #   when: "'dcs' in group_names"
+    # - import_role:
+    #     name: domain_join
+    - include_role:
+        name: domain_user_configuration
+      when: "'dcs' in group_names"
 
 # IIS Configuration
 - name: IIS Configuration
