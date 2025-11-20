@@ -1,6 +1,6 @@
-# Windows Configuration Automation with Ansible
+# Homelab Configuration Automation with Ansible
 
-A **_Windows configuration automation_** solution powered by **_Ansible_**, containerized with **_Docker_**. This setup simplifies the Windows systems management by leveraging Ansible's **_idempotent_** and **_declarative configuration_** approach, streamlining **_Infrastructure as Code_** (**_IaC_**) principles for Windows environments.
+A **_Homelab configuration automation_** solution powered by **_Ansible_**, containerized with **_Docker_**. This setup simplifies the Windows systems management by leveraging Ansible's **_idempotent_** and **_declarative configuration_** approach, streamlining **_Infrastructure as Code_** (**_IaC_**) principles for **_Windows_** and **_ESXi_** environments.
 
 ## Features
 
