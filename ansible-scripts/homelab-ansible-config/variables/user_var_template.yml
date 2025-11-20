@@ -24,4 +24,5 @@ domain_user_list:
         title: {{ TITLE }}
         department: {{ DEPARTMENT }}
         company: {{ COMPANY }}
+        manager: {{ MANAGER }}
         telephoneNumber: {{ TELEPHONE_NUMBER }}
