@@ -13,19 +13,20 @@ A **_Homelab configuration automation_** solution powered by **_Ansible_**, cont
 
 Role                                                                                                        |Description
 :----------------------------------------------------------------------------------------------------------:|:----------------------------------
-[`domain_creation`](ansible-scripts/windows-config/roles/domain_creation/tasks/main.yml)                    |Creates a new **_AD forest_** along with its **_domains_** and **_OUs_**
-[`domain_join`](ansible-scripts/windows-config/roles/domain_join/tasks/main.yml)                            |**_Joins computers_** to the **_domain_**
-[`domain_user_configuration`](ansible-scripts/windows-config/roles/domain_user_configuration/tasks/main.yml)|Manages **domain user accounts_** and **_passwords_**
-[`firewall_configuration`](ansible-scripts/windows-config/roles/firewall_configuration/tasks/main.yml)      |Configures **_firewall rules_**
-[`hostname_configuration`](ansible-scripts/windows-config/roles/hostname_configuration/tasks/main.yml)      |Sets the **_hostname_** of Windows machines
-[`hyper-v_configuration`](ansible-scripts/windows-config/roles/hyper-v_configuration/tasks/main.yml)        |Installs **_Hyper-V_** and configures **_virtual switches_**
-[`iis_deployment`](ansible-scripts/windows-config/roles/iis_deployment/tasks/main.yml)                      |Installs and configures **_Internet Information Services_** (**_IIS_**)
-[`local_user_configuration`](ansible-scripts/windows-config/roles/local_user_configuration/tasks/main.yml)  |Manages **_local user accounts_** and **_passwords_**
-[`ntp_configuration`](ansible-scripts/windows-config/roles/ntp_configuration/tasks/main.yml)                |Configures **_NTP settings_** for time synchronization
-[`region_configuration`](ansible-scripts/windows-config/roles/region_configuration/tasks/main.yml)          |Sets **_regional_** and **_locale settings_**
-[`system_configuration`](ansible-scripts/windows-config/roles/system_configuration/tasks/main.yml)          |Applies **_system-wide settings_**
-[`vm_deployment`](ansible-scripts/windows-config/roles/vm_deployment/tasks/main.yml)                        |Creates **_VMs_** on **_Hyper-V hosts_**
-[`windows_updates`](ansible-scripts/windows-config/roles/windows_updates/tasks/main.yml)                    |Performs **_Windows updates_**
+[`domain_creation`](ansible-scripts/homelab-ansible-config/roles/domain_creation/tasks/main.yml)                    |Creates a new **_AD forest_** along with its **_domains_** and **_OUs_**
+[`domain_join`](ansible-scripts/homelab-ansible-config/roles/domain_join/tasks/main.yml)                            |**_Joins computers_** to the **_domain_**
+[`domain_user_configuration`](ansible-scripts/homelab-ansible-config/roles/domain_user_configuration/tasks/main.yml)|Manages **domain user accounts_** and **_passwords_**
+[`firewall_configuration`](ansible-scripts/homelab-ansible-config/roles/firewall_configuration/tasks/main.yml)      |Configures **_firewall rules_**
+[`hostname_configuration`](ansible-scripts/homelab-ansible-config/roles/hostname_configuration/tasks/main.yml)      |Sets the **_hostname_** of Windows machines
+[`hyper-v_configuration`](ansible-scripts/homelab-ansible-config/roles/hyper-v_configuration/tasks/main.yml)        |Installs **_Hyper-V_** and configures **_virtual switches_**
+[`hyper-v_vm_deployment`](ansible-scripts/homelab-ansible-config/roles/hyper-v_vm_deployment/tasks/main.yml)        |Creates **_VMs_** on **_Hyper-V hosts_**
+[`iis_deployment`](ansible-scripts/homelab-ansible-config/roles/iis_deployment/tasks/main.yml)                      |Installs and configures **_Internet Information Services_** (**_IIS_**)
+[`local_user_configuration`](ansible-scripts/homelab-ansible-config/roles/local_user_configuration/tasks/main.yml)  |Manages **_local user accounts_** and **_passwords_**
+[`ntp_configuration`](ansible-scripts/homelab-ansible-config/roles/ntp_configuration/tasks/main.yml)                |Configures **_NTP settings_** for time synchronization
+[`region_configuration`](ansible-scripts/homelab-ansible-config/roles/region_configuration/tasks/main.yml)          |Sets **_regional_** and **_locale settings_**
+[`system_configuration`](ansible-scripts/homelab-ansible-config/roles/system_configuration/tasks/main.yml)          |Applies **_system-wide settings_**
+[`system_information`](ansible-scripts/homelab-ansible-config/roles/system_information/tasks/main.yml)      |Gather **_host information_**
+[`windows_updates`](ansible-scripts/homelab-ansible-config/roles/windows_updates/tasks/main.yml)                    |Performs **_Windows updates_**
 
 ## Prerequisites
 
@@ -60,11 +61,11 @@ Role                                                                            
 
 1.  **Update the inventory and variable files:**
 
--   Update **_[`inventory.yml`](ansible-scripts/windows-config/inventory_template.yml)_** to define the **_Windows hosts_**.
--   Update **_[`domain_var.yml`](ansible-scripts/windows-config/variables/domain_var_template.yml)_** to define the **_domain configuration_**.
--   Update **_[`user_var.yml`](ansible-scripts/windows-config/variables/user_var_template.yml)_** to define all **_domain users_**.
--   Update **_[`vm_var.yml`](ansible-scripts/windows-config/variables/vm_var.yml)_** to define the **_VMs_** and their **_specifications_** to be created and configured.
--   Update **_[`windows_var.yml`](ansible-scripts/windows-config/variables/windows_var_template.yml)_** to define **_environment-specific variables_** (_e.g.,_ usernames, passwords, hostnames, etc.)
+-   Update **_[`inventory.yml`](ansible-scripts/homelab-ansible-config/inventory_template.yml)_** to define the **_Windows hosts_**.
+-   Update **_[`domain_var.yml`](ansible-scripts/homelab-ansible-config/variables/domain_var_template.yml)_** to define the **_domain configuration_**.
+-   Update **_[`user_var.yml`](ansible-scripts/homelab-ansible-config/variables/user_var_template.yml)_** to define all **_domain users_**.
+-   Update **_[`vm_var.yml`](ansible-scripts/homelab-ansible-config/variables/vm_var.yml)_** to define the **_VMs_** and their **_specifications_** to be created and configured.
+-   Update **_[`windows_var.yml`](ansible-scripts/homelab-ansible-config/variables/windows_var_template.yml)_** to define **_environment-specific variables_** (_e.g.,_ usernames, passwords, hostnames, etc.)
 
 2.  **Start the Ansible environment:**
 
