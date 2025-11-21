@@ -1,26 +1,18 @@
 ---
 # Test the host connection
-- name: VM Connection Test
-  hosts: servers:pcs:vms
+- name: Host Connection Test
+  hosts: all
   gather_facts: false
   tags: host_connection_test
   vars_files:
     - variables/windows_var.yml
   tasks:
-  - name: Host Connection Test
-    ansible.windows.win_powershell:
-      script: |
-        $osInfo = Get-CimInstance Win32_OperatingSystem | Select-Object Caption, Version, ServicePackMajorVersion, OSArchitecture
-
-        $Ansible.Result = $osInfo
-        $Ansible.Changed = $false
-    register: os_info
-  - debug: 
-      msg: "{{ os_info }}"
+    - import_role:
+        name: system_information
 
 # Global Configuration
 - name: Global Configuration
-  hosts: servers:!KVM-SRV02:pcs
+  hosts: all:!KVM-SRV02
   gather_facts: false
   tags: global_configuration
   vars_files:
@@ -42,7 +34,7 @@
 
 # Hyper-V Host Configuration
 - name: Hyper-V Host Configuration
-  hosts: servers:!KVM-SRV02:pcs
+  hosts: all:!KVM-SRV02
   gather_facts: false
   tags: hyper-v_host_configuration
   vars_files:
