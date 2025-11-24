@@ -16,7 +16,9 @@
 - name: DNS Server Configuration for Non-Domain Controllers
   ansible.windows.win_dns_client:
     adapter_names: "{{ item.adapter }}"
-    dns_servers: "{{ hostvars['KVM-DC01'].v_switches | selectattr('adapter', 'equalto', item.adapter) | map(attribute='ip') | first }}"
+    dns_servers: 
+      - "{{ hostvars['KVM-DC01'].v_switches | selectattr('adapter', 'equalto', item.adapter) | map(attribute='ip') | first }}"
+      - "{{ hostvars['KVM-DC02'].v_switches[0].ip }}"
   loop: "{{ v_switches }}"
   when: "'dcs' not in group_names"
 

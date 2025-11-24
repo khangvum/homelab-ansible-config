@@ -53,11 +53,30 @@
   when: inventory_hostname != "KVM-DC01"
 
 # Configure DNS servers for Domain Controllers
+
+- name: Domain Controllers' DNS List Build
+  set_fact:
+    dc_dns_servers: >-
+      {{ ["127.0.0.1"] +
+         (groups['dcs']
+           | difference([inventory_hostname])
+           | map('extract', hostvars, ['v_switches'])
+           | sum(start=[])
+           | selectattr('adapter', 'equalto', item.adapter)
+           | map(attribute='ip')
+           | list)
+      }}
+  loop: "{{ v_switches }}"
+  loop_control:
+    loop_var: item
+  when: "'dcs' in group_names"
+
 - name: DNS Server Configuration for Domain Controllers
   ansible.windows.win_dns_client:
     adapter_names: "{{ item.adapter }}"
-    dns_servers: 127.0.0.1
+    dns_servers: "{{ dc_dns_servers }}"
   loop: "{{ v_switches }}"
+  when: "'dcs' in group_names"
 
 # OU Structure
 # ---------------------------------------------
