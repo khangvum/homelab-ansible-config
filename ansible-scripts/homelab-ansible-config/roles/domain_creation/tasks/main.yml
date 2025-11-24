@@ -4,12 +4,60 @@
     dns_domain_name: "{{ domain_name }}"
     safe_mode_password: "{{ safe_mode_password }}"
     reboot: true
+  when: inventory_hostname == "KVM-DC01"
 
+# Promote secondary Domain Controllers
+- name: Domain Controller Test to Avoid DNS Reconfiguration
+  ansible.windows.win_powershell:
+    script: |
+      $isDC = Get-WindowsFeature -Name AD-Domain-Services
+      if ($isDC.Installed) { 
+        Write-Output "DC"
+        $Ansible.Changed = $false
+      }
+      else { 
+        Write-Output "NOT_DC"
+        $Ansible.Changed = $true
+      }
+  register: dc_check
+
+- name: DNS Server Configuration for To-Be Domain Controllers
+  ansible.windows.win_dns_client:
+    adapter_names: "{{ item.adapter }}"
+    dns_servers: "{{ hostvars['KVM-DC01'].v_switches | selectattr('adapter', 'equalto', item.adapter) | map(attribute='ip') | first }}"
+  loop: "{{ v_switches }}"
+  when: 
+    - inventory_hostname != "KVM-DC01"
+    - "'NOT_DC' in dc_check.output"
+
+- name: Domain Controller Domain Join
+  microsoft.ad.membership:
+    dns_domain_name: "{{ domain_name }}"
+    hostname: "{{ computer_name }}"
+    domain_admin_user: "{{ domain_admin_user }}"
+    domain_admin_password: "{{ domain_admin_password }}"
+    domain_ou_path: "OU=Domain Controllers,DC=khangvum,DC=lab"
+    domain_server: "{{ hostvars['KVM-DC01'].computer_name }}.{{ domain_name }}"
+    state: domain
+    reboot: true
+  when: "'dcs' in group_names"
+
+- name: Domain Controller Promotion
+  microsoft.ad.domain_controller:
+    dns_domain_name: "{{ domain_name }}"
+    domain_admin_user: "{{ domain_admin_user }}"
+    domain_admin_password: "{{ domain_admin_password }}"
+    safe_mode_password: "{{ safe_mode_password }}"
+    state: domain_controller
+    reboot: true
+  when: inventory_hostname != "KVM-DC01"
+
+# Configure DNS servers for Domain Controllers
 - name: DNS Server Configuration for Domain Controllers
   ansible.windows.win_dns_client:
     adapter_names: "{{ item.adapter }}"
     dns_servers: 127.0.0.1
-  loop: "{{ hyper_v_switches }}"
+  loop: "{{ v_switches }}"
 
 # OU Structure
 # ---------------------------------------------
@@ -51,12 +99,3 @@
     description: "Organizational Unit for IIS Servers"
     path: "OU=Servers,DC=khangvum,DC=lab"
     state: present
-
-# - name: Domain Controller Promotion
-#   microsoft.ad.domain_controller:
-#     dns_domain_name: "{{ domain_name }}"
-#     domain_admin_user: "{{ domain_admin_user }}"
-#     domain_admin_password: "{{ domain_admin_password }}"
-#     safe_mode_password: "{{ safe_mode_password }}"
-#     state: domain_controller
-#     reboot: true
