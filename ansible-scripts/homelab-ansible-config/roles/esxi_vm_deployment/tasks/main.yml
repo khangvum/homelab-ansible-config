@@ -1,0 +1,181 @@
+---
+- name: VM Subdirectory Creation If Not Exists
+  delegate_to: localhost
+  vars:
+    ansible_connection: local
+    ansible_shell_type: sh
+  ansible.builtin.shell: |
+    sshpass -p {{ ansible_password }} ssh root@{{ ansible_host }} << 'EOF'
+      DIR="/vmfs/volumes/{{ datastore }}/{{ item.name }}"
+      if [ ! -d "$DIR" ]; then
+        mkdir -p "$DIR"
+        echo "changed"
+      fi
+    EOF
+  register: result
+  changed_when: "'changed' in result.stdout"
+  loop: "{{ esxi_vm_var }}"
+  when: item.host == computer_name
+
+- name: ISO File Copy
+  delegate_to: localhost
+  vars:
+    ansible_connection: local
+    ansible_shell_type: sh
+  ansible.builtin.shell: |
+    # Check if file exists on ESXi
+    sshpass -p {{ ansible_password }} ssh root@{{ ansible_host }} \
+      "test -f /vmfs/volumes/{{ datastore }}/{{ item.name }}/{{ item.iso_destination }}"
+    
+    # If file does not exists, copy to ESXi host
+    if [ $? -ne 0 ]; then
+      sshpass -p {{ ansible_password }} \
+        scp {{ item.iso_source }} root@{{ ansible_host }}:/vmfs/volumes/{{ datastore }}/{{ item.name }}
+
+      echo "changed"
+    fi
+  register: result
+  changed_when: "'changed' in result.stdout"  # Idempotence
+  loop: "{{ esxi_vm_var }}"
+  when: item.host == computer_name
+
+- name: VM Creation
+  delegate_to: localhost
+  vars:
+    ansible_connection: local
+    ansible_shell_type: sh
+  ansible.builtin.shell: |
+    sshpass -p {{ ansible_password }} ssh root@{{ ansible_host }} << 'EOF'
+
+    vmName="{{ item.name }}"
+    datastore="{{ datastore }}"
+    vmPath="/vmfs/volumes/$datastore/$vmName/$vmName"
+    vmxFile="$vmPath/$vmName.vmx"
+    state="{{ item.state }}"
+
+    # Helper function: map (add/update) key=value pair in .vmx file
+    map() {
+      key="$1"
+      value="$2"
+
+      if grep -q "^$key = " "$vmxFile"; then
+        current=$(grep "^$key = " "$vmxFile" | sed -e 's/.*= "\(.*\)".*/\1/')
+
+        if [ "$current" != "$value" ]; then
+          sed -i "s|^$key = \".*\"|$key = \"$value\"|" "$vmxFile"
+          echo "changed"
+        fi
+
+      else
+        # key missing → append
+        echo "$key = \"$value\"" >> "$vmxFile"
+        echo "changed"
+      fi
+    }
+
+    if [ "$state" = "present" ]; then
+      # Get VM ID
+      vmId=$(vim-cmd vmsvc/getallvms | awk '/'"$vmName"'/ {print $1}')
+
+      # Create VM if missing
+      if [ -z "$vmId" ]; then
+          vim-cmd vmsvc/createdummyvm "$vmName" "[$datastore] $vmName"
+          vmId=$(vim-cmd vmsvc/getallvms | awk '/'"$vmName"'/ {print $1}')
+          echo "changed"
+      fi
+
+      # 1. Configure CPU
+      map "numvcpus" "{{ item.cpu }}"
+
+      # 2. Configure memory
+      map "memSize" "{{ item.memory * 1024 }}"
+
+      # 3. Configure disk
+      # - Remove the dummy disks
+      rm -f "$vmPath/$vmName.vmdk" "$vmPath/$vmName-flat.vmdk"
+      # - Create thin disk
+      vmkfstools -c {{ item.storage }}G -d thin "$vmPath/$vmName.vmdk"
+      # - Attach disk
+      vim-cmd vmsvc/device.diskaddexisting "$vmId" "$vmPath/$vmName.vmdk"
+
+      # 4. Configure guest OS
+      map "guestOS" "{{ item.guest_os }}"
+
+      # 5. Configure storage controller
+      map "scsi0.virtualDev" "pvscsi"
+      map "scsi0.present" "TRUE"
+      map "scsi0:0.present" "TRUE"
+      map "scsi0:0.deviceType" "scsi-hardDisk"
+      map "scsi0:0.fileName" "$vmName.vmdk"
+
+      # 6. Configure NIC
+      map "ethernet0.virtualDev" "vmxnet3"
+      map "ethernet0.networkName" "VM Network"
+      map "ethernet0.present" "TRUE"
+
+      # 7. Configure ISO CD-ROM via SATA
+      map "sata0.present" "TRUE"
+      map "sata0:0.present" "TRUE"
+      map "sata0:0.deviceType" "cdrom-image"
+      map "sata0:0.fileName" "/vmfs/volumes/${datastore}/${vmName}/{{ item.iso_destination }}"
+      map "sata0:0.startConnected" "TRUE"
+
+      # 8. Configure UEFI + Secure Boot
+      map "firmware" "efi"
+      map "uefi.secureBoot.enabled" "TRUE"
+
+      # Apply changes
+      vim-cmd vmsvc/reload "$vmId"
+    elif [ "$state" = "absent" ]; then
+      # Get VM ID
+      vmId=$(vim-cmd vmsvc/getallvms | awk -v name="$vmName" '$2 == name {print $1}')
+
+      # Stop the VM if it is running
+      if [ ! -z "$vmId" ]; then
+        if [ "$(vim-cmd vmsvc/power.getstate "$vmId" | tail -n1)" = "Powered on" ]; then
+          vim-cmd vmsvc/power.off "$vmId"
+        fi
+
+        vim-cmd vmsvc/unregister "$vmId"
+        rm -rf "/vmfs/volumes/$datastore/$vmName"
+        echo "changed"
+      fi
+    else
+      echo "Invalid state: $state. Use 'present' or 'absent'."
+    fi
+
+    EOF
+  register: result
+  changed_when: "'changed' in result.stdout"
+  loop: "{{ esxi_vm_var }}"
+  when: item.host == computer_name
+
+- name: VM Power On
+  delegate_to: localhost
+  vars:
+    ansible_connection: local
+    ansible_shell_type: sh
+  ansible.builtin.shell: |
+    sshpass -p {{ ansible_password }} ssh root@{{ ansible_host }} << 'EOF'
+
+    vmName="{{ item.name }}"
+    power="{{ item.power }}"
+    state="{{ item.state }}"
+    vmId=$(vim-cmd vmsvc/getallvms | awk '/'"$vmName"'/ {print $1}')
+
+    if [ ! -z "$vmId" ] && [ "$state" = "present" ]; then
+      # echo "changed"
+      if [ "$power" = "True" ] && [ "$(vim-cmd vmsvc/power.getstate "$vmId" | tail -n1)" = "Powered off" ]; then
+        vim-cmd vmsvc/power.on "$vmId"
+        echo "changed"
+      elif [ "$power" = "False" ] && [ "$(vim-cmd vmsvc/power.getstate "$vmId" | tail -n1)" = "Powered on" ]; then
+        vim-cmd vmsvc/power.off "$vmId"
+        echo "changed"
+      fi
+    fi
+
+    EOF
+  register: result
+  changed_when: "'changed' in result.stdout"
+  loop: "{{ esxi_vm_var }}"
+  when: item.host == computer_name
