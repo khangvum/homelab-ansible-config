@@ -2,7 +2,7 @@
 srv_hyper_v_parent_dir: "V:"
 pc_hyper_v_parent_dir: "C:\\Hyper-V Virtual Machines"
 
-hyper-v_vm_list:
+hyper_v_vm_list:
   - name: KVM-DC01
     host: KVM-SRV01
     cpu: 2
