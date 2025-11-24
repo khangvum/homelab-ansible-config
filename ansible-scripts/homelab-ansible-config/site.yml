@@ -12,7 +12,7 @@
 
 # Global Configuration
 - name: Global Configuration
-  hosts: all:!KVM-SRV02
+  hosts: servers:!KVM-SRV02
   gather_facts: false
   tags: global_configuration
   vars_files:
@@ -34,11 +34,11 @@
 
 # Hyper-V Host Configuration
 - name: Hyper-V Host Configuration
-  hosts: all:!KVM-SRV02
+  hosts: servers:!KVM-SRV02
   gather_facts: false
   tags: hyper-v_host_configuration
   vars_files:
-    - variables/vm_var.yml
+    - variables/hyper-v_vm_var.yml
     - variables/windows_var.yml
   vars:
     hyper_v_parent_dir: "{{ srv_hyper_v_parent_dir if 'servers' in group_names else pc_hyper_v_parent_dir }}"
@@ -49,17 +49,22 @@
 # VM Deployment
 - name: VM Deployment
   # hosts: servers:!KVM-SRV02:pcs
-  hosts: servers:!KVM-SRV02
+  hosts: servers
   gather_facts: false
   tags: vm_deployment
   vars_files:
-    - variables/vm_var.yml
+    - variables/esxi_vm_var.yml
+    - variables/hyper-v_vm_var.yml
     - variables/windows_var.yml
   vars:
     hyper_v_parent_dir: "{{ srv_hyper_v_parent_dir if 'servers' in group_names else pc_hyper_v_parent_dir }}"
   tasks:
     - import_role:
-        name: vm_deployment
+        name: hyper-v_vm_deployment
+      when: inventory_hostname == "KVM-SRV01"
+    - include_role:
+        name: esxi_vm_deployment
+      when: inventory_hostname == "KVM-SRV02"
 
 # VM Configuration
 - name: VM Configuration
