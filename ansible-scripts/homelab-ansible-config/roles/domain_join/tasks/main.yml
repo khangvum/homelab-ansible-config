@@ -11,15 +11,23 @@
       } else {
         $Ansible.Changed = $false
       }
-  loop: "{{ hyper_v_switches }}"
-  # when: "'dcs' not in group_names"
+  loop: "{{ v_switches }}"
 
 - name: DNS Server Configuration for Non-Domain Controllers
   ansible.windows.win_dns_client:
     adapter_names: "{{ item.adapter }}"
-    dns_servers: "{{ hostvars['KVM-DC01'].hyper_v_switches | selectattr('adapter', 'equalto', item.adapter) | map(attribute='ip') | first }}"
-  loop: "{{ hyper_v_switches }}"
+    dns_servers: "{{ hostvars['KVM-DC01'].v_switches | selectattr('adapter', 'equalto', item.adapter) | map(attribute='ip') | first }}"
+  loop: "{{ v_switches }}"
   when: "'dcs' not in group_names"
+
+# OU Structure
+# ---------------------------------------------
+# khangvum.lab
+# ├── OU=Domain Controllers (Default)
+# ├── OU=Workstations
+# └── OU=Servers
+#     ├── OU=Databases
+#     └── OU=IIS
 
 # OU=Workstations
 - name: Workstation Domain Join
