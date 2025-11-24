@@ -8,14 +8,14 @@
   ansible.windows.win_file:
     path: "{{ hyper_v_parent_dir }}\\{{ item.name }}"
     state: directory
-  loop: "{{ vm_list }}"
+  loop: "{{ hyper-v_vm_list }}"
   when: item.host == computer_name
 
 - name: ISO File Copy
   ansible.windows.win_copy:
     src: "{{ item.iso_source }}"
     dest: "{{ hyper_v_parent_dir }}\\{{ item.name }}\\{{ item.iso_destination }}"
-  loop: "{{ vm_list }}"
+  loop: "{{ hyper-v_vm_list }}"
   when: item.host == computer_name
 
 - name: VM Creation
@@ -41,7 +41,7 @@
 
           # Attach all switches from the list
           $allSwitches = @(
-            {% for sw in hostvars[item.host].hyper_v_switches %}
+            {% for sw in hostvars[item.host].v_switches %}
               @{ name = '{{ sw.name }}'; adapter = '{{ sw.adapter }}' }
             {% endfor %}
           )
@@ -104,7 +104,7 @@
           
           $currentSwitches = (Get-VMNetworkAdapter -VMName $vmName).SwitchName
           $allSwitches = @(
-            {% for sw in hostvars[item.host].hyper_v_switches %}
+            {% for sw in hostvars[item.host].v_switches %}
               @{ name = '{{ sw.name }}'; adapter = '{{ sw.adapter }}' }
             {% endfor %}
           )
@@ -218,7 +218,7 @@
       }
 
       $Ansible.Changed = $changed
-  loop: "{{ vm_list }}"
+  loop: "{{ hyper-v_vm_list }}"
   when: item.host == computer_name
 
 - name: VM Power On
@@ -242,5 +242,5 @@
       }
 
       $Ansible.Changed = $changed
-  loop: "{{ vm_list }}"
+  loop: "{{ hyper-v_vm_list }}"
   when: item.host == computer_name

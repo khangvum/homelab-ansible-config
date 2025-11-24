@@ -9,7 +9,7 @@ all:
           ansible_user: {{ USERNAME }}
           ansible_password: {{ PASSWORD }}
           win_license_key: {{ WIN_SERVER_2025_STANDARD_LICENSE_KEY }}
-          hyper_v_switches:
+          v_switches:
             - name: "KVM-SRV01-SW01"
               adapter: "Wi-Fi"
               ip: {{ SRV01_SW01_IP }}
@@ -21,16 +21,6 @@ all:
           computer_name: KVM-SRV02
           ansible_user: {{ USERNAME }}
           ansible_password: {{ PASSWORD }}
-    pcs:
-      hosts:
-        KVM-PC01:
-          ansible_host: {{ PC01_IP_ADDRESS }}
-          computer_name: KVM-PC01
-          ansible_user: {{ USERNAME }}
-          ansible_password: {{ PASSWORD }}
-          win_license_key: {{ WIN_11_PRO_LICENSE_KEY }}
-          hyper_v_switch_name: {{ PC01_HYPER_V_SWITCH_NAME }}
-          hyper_v_adapter_name: {{ PC01_HYPER_V_ADAPTER_NAME }}
     vms:
       children:
         dcs:
@@ -41,13 +31,23 @@ all:
               ansible_user: {{ USERNAME }}
               ansible_password: {{ PASSWORD }}
               win_license_key: {{ WIN_SERVER_2025_STANDARD_LICENSE_KEY }}
-              hyper_v_switches:
+              v_switches:
                 - name: "KVM-SRV01-SW01"
                   adapter: "Wi-Fi"
                   ip: {{ DC01_SW01_IP }}
                 - name: "KVM-SRV01-SW02"
                   adapter: "Ethernet"
                   ip: {{ DC01_SW02_IP }}
+            KVM-DC02:
+              ansible_host: {{ DC02_IP_ADDRESS }}
+              computer_name: KVM-DC02
+              ansible_user: {{ USERNAME }}
+              ansible_password: {{ PASSWORD }}
+              win_license_key: {{ WIN_SERVER_2025_STANDARD_LICENSE_KEY }}
+              v_switches:
+                - name: "KVM-SRV02-SW01"
+                  adapter: "Ethernet"
+                  ip: {{ DC02_SW01_IP }}
         webs:
           hosts:
             KVM-WEB01:
@@ -56,7 +56,7 @@ all:
               ansible_user: {{ USERNAME }}
               ansible_password: {{ PASSWORD }}
               win_license_key: {{ WIN_SERVER_2025_STANDARD_LICENSE_KEY }}
-              hyper_v_switches:
+              v_switches:
                 - name: "KVM-SRV01-SW01"
                   adapter: "Wi-Fi"
                   ip: {{ WEB01_SW01_IP }}
@@ -71,7 +71,7 @@ all:
               ansible_user: {{ USERNAME }}
               ansible_password: {{ PASSWORD }}
               win_license_key: {{ WIN_SERVER_2025_STANDARD_LICENSE_KEY }}
-              hyper_v_switches:
+              v_switches:
                 - name: "KVM-SRV01-SW01"
                   adapter: "Wi-Fi"
                   ip: {{ DB01_SW01_IP }}
@@ -86,7 +86,7 @@ all:
               ansible_user: {{ USERNAME }}
               ansible_password: {{ PASSWORD }}
               win_license_key: {{ WIN_11_PRO_LICENSE_KEY }}
-              hyper_v_switches:
+              v_switches:
                 - name: "KVM-SRV01-SW01"
                   adapter: "Wi-Fi"
                   ip: {{ DB01_SW01_IP }}
@@ -99,7 +99,7 @@ all:
               ansible_user: {{ USERNAME }}
               ansible_password: {{ PASSWORD }}
               win_license_key: {{ WIN_11_PRO_LICENSE_KEY }}
-              hyper_v_switches:
+              v_switches:
                 - name: "KVM-SRV01-SW01"
                   adapter: "Wi-Fi"
                   ip: {{ DB01_SW01_IP }}

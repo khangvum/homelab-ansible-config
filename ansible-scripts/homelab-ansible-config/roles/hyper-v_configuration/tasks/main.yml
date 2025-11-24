@@ -35,8 +35,8 @@
       } else {
           $Ansible.Changed = $false
       }
-  loop: "{{ hyper_v_switches }}"
-  when: hyper_v_switches is defined
+  loop: "{{ v_switches }}"
+  when: v_switches is defined
 
 - name: Default VM Location Update
   ansible.windows.win_powershell:
