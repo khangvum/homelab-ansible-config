@@ -81,6 +81,15 @@
       if [ -z "$vmId" ]; then
           vim-cmd vmsvc/createdummyvm "$vmName" "[$datastore] $vmName"
           vmId=$(vim-cmd vmsvc/getallvms | awk '/'"$vmName"'/ {print $1}')
+
+          # Configure disk
+          # - Remove the dummy disks
+          rm -f "$vmPath/$vmName.vmdk" "$vmPath/$vmName-flat.vmdk"
+          # - Create thin disk
+          vmkfstools -c {{ item.storage }}G -d thin "$vmPath/$vmName.vmdk"
+          # - Attach disk
+          vim-cmd vmsvc/device.diskaddexisting "$vmId" "$vmPath/$vmName.vmdk"
+
           echo "changed"
       fi
 
@@ -90,37 +99,29 @@
       # 2. Configure memory
       map "memSize" "{{ item.memory * 1024 }}"
 
-      # 3. Configure disk
-      # - Remove the dummy disks
-      rm -f "$vmPath/$vmName.vmdk" "$vmPath/$vmName-flat.vmdk"
-      # - Create thin disk
-      vmkfstools -c {{ item.storage }}G -d thin "$vmPath/$vmName.vmdk"
-      # - Attach disk
-      vim-cmd vmsvc/device.diskaddexisting "$vmId" "$vmPath/$vmName.vmdk"
-
-      # 4. Configure guest OS
+      # 3. Configure guest OS
       map "guestOS" "{{ item.guest_os }}"
 
-      # 5. Configure storage controller
+      # 4. Configure storage controller
       map "scsi0.virtualDev" "pvscsi"
       map "scsi0.present" "TRUE"
       map "scsi0:0.present" "TRUE"
       map "scsi0:0.deviceType" "scsi-hardDisk"
       map "scsi0:0.fileName" "$vmName.vmdk"
 
-      # 6. Configure NIC
+      # 5. Configure NIC
       map "ethernet0.virtualDev" "vmxnet3"
       map "ethernet0.networkName" "VM Network"
       map "ethernet0.present" "TRUE"
 
-      # 7. Configure ISO CD-ROM via SATA
+      # 6. Configure ISO CD-ROM via SATA
       map "sata0.present" "TRUE"
       map "sata0:0.present" "TRUE"
       map "sata0:0.deviceType" "cdrom-image"
       map "sata0:0.fileName" "/vmfs/volumes/${datastore}/${vmName}/{{ item.iso_destination }}"
       map "sata0:0.startConnected" "TRUE"
 
-      # 8. Configure UEFI + Secure Boot
+      # 7. Configure UEFI + Secure Boot
       map "firmware" "efi"
       map "uefi.secureBoot.enabled" "TRUE"
 
@@ -198,8 +199,6 @@
       currentEntry=$(vim-cmd hostsvc/autostartmanager/get_autostartseq \
         | awk '/vim.VirtualMachine:'"$vmId"'/,/^\s*}$/ {if (!/^\s*}$/) print}')
 
-      echo "[DEBUG] Current Entry: $currentEntry"
-
       updated=false
 
       # Helper function: compare current and desired fields
@@ -210,9 +209,6 @@
         # Extract existing field, strip quotes
         existing=$(echo "$currentEntry" \
           | awk -F'= ' "/$field/ {gsub(/[, \"]/,\"\",\$2); print \$2}")
-
-
-        echo "[DEBUG] FIELD: $field | existing='$existing' | desired='$desired'"
 
         # Mark changed if mismatch or missing
         if [ -z "$existing" ] || [ "$existing" != "$desired" ]; then
