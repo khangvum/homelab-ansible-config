@@ -61,13 +61,13 @@
       if grep -q "^$key = " "$vmxFile"; then
         current=$(grep "^$key = " "$vmxFile" | sed -e 's/.*= "\(.*\)".*/\1/')
 
+        # If key exists, compare and update if different
         if [ "$current" != "$value" ]; then
           sed -i "s|^$key = \".*\"|$key = \"$value\"|" "$vmxFile"
           echo "changed"
         fi
-
       else
-        # key missing → append
+        # If key missing, append it
         echo "$key = \"$value\"" >> "$vmxFile"
         echo "changed"
       fi
@@ -142,6 +142,104 @@
       fi
     else
       echo "Invalid state: $state. Use 'present' or 'absent'."
+    fi
+
+    EOF
+  register: result
+  changed_when: "'changed' in result.stdout"
+  loop: "{{ esxi_vm_var }}"
+  when: item.host == computer_name
+
+# https://github.com/josenk/vagrant-vmware-esxi/issues/79
+# [root@esxi:~] vim-cmd hostsvc/autostartmanager/update_autostartentry
+# Usage: update_autostartentry VMId StartAction StartDelay StartOrder StopAction StopDelay WaitForHeartbeat
+#
+# Parameters:
+#
+# - VmID
+# - startAction = "none", "powerOn"
+# - startDelay = Number or 'systemDefault'
+# - startOrder = Number
+# - stopAction = "powerOff" or "suspend" or "guestShutdown" or "systemDefault"
+# - stopDelay = Number or "systemDefault"
+# - waitForHeartbeat = "yes" / "no" / "systemDefault"
+- name: Autostart Configuration
+  delegate_to: localhost
+  vars:
+    ansible_connection: local
+    ansible_shell_type: sh
+  ansible.builtin.shell: |
+    sshpass -p {{ ansible_password }} ssh root@{{ ansible_host }} << 'EOF'
+
+    # Ensure autostart is enabled
+    vim-cmd hostsvc/autostartmanager/enable_autostart true
+
+    vmName="{{ item.name }}"
+    state="{{ item.state }}"
+    autoStart="{{ item.autostart }}"
+
+    # Get VM ID
+    vmId=$(vim-cmd vmsvc/getallvms | awk '/'"$vmName"'/ {print $1}')
+
+    if [ ! -z "$vmId" ] && [ "$state" = "present" ]; then
+      # Desired settings
+      if [ "$autoStart" = "True" ]; then
+        startAction="powerOn"
+      else
+        startAction="none"
+      fi
+      startDelay="30"
+      startOrder="{{ item.start_order }}"
+      stopAction="guestShutdown"
+      stopDelay="0"
+      waitForHeartbeat="systemDefault"
+
+      # Retrieve the current autostart entry of the VM
+      currentEntry=$(vim-cmd hostsvc/autostartmanager/get_autostartseq \
+        | awk '/vim.VirtualMachine:'"$vmId"'/,/^\s*}$/ {if (!/^\s*}$/) print}')
+
+      echo "[DEBUG] Current Entry: $currentEntry"
+
+      updated=false
+
+      # Helper function: compare current and desired fields
+      compare_field() {
+        field="$1"
+        desired=$(eval echo \$$field)
+
+        # Extract existing field, strip quotes
+        existing=$(echo "$currentEntry" \
+          | awk -F'= ' "/$field/ {gsub(/[, \"]/,\"\",\$2); print \$2}")
+
+
+        echo "[DEBUG] FIELD: $field | existing='$existing' | desired='$desired'"
+
+        # Mark changed if mismatch or missing
+        if [ -z "$existing" ] || [ "$existing" != "$desired" ]; then
+          updated=true
+        fi
+      }
+
+      # Compare each field
+      compare_field startAction
+      compare_field startDelay
+      compare_field startOrder
+      compare_field stopAction
+      compare_field stopDelay
+      compare_field waitForHeartbeat
+
+      if [ "$updated" = true ]; then
+        vim-cmd hostsvc/autostartmanager/update_autostartentry \
+          "$vmId" \
+          "$startAction" \
+          "$startDelay" \
+          "$startOrder" \
+          "$stopAction" \
+          "$stopDelay" \
+          "$waitForHeartbeat"
+
+        echo changed
+      fi
     fi
 
     EOF
