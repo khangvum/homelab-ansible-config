@@ -1,22 +1,30 @@
 ---
 - name: Domain Administrator Configuration
   microsoft.ad.user:
-    name: "{{ item.username }}"
+    name: "{{ item.name }}"
+    identity: "{{ item.upn | default(omit) }}"
+    display_name: "{{ item.display_name | default(omit) }}"
+    upn: "{{ item.upn | default(omit) }}"
+    email: "{{ item.email | default(omit) }}"
+    path: "{{ item.path }}"
     password: "{{ item.password }}"
     update_password: when_changed
-    state: "{{ item.state }}"
     password_never_expires: "{{ item.password_never_expires }}"
+    state: "{{ item.state }}"
     enabled: "{{ item.enabled }}"
     groups:
       add:
         - "{{ item.group }}"
+    description: "{{ item.description | default(omit) }}"
   loop: "{{ domain_admin_list }}"
 
 - name: Domain User Configuration
   microsoft.ad.user:
     name: "{{ item.name }}"
+    identity: "{{ item.upn }}"
     firstname: "{{ item.firstname }}"
     surname: "{{ item.surname }}"
+    display_name: "{{ item.display_name }}"
     sam_account_name: "{{ item.sam_account_name }}"
     upn: "{{ item.upn }}"
     email: "{{ item.email }}"
