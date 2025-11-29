@@ -83,9 +83,12 @@
 # khangvum.lab
 # ├── OU=Domain Controllers (Default)
 # ├── OU=Workstations
-# └── OU=Servers
-#     ├── OU=Databases
-#     └── OU=IIS
+# ├── OU=Servers
+# │   ├── OU=Databases
+# │   └── OU=IIS
+# └── OU=Accounts
+#     ├── OU=Administrators
+#     └── OU=Users  
 
 # Workstations OU
 - name: Workstations OU Creation
@@ -117,4 +120,28 @@
     name: "IIS"
     description: "Organizational Unit for IIS Servers"
     path: "OU=Servers,DC=khangvum,DC=lab"
+    state: present
+
+# Accounts OU
+- name: Accounts OU Creation
+  microsoft.ad.ou:
+    name: "Accounts"
+    description: "Organizational Unit for User Accounts"
+    path: "DC=khangvum,DC=lab"
+    state: present
+
+# Domain Admins OU, child of Accounts OU
+- name: Administrators OU Creation
+  microsoft.ad.ou:
+    name: "Administrators"
+    description: "Organizational Unit for Administrators Accounts"
+    path: "OU=Accounts,DC=khangvum,DC=lab"
+    state: present
+
+# Domain Users OU, child of Accounts OU
+- name: Users OU Creation
+  microsoft.ad.ou:
+    name: "Users"
+    description: "Organizational Unit for Users Accounts"
+    path: "OU=Accounts,DC=khangvum,DC=lab"
     state: present
