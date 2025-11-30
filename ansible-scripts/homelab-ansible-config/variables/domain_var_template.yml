@@ -4,11 +4,37 @@ domain_admin_user: {{ DOMAIN_ADMIN_USER }}
 domain_admin_password: {{ DOMAIN_ADMIN_PASSWORD }}
 safe_mode_password: {{ SAFE_MODE_PASSWORD }}
 
-# Domain administrator configuration
-domain_admin_list:
-  - username: {{ USERNAME }}
-    password: {{ PASSWORD }}
-    state: present
-    enabled: true
-    password_never_expires: true
-    group: Domain Admins
+# OU Structure
+# ---------------------------------------------
+# khangvum.lab
+# ├── OU=Domain Controllers (Default)
+# ├── OU=Workstations
+# ├── OU=Servers
+# │   ├── OU=Databases
+# │   └── OU=IIS
+# └── OU=Accounts
+#     ├── OU=Administrators
+#     └── OU=Users
+
+ous:
+  - name: "Workstations"
+    description: "Organizational Unit for Workstations"
+    path: "DC=khangvum,DC=lab"
+  - name: "Servers"
+    description: "Organizational Unit for Servers"
+    path: "DC=khangvum,DC=lab"
+  - name: "Databases"
+    description: "Organizational Unit for Database Servers"
+    path: "OU=Servers,DC=khangvum,DC=lab"
+  - name: "IIS"
+    description: "Organizational Unit for IIS Servers"
+    path: "OU=Servers,DC=khangvum,DC=lab"
+  - name: "Accounts"
+    description: "Organizational Unit for User Accounts"
+    path: "DC=khangvum,DC=lab"
+  - name: "Administrators"
+    description: "Organizational Unit for Administrators Accounts"
+    path: "OU=Accounts,DC=khangvum,DC=lab"
+  - name: "Users"
+    description: "Organizational Unit for Users Accounts"
+    path: "OU=Accounts,DC=khangvum,DC=lab"
