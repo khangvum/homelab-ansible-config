@@ -1,4 +1,26 @@
 ---
+# Domain administrator configuration
+domain_admin_list:
+  - name: Administrator
+    path: "CN=Users,DC=khangvum,DC=lab"
+    password: {{ PASSWORD }}
+    password_never_expires: true
+    state: present
+    enabled: true
+    group: Domain Admins
+  - name: SAD Khang
+    display_name: SAD Khang
+    upn: SAD_Khang@khangvum.lab
+    email: SAD_Khang@khangvum.lab
+    path: "OU=Administrators,OU=Accounts,DC=khangvum,DC=lab"
+    password: {{ PASSWORD }}
+    password_never_expires: true
+    state: present
+    enabled: true
+    group: Domain Admins
+    description: Khang Vu's system administrator account
+
+# Domain user configuration
 domain_user_list:
   - name: Khang Vu
     firstname: Khang
