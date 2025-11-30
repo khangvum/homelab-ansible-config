@@ -40,7 +40,7 @@
     domain_server: "{{ hostvars['KVM-DC01'].computer_name }}.{{ domain_name }}"
     state: domain
     reboot: true
-  when: "'dcs' in group_names"
+  when: inventory_hostname != "KVM-DC01"
 
 - name: Domain Controller Promotion
   microsoft.ad.domain_controller:
@@ -53,95 +53,40 @@
   when: inventory_hostname != "KVM-DC01"
 
 # Configure DNS servers for Domain Controllers
-
 - name: Domain Controllers' DNS List Build
   set_fact:
-    dc_dns_servers: >-
-      {{ ["127.0.0.1"] +
-         (groups['dcs']
-           | difference([inventory_hostname])
-           | map('extract', hostvars, ['v_switches'])
-           | sum(start=[])
-           | selectattr('adapter', 'equalto', item.adapter)
-           | map(attribute='ip')
-           | list)
+    adapters_dc_dns_servers: >-
+      {{
+        (adapters_dc_dns_servers | default({})) 
+        | combine({
+            item.adapter: ["127.0.0.1"] +
+                         (groups['dcs']
+                          | difference([inventory_hostname])
+                          | map('extract', hostvars, ['v_switches'])
+                          | sum(start=[])
+                          | selectattr('adapter', 'equalto', item.adapter)
+                          | map(attribute='ip')
+                          | list)
+          })
       }}
   loop: "{{ v_switches }}"
-  loop_control:
-    loop_var: item
-  when: "'dcs' in group_names"
+  when: not (inventory_hostname == "KVM-DC02" and item.adapter == "Wi-Fi")
 
 - name: DNS Server Configuration for Domain Controllers
   ansible.windows.win_dns_client:
     adapter_names: "{{ item.adapter }}"
-    dns_servers: "{{ dc_dns_servers }}"
+    dns_servers: "{{ adapters_dc_dns_servers[item.adapter] }}"
   loop: "{{ v_switches }}"
-  when: "'dcs' in group_names"
+  when: not (inventory_hostname == "KVM-DC02" and item.adapter == "Wi-Fi")
+# - debug:
+#     var: adapters_dc_dns_servers
+#   loop: "{{ v_switches }}"
 
-# OU Structure
-# ---------------------------------------------
-# khangvum.lab
-# ├── OU=Domain Controllers (Default)
-# ├── OU=Workstations
-# ├── OU=Servers
-# │   ├── OU=Databases
-# │   └── OU=IIS
-# └── OU=Accounts
-#     ├── OU=Administrators
-#     └── OU=Users  
-
-# Workstations OU
-- name: Workstations OU Creation
+- name: Active Directory OUs Creation
   microsoft.ad.ou:
-    name: "Workstations"
-    description: "Organizational Unit for Workstations"
-    path: "DC=khangvum,DC=lab"
+    name: "{{ item.name }}"
+    description: "{{ item.description }}"
+    path: "{{ item.path }}"
     state: present
-
-# Servers OU
-- name: Servers OU Creation
-  microsoft.ad.ou:
-    name: "Servers"
-    description: "Organizational Unit for Servers"
-    path: "DC=khangvum,DC=lab"
-    state: present
-
-# Databases OU, child of Servers OU
-- name: Databases OU Creation
-  microsoft.ad.ou:
-    name: "Databases"
-    description: "Organizational Unit for Database Servers"
-    path: "OU=Servers,DC=khangvum,DC=lab"
-    state: present
-
-# IIS OU, child of Servers OU
-- name: IIS OU Creation
-  microsoft.ad.ou:
-    name: "IIS"
-    description: "Organizational Unit for IIS Servers"
-    path: "OU=Servers,DC=khangvum,DC=lab"
-    state: present
-
-# Accounts OU
-- name: Accounts OU Creation
-  microsoft.ad.ou:
-    name: "Accounts"
-    description: "Organizational Unit for User Accounts"
-    path: "DC=khangvum,DC=lab"
-    state: present
-
-# Domain Admins OU, child of Accounts OU
-- name: Administrators OU Creation
-  microsoft.ad.ou:
-    name: "Administrators"
-    description: "Organizational Unit for Administrators Accounts"
-    path: "OU=Accounts,DC=khangvum,DC=lab"
-    state: present
-
-# Domain Users OU, child of Accounts OU
-- name: Users OU Creation
-  microsoft.ad.ou:
-    name: "Users"
-    description: "Organizational Unit for Users Accounts"
-    path: "OU=Accounts,DC=khangvum,DC=lab"
-    state: present
+  loop: "{{ ous }}"
+  when: inventory_hostname == "KVM-DC01"
