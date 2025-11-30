@@ -108,7 +108,8 @@
         name: domain_join
     - include_role:
         name: domain_user_configuration
-      when: "'dcs' in group_names"
+      when: inventory_hostname == "KVM-DC01"
+      # when: "'dcs' in group_names"
 
 # IIS Configuration
 - name: IIS Configuration
