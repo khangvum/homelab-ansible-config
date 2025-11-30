@@ -1,6 +1,6 @@
 # Homelab Configuration Automation with Ansible
 
-A **_Homelab configuration automation_** solution powered by **_Ansible_**, containerized with **_Docker_**. This setup simplifies the Windows systems management by leveraging Ansible's **_idempotent_** and **_declarative configuration_** approach, streamlining **_Infrastructure as Code_** (**_IaC_**) principles for **_Windows_** and **_ESXi_** environments.
+A **_homelab configuration automation_** solution powered by **_Ansible_**, containerized with **_Docker_**. This setup simplifies **_Windows_** and **_standalone ESXi_** systems management by leveraging Ansible's **_idempotent_** and **_declarative configuration_** approach, streamlining **_Infrastructure as Code_** (**_IaC_**) principles for **_Windows_** and **_VMware_** environments.
 
 ## Features
 
@@ -90,5 +90,5 @@ Role                                                                            
 >   Use `-t` option to selectively run specific plays:
 >
 >   ```bash
->   ansible-playbook site.yml -i inventory.yml -t global_configuration
+>   ansible-playbook site.yml -i inventory.yml -t system_information
 >   ```
