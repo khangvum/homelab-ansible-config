@@ -25,17 +25,17 @@ flowchart LR
     
     %% - VMs
     SRV01 --> DB01[KVM-DB01] -- specs --- DB01_SPECS[("`**CPU:** 4 vCPU
-                                                        **RAM:** 32GB
+                                                        **RAM:** 16GB
                                                         **Storage:** 200GB
                                                         **OS:** Windows Server 2025
                                                         **Role:** SQL Server`")]
     SRV01 --> DC01[KVM-DC01] -- specs --- DC01_SPECS[("`**CPU:** 2 vCPU
-                                                        **RAM:** 16GB
+                                                        **RAM:** 8GB
                                                         **Storage:** 100GB
                                                         **OS:** Windows Server 2025
                                                         **Role:** Domain Controller`")]
     SRV01 --> WEB01[KVM-WEB01] -- specs --- WEB01_SPECS[("`**CPU:** 2 vCPU
-                                                            **RAM:** 16GB
+                                                            **RAM:** 8GB
                                                             **Storage:** 100GB
                                                             **OS:** Windows Server 2025
                                                             **Role:** IIS Web Server`")]
