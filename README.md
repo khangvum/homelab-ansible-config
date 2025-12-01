@@ -15,7 +15,8 @@ A **_homelab configuration automation_** solution powered by **_Ansible_**, cont
 flowchart LR
     %% 1. KVM-SRV01
     %% - Host
-    SRV01_SPECS[("`**CPU:** Intel Xeon W-2155 (10 cores - 20 threads)
+    SRV01_SPECS[("`**Model:** Precision 5820 Tower
+        **CPU:** Intel Xeon W-2155 (10 cores - 20 threads)
         **RAM:** 128GB (4 x 32GB ECC 2666MHz)
         **Storage:**
         • 2 x 1TB NVMe SSD (1 OS & 1 VMs)
@@ -23,26 +24,48 @@ flowchart LR
         **OS:** Windows Server 2025`")] -- specs --- SRV01[KVM-SRV01]
     
     %% - VMs
-    SRV01 --> DC01[KVM-DC01] -- specs --- DC01_SPECS[("`**CPU:** 2 vCPU
-                                                        **RAM:** 16GB
-                                                        **Storage:** 100GB
-                                                        **OS:** Windows Server 2025`")]
     SRV01 --> DB01[KVM-DB01] -- specs --- DB01_SPECS[("`**CPU:** 4 vCPU
                                                         **RAM:** 32GB
                                                         **Storage:** 200GB
-                                                        **OS:** Windows Server 2025`")]
+                                                        **OS:** Windows Server 2025
+                                                        **Role:** SQL Server`")]
+    SRV01 --> DC01[KVM-DC01] -- specs --- DC01_SPECS[("`**CPU:** 2 vCPU
+                                                        **RAM:** 16GB
+                                                        **Storage:** 100GB
+                                                        **OS:** Windows Server 2025
+                                                        **Role:** Domain Controller`")]
     SRV01 --> WEB01[KVM-WEB01] -- specs --- WEB01_SPECS[("`**CPU:** 2 vCPU
                                                             **RAM:** 16GB
                                                             **Storage:** 100GB
-                                                            **OS:** Windows Server 2025`")]
+                                                            **OS:** Windows Server 2025
+                                                            **Role:** IIS Web Server`")]
     SRV01 --> WRK01[KVM-WRK01] -- specs --- WRK01_SPECS[("`**CPU:** 4 vCPU
                                                             **RAM:** 8GB
                                                             **Storage:** 100GB
                                                             **OS:** Windows 11 Pro`")]
-    SRV01 --> WRK02[KVM-WRK02] -- specs --- WRK01_SPECS[("`**CPU:** 4 vCPU
+    SRV01 --> WRK02[KVM-WRK02] -- specs --- WRK02_SPECS[("`**CPU:** 4 vCPU
                                                             **RAM:** 8GB
                                                             **Storage:** 100GB
                                                             **OS:** Windows 10 Pro`")]
+
+    
+
+    %% 2. KVM-SRV02
+    %% - Host
+    SRV02_SPECS[("`**Model:** Precision 5820 Tower
+        **CPU:** Intel Xeon W-2123 (4 cores - 8 threads)
+        **RAM:** 32GB (2 x 16GB ECC 2666MHz)
+        **Storage:**
+        • 1 x 1TB NVMe SSD (OS)
+        • 1 x 1TB SATA SSD (VMs)
+        **OS:** VMware ESXi 8.0 Update 3e`")] -- specs --- SRV02[KVM-SRV02]
+
+    %% - VMs
+    SRV02 --> DC02[KVM-DC02] -- specs --- DC02_SPECS[("`**CPU:** 2 vCPU
+                                                        **RAM:** 8GB
+                                                        **Storage:** 100GB
+                                                        **OS:** Windows Server 2025
+                                                        **Role:** Domain Controller`")]
 ```
 
 ## Roles
