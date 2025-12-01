@@ -6,7 +6,7 @@ hyper_v_vm_list:
   - name: KVM-DC01
     host: KVM-SRV01
     cpu: 2
-    memory: 16
+    memory: 8
     storage: 100
     generation: 2
     tpm: false
@@ -18,7 +18,7 @@ hyper_v_vm_list:
   - name: KVM-WEB01
     host: KVM-SRV01
     cpu: 2
-    memory: 16
+    memory: 8
     storage: 100
     generation: 2
     tpm: false
@@ -30,7 +30,7 @@ hyper_v_vm_list:
   - name: KVM-DB01
     host: KVM-SRV01
     cpu: 4
-    memory: 32
+    memory: 16
     storage: 200
     generation: 2
     tpm: false
