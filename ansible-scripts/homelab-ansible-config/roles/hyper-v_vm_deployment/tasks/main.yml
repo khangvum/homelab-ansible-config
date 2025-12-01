@@ -15,6 +15,7 @@
   ansible.windows.win_copy:
     src: "{{ item.iso_source }}"
     dest: "{{ hyper_v_parent_dir }}\\{{ item.name }}\\{{ item.iso_destination }}"
+    force: false
   loop: "{{ hyper_v_vm_list }}"
   when: item.host == computer_name
 
