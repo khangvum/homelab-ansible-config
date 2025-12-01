@@ -9,6 +9,42 @@ A **_homelab configuration automation_** solution powered by **_Ansible_**, cont
 -   **_Modular role-based_** configuration and **_tag-based_** execution for targeted provisioning.
 -   **_Centralized variable management_** using external YAML files.
 
+## Setup Diagram
+
+```mermaid
+flowchart LR
+    %% 1. KVM-SRV01
+    %% - Host
+    SRV01_SPECS[("`**CPU:** Intel Xeon W-2155 (10 cores - 20 threads)
+        **RAM:** 128GB (4 x 32GB ECC 2666MHz)
+        **Storage:**
+        • 2 x 1TB NVMe SSD (1 OS & 1 VMs)
+        • 2 × 4TB HDD (RSTe RAID 1)
+        **OS:** Windows Server 2025`")] -- specs --- SRV01[KVM-SRV01]
+    
+    %% - VMs
+    SRV01 --> DC01[KVM-DC01] -- specs --- DC01_SPECS[("`**CPU:** 2 vCPU
+                                                        **RAM:** 16GB
+                                                        **Storage:** 100GB
+                                                        **OS:** Windows Server 2025`")]
+    SRV01 --> DB01[KVM-DB01] -- specs --- DB01_SPECS[("`**CPU:** 4 vCPU
+                                                        **RAM:** 32GB
+                                                        **Storage:** 200GB
+                                                        **OS:** Windows Server 2025`")]
+    SRV01 --> WEB01[KVM-WEB01] -- specs --- WEB01_SPECS[("`**CPU:** 2 vCPU
+                                                            **RAM:** 16GB
+                                                            **Storage:** 100GB
+                                                            **OS:** Windows Server 2025`")]
+    SRV01 --> WRK01[KVM-WRK01] -- specs --- WRK01_SPECS[("`**CPU:** 4 vCPU
+                                                            **RAM:** 8GB
+                                                            **Storage:** 100GB
+                                                            **OS:** Windows 11 Pro`")]
+    SRV01 --> WRK02[KVM-WRK02] -- specs --- WRK01_SPECS[("`**CPU:** 4 vCPU
+                                                            **RAM:** 8GB
+                                                            **Storage:** 100GB
+                                                            **OS:** Windows 10 Pro`")]
+```
+
 ## Roles
 
 Role                                                                                                                |Description
