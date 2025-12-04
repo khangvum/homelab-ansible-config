@@ -9,7 +9,7 @@ A **_homelab configuration automation_** solution powered by **_Ansible_**, cont
 -   **_Modular role-based_** configuration and **_tag-based_** execution for targeted provisioning.
 -   **_Centralized variable management_** using external YAML files.
 
-## Setup Diagram
+## Infrastructure Overview
 
 ```mermaid
 flowchart LR
