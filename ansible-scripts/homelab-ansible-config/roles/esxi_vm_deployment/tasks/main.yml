@@ -75,12 +75,12 @@
 
     if [ "$state" = "present" ]; then
       # Get VM ID
-      vmId=$(vim-cmd vmsvc/getallvms | awk '/'"$vmName"'/ {print $1}')
+      vmId=$(vim-cmd vmsvc/getallvms | awk -v name="$vmName" '$2 == name {print $1}')
 
       # Create VM if missing
       if [ -z "$vmId" ]; then
           vim-cmd vmsvc/createdummyvm "$vmName" "[$datastore] $vmName"
-          vmId=$(vim-cmd vmsvc/getallvms | awk '/'"$vmName"'/ {print $1}')
+          vmId=$(vim-cmd vmsvc/getallvms | awk -v name="$vmName" '$2 == name {print $1}')
 
           # Configure disk
           # - Remove the dummy disks
@@ -180,7 +180,7 @@
     autoStart="{{ item.autostart }}"
 
     # Get VM ID
-    vmId=$(vim-cmd vmsvc/getallvms | awk '/'"$vmName"'/ {print $1}')
+    vmId=$(vim-cmd vmsvc/getallvms | awk -v name="$vmName" '$2 == name {print $1}')
 
     if [ ! -z "$vmId" ] && [ "$state" = "present" ]; then
       # Desired settings
@@ -255,7 +255,7 @@
     vmName="{{ item.name }}"
     power="{{ item.power }}"
     state="{{ item.state }}"
-    vmId=$(vim-cmd vmsvc/getallvms | awk '/'"$vmName"'/ {print $1}')
+    vmId=$(vim-cmd vmsvc/getallvms | awk -v name="$vmName" '$2 == name {print $1}')
 
     if [ ! -z "$vmId" ] && [ "$state" = "present" ]; then
       # echo "changed"
