@@ -30,7 +30,7 @@
     hostname: "{{ computer_name }}"
     domain_admin_user: "{{ domain_admin_user }}"
     domain_admin_password: "{{ domain_admin_password }}"
-    domain_ou_path: "OU=Workstations,DC=khangvum,DC=lab"
+    domain_ou_path: "OU=Workstations,OU=Devices,DC=khangvum,DC=lab"
     domain_server: "{{ hostvars['KVM-DC01'].computer_name }}.{{ domain_name }}"
     state: domain
     reboot: true
@@ -43,7 +43,7 @@
     hostname: "{{ computer_name }}"
     domain_admin_user: "{{ domain_admin_user }}"
     domain_admin_password: "{{ domain_admin_password }}"
-    domain_ou_path: "OU=Databases,OU=Servers,DC=khangvum,DC=lab"
+    domain_ou_path: "OU=Databases,OU=Servers,OU=Devices,DC=khangvum,DC=lab"
     domain_server: "{{ hostvars['KVM-DC01'].computer_name }}.{{ domain_name }}"
     state: domain
     reboot: true
@@ -56,7 +56,7 @@
     hostname: "{{ computer_name }}"
     domain_admin_user: "{{ domain_admin_user }}"
     domain_admin_password: "{{ domain_admin_password }}"
-    domain_ou_path: "OU=IIS,OU=Servers,DC=khangvum,DC=lab"
+    domain_ou_path: "OU=IIS,OU=Servers,OU=Devices,DC=khangvum,DC=lab"
     domain_server: "{{ hostvars['KVM-DC01'].computer_name }}.{{ domain_name }}"
     state: domain
     reboot: true

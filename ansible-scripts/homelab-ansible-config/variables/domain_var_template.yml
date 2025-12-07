@@ -8,33 +8,57 @@ safe_mode_password: {{ SAFE_MODE_PASSWORD }}
 # ---------------------------------------------
 # khangvum.lab
 # ├── OU=Domain Controllers (Default)
-# ├── OU=Workstations
-# ├── OU=Servers
-# │   ├── OU=Databases
-# │   └── OU=IIS
-# └── OU=Accounts
-#     ├── OU=Administrators
-#     └── OU=Users
+# ├── OU=Accounts
+# │   ├── OU=Administrators
+# │   └── OU=Users
+# │       ├── OU=Administrators
+# │       └── OU=Users
+# │           ├── OU=CAN
+# │           └── OU=VIE
+# └── OU=Devices
+#     ├── OU=Workstations
+#     └── OU=Servers
+#         ├── OU=Databases
+#         └── OU=IIS
 
 ous:
-  - name: "Workstations"
-    description: "Organizational Unit for Workstations"
-    path: "DC=khangvum,DC=lab"
-  - name: "Servers"
-    description: "Organizational Unit for Servers"
-    path: "DC=khangvum,DC=lab"
-  - name: "Databases"
-    description: "Organizational Unit for Database Servers"
-    path: "OU=Servers,DC=khangvum,DC=lab"
-  - name: "IIS"
-    description: "Organizational Unit for IIS Servers"
-    path: "OU=Servers,DC=khangvum,DC=lab"
+  # OU=Accounts
   - name: "Accounts"
-    description: "Organizational Unit for User Accounts"
+    description: "Organizational Unit for Accounts"
     path: "DC=khangvum,DC=lab"
+  # ├── OU=Administrators
   - name: "Administrators"
     description: "Organizational Unit for Administrators Accounts"
     path: "OU=Accounts,DC=khangvum,DC=lab"
+  # └── OU=Users
   - name: "Users"
     description: "Organizational Unit for Users Accounts"
     path: "OU=Accounts,DC=khangvum,DC=lab"
+  #     ├── OU=CAN
+  - name: "CAN"
+    description: "Organizational Unit for Canada Office Users"
+    path: "OU=Users,OU=Accounts,DC=khangvum,DC=lab"
+  #     └── OU=VIE
+  - name: "VIE"
+    description: "Organizational Unit for Vietnam Office Users"
+    path: "OU=Users,OU=Accounts,DC=khangvum,DC=lab"
+  # OU=Devices
+  - name: "Devices"
+    description: "Organizational Unit for Devices"
+    path: "DC=khangvum,DC=lab"
+  # ├── OU=Workstations
+  - name: "Workstations"
+    description: "Organizational Unit for Workstations"
+    path: "OU=Devices,DC=khangvum,DC=lab"
+  # └── OU=Servers
+  - name: "Servers"
+    description: "Organizational Unit for Servers"
+    path: "OU=Devices,DC=khangvum,DC=lab"
+  #     ├── OU=Databases
+  - name: "Databases"
+    description: "Organizational Unit for Database Servers"
+    path: "OU=Servers,OU=Devices,DC=khangvum,DC=lab"
+  #     └── OU=IIS
+  - name: "IIS"
+    description: "Organizational Unit for IIS Servers"
+    path: "OU=Servers,OU=Devices,DC=khangvum,DC=lab"
