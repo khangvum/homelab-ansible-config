@@ -6,7 +6,7 @@
     display_name: "{{ item.display_name | default(omit) }}"
     upn: "{{ item.upn | default(omit) }}"
     email: "{{ item.email | default(omit) }}"
-    path: "{{ item.path }}"
+    path: "{{ item.path | default('OU=Administrators,OU=Accounts,DC=khangvum,DC=lab') }}"
     password: "{{ item.password }}"
     update_password: when_changed
     password_never_expires: "{{ item.password_never_expires }}"
@@ -22,9 +22,9 @@
   microsoft.ad.user:
     name: "{{ item.name }}"
     identity: "{{ item.upn }}"
-    firstname: "{{ item.firstname }}"
-    surname: "{{ item.surname }}"
-    display_name: "{{ item.display_name }}"
+    firstname: "{{ item.firstname | default(omit) }}"
+    surname: "{{ item.surname | default(omit) }}"
+    display_name: "{{ item.display_name | default(omit) }}"
     sam_account_name: "{{ item.sam_account_name }}"
     upn: "{{ item.upn }}"
     email: "{{ item.email }}"
@@ -37,6 +37,7 @@
     password: "{{ item.password }}"
     update_password: when_changed
     password_never_expires: "{{ item.password_never_expires }}"
+    description: "{{ item.description | default(omit) }}"
     # Built-in attributes
     street: "{{ item.street | default(omit) }}"
     city: "{{ item.city | default(omit) }}"
