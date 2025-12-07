@@ -21,6 +21,7 @@ domain_admin_list:
     description: Khang Vu's system administrator account
 
 # Domain user configuration
+# - Country code: https://www.worlddata.info/countrycodes.php
 domain_user_list:
   - name: Khang Vu
     firstname: Khang
@@ -47,4 +48,5 @@ domain_user_list:
         department: {{ DEPARTMENT }}
         company: {{ COMPANY }}
         manager: {{ MANAGER }}
+        physicalDeliveryOfficeName: {{ PHYSICAL_DELIVERY_OFFICE_NAME }}
         telephoneNumber: {{ TELEPHONE_NUMBER }}
