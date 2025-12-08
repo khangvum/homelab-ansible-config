@@ -51,7 +51,7 @@ hyper_v_vm_list:
     secure_boot_template: "Microsoft Windows"
     power: on
     state: present
-  - name: KVM-WRK02
+  - name: KVM-WRK03
     host: KVM-SRV01
     cpu: 4
     memory: 8
