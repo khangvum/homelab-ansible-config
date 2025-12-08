@@ -62,3 +62,8 @@ ous:
   - name: "IIS"
     description: "Organizational Unit for IIS Servers"
     path: "OU=Servers,OU=Devices,DC=khangvum,DC=lab"
+
+device_ou_dict:
+  workstations: 'OU=Workstations,OU=Devices,DC=khangvum,DC=lab'
+  databases: 'OU=Databases,OU=Servers,OU=Devices,DC=khangvum,DC=lab'
+  webs: 'OU=IIS,OU=Servers,OU=Devices,DC=khangvum,DC=lab'
