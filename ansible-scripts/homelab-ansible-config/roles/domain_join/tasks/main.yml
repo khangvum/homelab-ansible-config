@@ -23,41 +23,15 @@
   loop: "{{ v_switches }}"
   when: "'dcs' not in group_names"
 
-# OU=Workstations
-- name: Workstation Domain Join
+- name: Device Domain Join
   microsoft.ad.membership:
     dns_domain_name: "{{ domain_name }}"
     hostname: "{{ computer_name }}"
     domain_admin_user: "{{ domain_admin_user }}"
     domain_admin_password: "{{ domain_admin_password }}"
-    domain_ou_path: "OU=Workstations,OU=Devices,DC=khangvum,DC=lab"
+    domain_ou_path: "{{ item.value }}"
     domain_server: "{{ hostvars['KVM-DC01'].computer_name }}.{{ domain_name }}"
     state: domain
     reboot: true
-  when: "'workstations' in group_names"
-
-# OU=Servers.OU=Databases
-- name: Databases Domain Join
-  microsoft.ad.membership:
-    dns_domain_name: "{{ domain_name }}"
-    hostname: "{{ computer_name }}"
-    domain_admin_user: "{{ domain_admin_user }}"
-    domain_admin_password: "{{ domain_admin_password }}"
-    domain_ou_path: "OU=Databases,OU=Servers,OU=Devices,DC=khangvum,DC=lab"
-    domain_server: "{{ hostvars['KVM-DC01'].computer_name }}.{{ domain_name }}"
-    state: domain
-    reboot: true
-  when: "'databases' in group_names"
-
-# OU=Servers,OU=IIS
-- name: IIS Domain Join
-  microsoft.ad.membership:
-    dns_domain_name: "{{ domain_name }}"
-    hostname: "{{ computer_name }}"
-    domain_admin_user: "{{ domain_admin_user }}"
-    domain_admin_password: "{{ domain_admin_password }}"
-    domain_ou_path: "OU=IIS,OU=Servers,OU=Devices,DC=khangvum,DC=lab"
-    domain_server: "{{ hostvars['KVM-DC01'].computer_name }}.{{ domain_name }}"
-    state: domain
-    reboot: true
-  when: "'webs' in group_names"
+  loop: "{{ device_ou_dict | dict2items }}"
+  when: "item.key in group_names"
