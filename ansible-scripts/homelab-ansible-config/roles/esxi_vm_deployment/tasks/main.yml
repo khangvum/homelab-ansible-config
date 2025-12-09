@@ -164,7 +164,7 @@
 # - stopAction = "powerOff" or "suspend" or "guestShutdown" or "systemDefault"
 # - stopDelay = Number or "systemDefault"
 # - waitForHeartbeat = "yes" / "no" / "systemDefault"
-- name: Autostart Configuration
+- name: Autostart and Autostop Configuration
   delegate_to: localhost
   vars:
     ansible_connection: local
