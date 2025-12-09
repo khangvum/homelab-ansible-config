@@ -222,6 +222,37 @@
   loop: "{{ hyper_v_vm_list }}"
   when: item.host == computer_name
 
+- name: Autostart Configuration
+  ansible.windows.win_powershell:
+    script: |
+      # Use the current system culture (e.g., en-US)
+      $culture = Get-Culture
+
+      $vmName = "{{ item.name }}"
+      $state = "{{ item.state }}".ToLower()
+      $autoStart= $culture.TextInfo.ToTitleCase("{{ item.autostart }}")
+      $existingVM = Get-VM -Name $vmName -ErrorAction SilentlyContinue
+
+      $changed = $false
+      if ($existingVM -and $state -eq "present") {
+        if ($existingVM.AutomaticStartAction.ToString() -ne $autoStart) {
+          $validStartActions = @("Nothing", "StartIfRunning", "Start")
+          
+          if ($autoStart -notin $validStartActions) {
+            Write-Error "Invalid autostart value: $autoStart. Use 'Nothing', 'StartIfRunning', or 'Start'."
+            $Ansible.Failed = $true
+            return
+          }
+          
+          Set-VM -Name $vmName -AutomaticStartAction $autoStart
+          $changed = $true
+        }
+      }
+
+      $Ansible.Changed = $changed
+  loop: "{{ hyper_v_vm_list }}"
+  when: item.host == computer_name
+
 - name: VM Power On
   ansible.windows.win_powershell:
     script: |
