@@ -151,7 +151,7 @@
   loop: "{{ esxi_vm_var }}"
   when: item.host == computer_name
 
-# https://github.com/josenk/vagrant-vmware-esxi/issues/79
+# Reference: https://github.com/josenk/vagrant-vmware-esxi/issues/79
 # [root@esxi:~] vim-cmd hostsvc/autostartmanager/update_autostartentry
 # Usage: update_autostartentry VMId StartAction StartDelay StartOrder StopAction StopDelay WaitForHeartbeat
 #
