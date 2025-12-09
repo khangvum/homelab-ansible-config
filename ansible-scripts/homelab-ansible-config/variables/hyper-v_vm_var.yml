@@ -14,7 +14,7 @@ hyper_v_vm_list:
     iso_destination: windows_server_2025_standard_x64_unattend.iso
     secure_boot_template: "Microsoft Windows"
     autostart: start
-    autostop: save
+    autostop: turnOff
     power: on
     state: present
   - name: KVM-WEB01
@@ -28,7 +28,7 @@ hyper_v_vm_list:
     iso_destination: windows_server_2025_standard_x64_unattend.iso
     secure_boot_template: "Microsoft Windows"
     autostart: start
-    autostop: save
+    autostop: turnOff
     power: on
     state: present
   - name: KVM-DB01
@@ -42,7 +42,7 @@ hyper_v_vm_list:
     iso_destination: windows_server_2025_standard_x64_unattend.iso
     secure_boot_template: "Microsoft Windows"
     autostart: start
-    autostop: save
+    autostop: turnOff
     power: on
     state: present
   - name: KVM-WRK01
@@ -56,7 +56,7 @@ hyper_v_vm_list:
     iso_destination: windows_11_pro_x64_unattend.iso
     secure_boot_template: "Microsoft Windows"
     autostart: start
-    autostop: save
+    autostop: turnOff
     power: on
     state: present
   - name: KVM-WRK03
@@ -70,6 +70,6 @@ hyper_v_vm_list:
     iso_destination: windows_10_pro_x64_unattend.iso
     secure_boot_template: "Microsoft Windows"
     autostart: start
-    autostop: save
+    autostop: turnOff
     power: on
     state: present
