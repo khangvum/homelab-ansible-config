@@ -222,6 +222,7 @@
   loop: "{{ hyper_v_vm_list }}"
   when: item.host == computer_name
 
+# Reference: https://learn.microsoft.com/en-us/powershell/module/hyper-v/set-vm?view=windowsserver2025-ps#-automaticstartaction
 - name: Autostart Configuration
   ansible.windows.win_powershell:
     script: |
@@ -243,8 +244,44 @@
             $Ansible.Failed = $true
             return
           }
-          
+
           Set-VM -Name $vmName -AutomaticStartAction $autoStart
+          $changed = $true
+        }
+      }
+
+      $Ansible.Changed = $changed
+  loop: "{{ hyper_v_vm_list }}"
+  when: item.host == computer_name
+
+# Reference: https://learn.microsoft.com/en-us/powershell/module/hyper-v/set-vm?view=windowsserver2025-ps#-automaticstopaction
+- name: Autostop Configuration
+  ansible.windows.win_powershell:
+    script: |
+      # Use the current system culture (e.g., en-US)
+      $culture = Get-Culture
+
+      $vmName = "{{ item.name }}"
+      $state = "{{ item.state }}".ToLower()
+      $autoStop= $culture.TextInfo.ToTitleCase("{{ item.autostop }}")
+      $existingVM = Get-VM -Name $vmName -ErrorAction SilentlyContinue
+
+      $changed = $false
+      if ($existingVM -and $state -eq "present") {
+        if ($existingVM.AutomaticStopAction.ToString() -ne $autoStop) {
+          $validStopActions = @("TurnOff", "Save", "Shutdown")
+          
+          if ($autoStart -notin $validStartActions) {
+            Write-Error "Invalid autostart value: $autoStart. Use 'Nothing', 'StartIfRunning', or 'Start'."
+            $Ansible.Failed = $true
+            return
+          }
+
+          if ($existingVM.State -eq "Running") {
+            Stop-VM -Name "{{ item.name }}" -Force
+          }
+          
+          Set-VM -Name $vmName -AutomaticStopAction $autoStop
           $changed = $true
         }
       }
