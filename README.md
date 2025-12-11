@@ -134,8 +134,9 @@ Role                                                                            
 -   Update **_[`domain_var.yml`](ansible-scripts/homelab-ansible-config/variables/domain_var_template.yml)_** to define the **_domain configuration_**.
 -   Update **_[`linux_var.yml`](ansible-scripts/homelab-ansible-config/variables/linux_var_template.yml)_** to define **_Linux-specific variables_**
 -   Update **_[`user_var.yml`](ansible-scripts/homelab-ansible-config/variables/user_var_template.yml)_** to define all **_domain users_**.
--   Update **_[`vm_var.yml`](ansible-scripts/homelab-ansible-config/variables/vm_var.yml)_** to define the **_VMs_** and their **_specifications_** to be created and configured.
 -   Update **_[`windows_var.yml`](ansible-scripts/homelab-ansible-config/variables/windows_var_template.yml)_** to define **_Windows-specific variables_** (_e.g.,_ usernames, passwords, hostnames, etc.)
+-   Update **_[`esxi_vm_var.yml`](ansible-scripts/homelab-ansible-config/variables/esxi_vm_var.yml)_** to define **_ESXI VMs_** and their **_specifications_** to be created and configured.
+-   Update **_[`hyper-v_vm_var.yml`](ansible-scripts/homelab-ansible-config/variables/hyper-v_vm_var.yml)_** to define the **_Hyper-V VMs_** and their **_specifications_** to be created and configured.
 
 2.  **Start the Ansible environment:**
 
