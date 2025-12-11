@@ -20,7 +20,7 @@
     - variables/domain_var.yml
   tasks:
     - import_role:
-        name: hostname_configuration
+        name: windows_hostname_configuration
     - import_role:
         name: ntp_configuration
     - import_role:
@@ -67,8 +67,8 @@
       when: inventory_hostname == "KVM-SRV02"
 
 # VM Configuration
-- name: VM Configuration
-  hosts: vms
+- name: Windows VM Configuration
+  hosts: vms!KVM-DOCKER01
   gather_facts: false
   tags: vm_configuration
   vars_files:
@@ -76,9 +76,9 @@
     - variables/domain_var.yml
   tasks:
     - import_role:
-        name: firewall_configuration
+        name: windows_hostname_configuration
     - import_role:
-        name: hostname_configuration
+        name: firewall_configuration
     - import_role:
         name: ntp_configuration
     - import_role:
@@ -90,6 +90,16 @@
       when: "'dcs' not in group_names"
     - import_role:
         name: windows_updates
+
+# - name: Linux VM Configuration
+#   hosts: KVM-DOCKER01
+#   gather_facts: false
+#   tags: linux_vm_configuration
+#   vars_files:
+#     - variables/linux_var.yml
+#   tasks:
+#     - import_role:
+#         name: linux_configuration
 
 # Domain Configuration
 - name: Domain Configuration

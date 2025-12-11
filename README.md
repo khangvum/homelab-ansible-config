@@ -78,23 +78,23 @@ flowchart LR
 
 ## Roles
 
-Role                                                                                                                |Description
-:------------------------------------------------------------------------------------------------------------------:|:----------------------------------
-[`domain_creation`](ansible-scripts/homelab-ansible-config/roles/domain_creation/tasks/main.yml)                    |Creates a new **_AD forest_** along with its **_domains_** and **_OUs_**
-[`domain_join`](ansible-scripts/homelab-ansible-config/roles/domain_join/tasks/main.yml)                            |**_Joins computers_** to the **_domain_**
-[`domain_user_configuration`](ansible-scripts/homelab-ansible-config/roles/domain_user_configuration/tasks/main.yml)|Manages **domain user accounts_** and **_passwords_**
-[`esxi_vm_deployment`](ansible-scripts/homelab-ansible-config/roles/esxi_vm_deployment/tasks/main.yml)              |Deploys **_VMs_** on **_ESXi host_**
-[`firewall_configuration`](ansible-scripts/homelab-ansible-config/roles/firewall_configuration/tasks/main.yml)      |Configures **_firewall rules_**
-[`hostname_configuration`](ansible-scripts/homelab-ansible-config/roles/hostname_configuration/tasks/main.yml)      |Sets the **_hostname_** of Windows machines
-[`hyper-v_configuration`](ansible-scripts/homelab-ansible-config/roles/hyper-v_configuration/tasks/main.yml)        |Installs **_Hyper-V_** and configures **_virtual switches_**
-[`hyper-v_vm_deployment`](ansible-scripts/homelab-ansible-config/roles/hyper-v_vm_deployment/tasks/main.yml)        |Deploys **_VMs_** on **_Hyper-V host_**
-[`iis_deployment`](ansible-scripts/homelab-ansible-config/roles/iis_deployment/tasks/main.yml)                      |Installs and configures **_Internet Information Services_** (**_IIS_**)
-[`local_user_configuration`](ansible-scripts/homelab-ansible-config/roles/local_user_configuration/tasks/main.yml)  |Manages **_local user accounts_** and **_passwords_**
-[`ntp_configuration`](ansible-scripts/homelab-ansible-config/roles/ntp_configuration/tasks/main.yml)                |Configures **_NTP settings_** for time synchronization
-[`region_configuration`](ansible-scripts/homelab-ansible-config/roles/region_configuration/tasks/main.yml)          |Sets **_regional_** and **_locale settings_**
-[`system_configuration`](ansible-scripts/homelab-ansible-config/roles/system_configuration/tasks/main.yml)          |Applies **_system-wide settings_**
-[`system_information`](ansible-scripts/homelab-ansible-config/roles/system_information/tasks/main.yml)              |Gather **_host information_**
-[`windows_updates`](ansible-scripts/homelab-ansible-config/roles/windows_updates/tasks/main.yml)                    |Performs **_Windows updates_**
+Role                                                                                                                            |Description
+:------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------
+[`domain_creation`](ansible-scripts/homelab-ansible-config/roles/domain_creation/tasks/main.yml)                                |Creates a new **_AD forest_** along with its **_domains_** and **_OUs_**
+[`domain_join`](ansible-scripts/homelab-ansible-config/roles/domain_join/tasks/main.yml)                                        |**_Joins computers_** to the **_domain_**
+[`domain_user_configuration`](ansible-scripts/homelab-ansible-config/roles/domain_user_configuration/tasks/main.yml)            |Manages **domain user accounts_** and **_passwords_**
+[`esxi_vm_deployment`](ansible-scripts/homelab-ansible-config/roles/esxi_vm_deployment/tasks/main.yml)                          |Deploys **_VMs_** on **_ESXi host_**
+[`firewall_configuration`](ansible-scripts/homelab-ansible-config/roles/firewall_configuration/tasks/main.yml)                  |Configures **_firewall rules_**
+[`hyper-v_configuration`](ansible-scripts/homelab-ansible-config/roles/hyper-v_configuration/tasks/main.yml)                    |Installs **_Hyper-V_** and configures **_virtual switches_**
+[`hyper-v_vm_deployment`](ansible-scripts/homelab-ansible-config/roles/hyper-v_vm_deployment/tasks/main.yml)                    |Deploys **_VMs_** on **_Hyper-V host_**
+[`iis_deployment`](ansible-scripts/homelab-ansible-config/roles/iis_deployment/tasks/main.yml)                                  |Installs and configures **_Internet Information Services_** (**_IIS_**)
+[`local_user_configuration`](ansible-scripts/homelab-ansible-config/roles/local_user_configuration/tasks/main.yml)              |Manages **_local user accounts_** and **_passwords_**
+[`ntp_configuration`](ansible-scripts/homelab-ansible-config/roles/ntp_configuration/tasks/main.yml)                            |Configures **_NTP settings_** for time synchronization
+[`region_configuration`](ansible-scripts/homelab-ansible-config/roles/region_configuration/tasks/main.yml)                      |Sets **_regional_** and **_locale settings_**
+[`system_configuration`](ansible-scripts/homelab-ansible-config/roles/system_configuration/tasks/main.yml)                      |Applies **_system-wide settings_**
+[`system_information`](ansible-scripts/homelab-ansible-config/roles/system_information/tasks/main.yml)                          |Gather **_host information_**
+[`windows_hostname_configuration`](ansible-scripts/homelab-ansible-config/roles/windows_hostname_configuration/tasks/main.yml)  |Sets the **_hostname_** of Windows machines
+[`windows_updates`](ansible-scripts/homelab-ansible-config/roles/windows_updates/tasks/main.yml)                                |Performs **_Windows updates_**
 
 ## Prerequisites
 

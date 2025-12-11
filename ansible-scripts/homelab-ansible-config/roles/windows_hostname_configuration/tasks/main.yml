@@ -1,5 +1,5 @@
 ---
-- name: Hostname Update
+- name: Windows Hostname Update
   ansible.windows.win_hostname:
     name: "{{ computer_name }}"
   register: hostname_update
