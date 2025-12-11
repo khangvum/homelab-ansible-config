@@ -158,12 +158,12 @@
 # Parameters:
 #
 # - VmID
-# - startAction = "none", "powerOn"
+# - startAction = 'none', 'powerOn'
 # - startDelay = Number or 'systemDefault'
 # - startOrder = Number
-# - stopAction = "powerOff" or "suspend" or "guestShutdown" or "systemDefault"
-# - stopDelay = Number or "systemDefault"
-# - waitForHeartbeat = "yes" / "no" / "systemDefault"
+# - stopAction = 'powerOff' or 'suspend' or 'guestShutdown' or 'systemDefault'
+# - stopDelay = Number or 'systemDefault'
+# - waitForHeartbeat = 'yes' / 'no' / 'systemDefault'
 - name: Autostart and Autostop Configuration
   delegate_to: localhost
   vars:
