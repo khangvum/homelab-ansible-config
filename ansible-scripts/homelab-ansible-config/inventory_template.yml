@@ -106,3 +106,17 @@ all:
                 - name: "KVM-SRV01-SW02"
                   adapter: "Ethernet"
                   ip: {{ DB01_SW02_IP }}
+        containers:
+          hosts:
+            KVM-DOCKER01:
+              ansible_host: {{ DOCKER01_IP_ADDRESS }}
+              computer_name: KVM-DOCKER01
+              ansible_user: {{ USERNAME }}
+              ansible_password: {{ PASSWORD }}
+              v_switches:
+                - name: "KVM-SRV01-SW01"
+                  adapter: "Wi-Fi"
+                  ip: {{ DOCKER01_SW01_IP }}
+                - name: "KVM-SRV01-SW02"
+                  adapter: "Ethernet"
+                  ip: {{ DOCKER01_SW02_IP }}
