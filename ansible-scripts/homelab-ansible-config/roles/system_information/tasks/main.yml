@@ -1,4 +1,10 @@
 ---
+- name: Windows Variables Load
+  ansible.builtin.include_vars:
+    file: ../../variables/windows_var.yml
+  when: 
+    - inventory_hostname != "KVM-SRV02"
+    - "'containers' not in group_names"
 - name: Gather Windows Host Information
   ansible.windows.win_powershell:
     script: |
@@ -7,10 +13,14 @@
       $Ansible.Result = $osInfo
       $Ansible.Changed = $false
   register: windows_info
-  when: inventory_hostname != "KVM-SRV02"
+  when: 
+    - inventory_hostname != "KVM-SRV02"
+    - "'containers' not in group_names"
 - debug: 
     msg: "{{ windows_info }}"
-  when: inventory_hostname != "KVM-SRV02"
+  when: 
+    - inventory_hostname != "KVM-SRV02"
+    - "'container' not in group_names"
 
 - name: Gather ESXi Host Information
   delegate_to: localhost
@@ -28,3 +38,18 @@
 - debug:
     msg: "{{ esxi_info }}"
   when: inventory_hostname == "KVM-SRV02"
+
+- name: Linux Variables Load
+  ansible.builtin.include_vars:
+    file: ../../variables/linux_var.yml
+  when: inventory_hostname == "KVM-DOCKER01"
+- name: Gather Linux Host Information
+  ansible.builtin.setup:
+    filter:
+      - ansible_hostname
+      - ansible_distribution*
+  register: linux_info
+  when: inventory_hostname == "KVM-DOCKER01"
+- debug:
+    msg: "{{ linux_info }}"
+  when: inventory_hostname == "KVM-DOCKER01"

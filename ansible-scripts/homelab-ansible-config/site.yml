@@ -4,8 +4,6 @@
   hosts: all
   gather_facts: false
   tags: host_connection_test
-  vars_files:
-    - variables/windows_var.yml
   tasks:
     - import_role:
         name: system_information
@@ -68,9 +66,9 @@
 
 # VM Configuration
 - name: Windows VM Configuration
-  hosts: vms!KVM-DOCKER01
+  hosts: vms:!KVM-DOCKER01
   gather_facts: false
-  tags: vm_configuration
+  tags: windows_vm_configuration
   vars_files:
     - variables/windows_var.yml
     - variables/domain_var.yml
@@ -91,15 +89,15 @@
     - import_role:
         name: windows_updates
 
-# - name: Linux VM Configuration
-#   hosts: KVM-DOCKER01
-#   gather_facts: false
-#   tags: linux_vm_configuration
-#   vars_files:
-#     - variables/linux_var.yml
-#   tasks:
-#     - import_role:
-#         name: linux_configuration
+- name: Linux VM Configuration
+  hosts: KVM-DOCKER01
+  gather_facts: false
+  tags: linux_vm_configuration
+  vars_files:
+    - variables/linux_var.yml
+  tasks:
+    - import_role:
+        name: linux_hostname_configuration
 
 # Domain Configuration
 - name: Domain Configuration
