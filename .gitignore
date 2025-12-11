@@ -1,5 +1,6 @@
 inventory.yml
 domain_var.yml
+linux_var.yml
 user_var.yml
 windows_var.yml
 command.txt
