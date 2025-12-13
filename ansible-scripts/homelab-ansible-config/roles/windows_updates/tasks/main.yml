@@ -1,5 +1,5 @@
 ---
-- name: Windows Update Installation
+- name: Windows Updates Installation
   ansible.windows.win_updates:
     category_names: '*'
     reboot: true
