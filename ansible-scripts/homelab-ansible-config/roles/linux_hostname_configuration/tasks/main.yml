@@ -1,10 +1,10 @@
 ---
 - name: Linux Hostname Update
   ansible.builtin.hostname:
-    name: "{{ computer_name }}"
+    name: "{{ computer_name }}.{{ domain_name }}"
 
 - name: Linux Hostname Update in /etc/hosts
   ansible.builtin.replace:
     path: /etc/hosts
     regexp: '(\s+)ubuntu-2404(\s+.*)?$'
-    replace: '\1{{ computer_name }}\2'
+    replace: '\1{{ computer_name }}.{{ domain_name }}\2'
