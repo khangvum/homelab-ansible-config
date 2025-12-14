@@ -46,7 +46,6 @@
 
 # VM Deployment
 - name: VM Deployment
-  # hosts: servers:!KVM-SRV02:pcs
   hosts: servers
   gather_facts: false
   tags: vm_deployment
@@ -98,6 +97,8 @@
   tasks:
     - import_role:
         name: linux_hostname_configuration
+    - import_role:
+        name: linux_updates
 
 # Domain Configuration
 - name: Domain Configuration

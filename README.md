@@ -90,6 +90,7 @@ Role                                                                            
 [`hyper-v_vm_deployment`](ansible-scripts/homelab-ansible-config/roles/hyper-v_vm_deployment/tasks/main.yml)                    |Deploys **_VMs_** on **_Hyper-V host_**
 [`iis_deployment`](ansible-scripts/homelab-ansible-config/roles/iis_deployment/tasks/main.yml)                                  |Installs and configures **_Internet Information Services_** (**_IIS_**)
 [`linux_hostname_configuration`](ansible-scripts/homelab-ansible-config/roles/linux_hostname_configuration/tasks/main.yml)      |Sets **_hostname_** of Linux machines
+[`linux_updates`](ansible-scripts/homelab-ansible-config/roles/linux_updates/tasks/main.yml)                                    |Performs **_Linux package updates_**
 [`local_user_configuration`](ansible-scripts/homelab-ansible-config/roles/local_user_configuration/tasks/main.yml)              |Manages **_local user accounts_** and **_passwords_**
 [`ntp_configuration`](ansible-scripts/homelab-ansible-config/roles/ntp_configuration/tasks/main.yml)                            |Configures **_NTP settings_** for time synchronization
 [`region_configuration`](ansible-scripts/homelab-ansible-config/roles/region_configuration/tasks/main.yml)                      |Sets **_regional_** and **_locale settings_**

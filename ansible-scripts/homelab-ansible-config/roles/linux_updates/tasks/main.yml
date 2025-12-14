@@ -1,0 +1,8 @@
+---
+- name: Linux System Update
+  ansible.builtin.apt:
+    update_cache: true
+    upgrade: full
+    autoremove: true
+    clean: true
+    autoclean: true
