@@ -1,4 +1,8 @@
 ---
+- name: Windows Variables Load
+  ansible.builtin.include_vars:
+    file: ../../variables/windows_var.yml
+
 - name: IPv6 Disablement
   ansible.windows.win_powershell:
     script: |

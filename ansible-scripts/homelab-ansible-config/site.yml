@@ -94,6 +94,7 @@
   tags: linux_vm_configuration
   vars_files:
     - variables/linux_var.yml
+    - variables/domain_var.yml
   tasks:
     - import_role:
         name: linux_hostname_configuration
@@ -108,13 +109,17 @@
   vars_files:
     - variables/domain_var.yml
     - variables/user_var.yml
-    - variables/windows_var.yml
+    # - variables/windows_var.yml
   tasks:
     - include_role:
         name: domain_creation
       when: "'dcs' in group_names"
-    - import_role:
-        name: domain_join
+    - include_role:
+        name: windows_domain_join
+      when: "'containers' not in group_names"
+    - include_role:
+        name: linux_domain_join
+      when: "'containers' in group_names"
     - include_role:
         name: domain_user_configuration
       when: inventory_hostname == "KVM-DC01"
