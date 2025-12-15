@@ -27,7 +27,7 @@
   loop: "{{ v_switches }}"
   when: "'dcs' not in group_names"
 
-- name: Device Domain Join
+- name: Host Domain Join
   microsoft.ad.membership:
     dns_domain_name: "{{ domain_name }}"
     hostname: "{{ computer_name }}"

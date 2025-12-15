@@ -1,4 +1,8 @@
 ---
+- name: Windows Variables Load
+  ansible.builtin.include_vars:
+    file: ../../variables/windows_var.yml
+    
 - name: Windows Domain Creation
   microsoft.ad.domain:
     dns_domain_name: "{{ domain_name }}"
