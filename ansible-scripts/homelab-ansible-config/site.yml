@@ -109,7 +109,6 @@
   vars_files:
     - variables/domain_var.yml
     - variables/user_var.yml
-    # - variables/windows_var.yml
   tasks:
     - include_role:
         name: domain_creation

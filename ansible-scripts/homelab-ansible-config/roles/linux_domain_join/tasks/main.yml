@@ -1,0 +1,129 @@
+---
+- name: Linux Variables Load
+  ansible.builtin.include_vars:
+    file: ../../variables/linux_var.yml
+
+- name: Required Packages Installation
+  ansible.builtin.apt:
+    name:
+      - realmd
+      - sssd
+      - sssd-tools
+      - libnss-sss
+      - libpam-sss
+      - adcli
+      - samba-common-bin
+      - oddjob
+      - oddjob-mkhomedir
+      - packagekit
+      # - krb5-user
+
+# 1. DNS Configuration
+- name: Service Facts Retrieval
+  ansible.builtin.service_facts:
+
+- name: systemd-resolved Disablement and Stop
+  ansible.builtin.systemd_service:
+    name: systemd-resolved.service
+    enabled: false
+    state: stopped
+
+- name: /etc/resolv.conf Symlink Removal If Exists
+  ansible.builtin.file:
+    path: /etc/resolv.conf
+    state: absent
+  when: |
+    ansible_facts.services['systemd-resolved.service'].state == 'running' or 
+    ansible_facts.services['systemd-resolved.service'].status == 'enabled'
+
+- name: DNS Server Configuration
+  ansible.builtin.blockinfile:
+    path: /etc/resolv.conf
+    create: true
+    block: |
+      nameserver {{ hostvars['KVM-DC01'].v_switches[1].ip }}
+      nameserver {{ hostvars['KVM-DC02'].v_switches[1].ip }}
+      search {{ domain_name }}
+    owner: root
+    group: root
+    mode: '0640'
+
+# 2. Domain Join
+- name: Domain Discovery Check
+  ansible.builtin.command:
+    cmd: realm discover {{ domain_name }}
+  register: domain_discovery
+  failed_when: domain_discovery.rc != 0 # Return Code
+  changed_when: false
+
+- name: Domain Join Check
+  ansible.builtin.shell:
+    cmd: realm list | grep -q "{{ domain_name }}" # ansible.builtin.command wouldn't work with pipe operation
+  register: domain_join_check
+  failed_when: domain_join_check.rc > 1 # Return Code 0 (joined) and 1 (not joined) are acceptable
+  changed_when: false
+
+- name: Host Domain Join
+  ansible.builtin.expect:
+    command: >
+      realm join
+      --user=Administrator
+      --computer-ou="{{ item.value }}"
+      {{ domain_name }}
+    responses:
+      "(?i)password.*:": "{{ domain_admin_password }}"
+  loop: "{{ device_ou_dict | dict2items }}"
+  when: 
+    - "item.key in group_names"
+    - domain_discovery.rc == 0  # Ensure domain is discoverable
+    - domain_join_check.rc != 0 # Ensure host is not already joined
+
+# 3. SSSD and PAM Configuration
+- name: Pluggable Authentication Modules (PAM) Configuration for Home Directory Creation
+  ansible.builtin.copy:
+    dest: /usr/share/pam-configs/mkhomedir
+    content: |
+      Name: Create home directory on login
+      Default: yes
+      Priority: 900
+      Session-Type: Additional
+      Session:
+              optional                        pam_mkhomedir.so
+    owner: root
+    group: root
+    mode: '0644'
+  register: pam_mkhomedir_config
+
+- name: PAM Configuration Update
+  ansible.builtin.command:
+    cmd: pam-auth-update --enable mkhomedir
+  when: pam_mkhomedir_config.changed
+
+- name: SSSD Restart
+  ansible.builtin.systemd_service:
+    name: sssd
+    state: restarted
+    enabled: true
+  when: pam_mkhomedir_config.changed
+
+- name: Access Check for Domain Admins Group
+  ansible.builtin.shell:
+    cmd: cat /etc/sssd/sssd.conf | grep 'Domain Admins'
+  register: domain_admins_access_check
+  failed_when: domain_admins_access_check.rc > 1
+  changed_when: false
+
+- name: Access Provision to Domain Admins Group
+  ansible.builtin.command:
+    cmd: realm permit -g 'Domain Admins@{{ domain_name }}'
+  when: domain_admins_access_check.rc != 0
+
+# 4. Sudo Permission Provision
+- name: Sudoers Configuration for Domain Admins Group
+  ansible.builtin.copy:
+    dest: /etc/sudoers.d/domain-admins
+    content: |
+      %Domain\ Admins@{{ domain_name }} ALL=(ALL) ALL
+    owner: root
+    group: root
+    mode: '0440'

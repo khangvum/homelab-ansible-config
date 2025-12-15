@@ -88,6 +88,7 @@ Role                                                                            
 [`hyper-v_configuration`](ansible-scripts/homelab-ansible-config/roles/hyper-v_configuration/tasks/main.yml)                    |Installs **_Hyper-V_** and configures **_virtual switches_**
 [`hyper-v_vm_deployment`](ansible-scripts/homelab-ansible-config/roles/hyper-v_vm_deployment/tasks/main.yml)                    |Deploys **_VMs_** on **_Hyper-V host_**
 [`iis_deployment`](ansible-scripts/homelab-ansible-config/roles/iis_deployment/tasks/main.yml)                                  |Installs and configures **_Internet Information Services_** (**_IIS_**)
+[`linux_domain_join`](ansible-scripts/homelab-ansible-config/roles/linux_domain_join/tasks/main.yml)                            |**_Joins Linux hosts_** to the **_domain_**
 [`linux_hostname_configuration`](ansible-scripts/homelab-ansible-config/roles/linux_hostname_configuration/tasks/main.yml)      |Sets **_hostname_** of Linux hosts
 [`linux_updates`](ansible-scripts/homelab-ansible-config/roles/linux_updates/tasks/main.yml)                                    |Performs **_Linux package updates_**
 [`local_user_configuration`](ansible-scripts/homelab-ansible-config/roles/local_user_configuration/tasks/main.yml)              |Manages **_local user accounts_** and **_passwords_**
