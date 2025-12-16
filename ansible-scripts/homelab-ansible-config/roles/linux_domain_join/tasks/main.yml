@@ -46,7 +46,7 @@
       search {{ domain_name }}
     owner: root
     group: root
-    mode: '0640'
+    mode: '0644'
 
 # 2. Domain Join
 - name: Domain Discovery Check
