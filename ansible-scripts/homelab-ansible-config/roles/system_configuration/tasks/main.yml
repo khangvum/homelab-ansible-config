@@ -1,13 +1,25 @@
 ---
-# - name: Windows License Key Installation
-#   ansible.windows.win_shell: cscript slmgr.vbs -ipk {{ win_license_key }}
-#   args:
-#     chdir: C:\Windows\System32\
+- name: Windows License Status Query
+  ansible.windows.win_shell: cscript slmgr.vbs /xpr
+  args:
+    chdir: C:\Windows\System32\
+  register: license_status
+  changed_when: false
+
+- name: Windows License Key Installation
+  ansible.windows.win_shell: cscript slmgr.vbs -ipk {{ win_license_key }}
+  args:
+    chdir: C:\Windows\System32\
+  when: 
+    - "'permanently activated' not in license_status.stdout"
+    - "'workstations' in group_names"
+  register: license_installation
 
 # - name: Windows License Key Activation
 #   ansible.windows.win_shell: cscript slmgr.vbs -ato
 #   args:
 #     chdir: C:\Windows\System32\
+#   when: license_installation is changed
 
 - name: Sleep Settings Disablement
   ansible.windows.win_powershell:
