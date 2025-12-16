@@ -49,7 +49,7 @@
     mode: '0644'
 
 # 2. Domain Join
-- name: Domain Discovery Check
+- name: Domain Discovery Query
   ansible.builtin.command:
     cmd: realm discover {{ domain_name }}
   register: domain_discovery
@@ -106,7 +106,7 @@
     enabled: true
   when: pam_mkhomedir_config.changed
 
-- name: Access Check for Domain Admins Group
+- name: Access for Domain Admins Group Query
   ansible.builtin.shell:
     cmd: cat /etc/sssd/sssd.conf | grep 'Domain Admins'
   register: domain_admins_access_check
