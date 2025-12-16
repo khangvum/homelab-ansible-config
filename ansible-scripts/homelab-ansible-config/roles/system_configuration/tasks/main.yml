@@ -36,3 +36,7 @@
       }
       $Ansible.Changed = $changed
   when: "'pcs' not in group_names"
+
+- name: Time Zone Configuration
+  ansible.windows.win_timezone:
+    timezone: "{{ time_zone }}"
