@@ -29,13 +29,23 @@
       $currentType = (Get-ItemProperty -Path $regKey -Name Type -ErrorAction SilentlyContinue).Type
 
       if ($currentType -ne 'NT5DS') {
-        w32tm /config /syncfromflags:DOMHIER /reliable:no /update
+        w32tm /config /syncfromflags:DOMHIER /manualpeerlist:"$desired" /reliable:no /update
         Restart-Service w32time
         $Ansible.Changed = $true
       }
       else {
         $Ansible.Changed = $false
       }
+  when:
+    - "'vms' in group_names"
+    - inventory_hostname != "KVM-DC01"
+    - "'containers' not in group_names" # Exclude Linux hosts
+
+- name: NTPServer Register Key Removal for Other Windows Hosts in Domain (If Any)
+  ansible.windows.win_regedit:
+    path: HKLM:\SYSTEM\CurrentControlSet\Services\W32Time\Parameters
+    name: NtpServer
+    state: absent
   when:
     - "'vms' in group_names"
     - inventory_hostname != "KVM-DC01"
