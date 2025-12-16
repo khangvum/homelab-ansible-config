@@ -1,16 +1,64 @@
 ---
-- name: NTP Server Configuration
+- name: NTP Server Configuration for Primary Domain Controller
   ansible.windows.win_powershell:
     script: |
       $desired = "{{ ntp_servers }}"
-      $current = (Get-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Services\W32Time\Parameters' -Name NtpServer).NtpServer
-      if ($current -ne $desired) {
-        w32tm /config /syncfromflags:manual /manualpeerlist:"$desired"
+      $regKey = 'HKLM:\SYSTEM\CurrentControlSet\Services\W32Time\Parameters'
+          
+      # Check current NTP Server list and type
+      $currentServerList = (Get-ItemProperty -Path $regKey -Name NtpServer -ErrorAction SilentlyContinue).NtpServer
+      $currentType = (Get-ItemProperty -Path $regKey -Name Type -ErrorAction SilentlyContinue).Type
+
+      if ($currentServerList -ne $desired -or $currentType -ne 'NTP') {
+        w32tm /config /syncfromflags:manual /manualpeerlist:"$desired" /reliable:yes /update
+        Restart-Service w32time
         $Ansible.Changed = $true
-      } else {
+      }
+      else {
         $Ansible.Changed = $false
       }
+  when: inventory_hostname == "KVM-DC01"
 
-- name: Time Zone Configuration
-  ansible.windows.win_timezone:
-    timezone: "{{ time_zone }}"
+- name: NTP Server Configuration for Other Windows Hosts in Domain
+  ansible.windows.win_powershell:
+    script: |
+      $regKey = 'HKLM:\SYSTEM\CurrentControlSet\Services\W32Time\Parameters'
+          
+      # Check current NTP Server list and type
+      $currentServerList = (Get-ItemProperty -Path $regKey -Name NtpServer -ErrorAction SilentlyContinue).NtpServer
+      $currentType = (Get-ItemProperty -Path $regKey -Name Type -ErrorAction SilentlyContinue).Type
+
+      if ($currentType -ne 'NT5DS') {
+        w32tm /config /syncfromflags:DOMHIER /reliable:no /update
+        Restart-Service w32time
+        $Ansible.Changed = $true
+      }
+      else {
+        $Ansible.Changed = $false
+      }
+  when:
+    - "'vms' in group_names"
+    - inventory_hostname != "KVM-DC01"
+    - "'containers' not in group_names" # Exclude Linux hosts
+
+- name: NTP Server Configuration for Standalone Windows Hosts
+  ansible.windows.win_powershell:
+    script: |
+      $desired = "{{ ntp_servers }}"
+      $regKey = 'HKLM:\SYSTEM\CurrentControlSet\Services\W32Time\Parameters'
+          
+      # Check current NTP Server list
+      # No need to check for type as standalone hosts are not concerned with serving time to others
+      $currentServerList = (Get-ItemProperty -Path $regKey -Name NtpServer -ErrorAction SilentlyContinue).NtpServer
+
+      if ($currentServerList -ne $desired) {
+        w32tm /config /syncfromflags:manual /manualpeerlist:"$desired" /update
+        Restart-Service w32time
+        $Ansible.Changed = $true
+      }
+      else {
+        $Ansible.Changed = $false
+      }
+  when:
+    - "'servers' in group_names"
+    - inventory_hostname != "KVM-SRV02"
