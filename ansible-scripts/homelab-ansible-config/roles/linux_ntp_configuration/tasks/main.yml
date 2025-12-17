@@ -1,0 +1,20 @@
+---
+- name: chrony Installation
+  ansible.builtin.apt:
+    name: chrony
+
+- name: /etc/chrony/chrony.conf Configuration for NTP Servers
+  ansible.builtin.template:
+    src: chrony.conf.j2
+    dest: /etc/chrony/chrony.conf
+    owner: root
+    group: root
+    mode: '0644'
+  register: chrony_conf
+
+- name: chrony Service Restart
+  ansible.builtin.systemd_service:
+    name: chrony
+    state: restarted
+    enabled: true
+  when: chrony_conf.changed
