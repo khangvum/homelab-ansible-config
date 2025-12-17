@@ -1,4 +1,5 @@
 ---
+# NTP Server Configuration for Primary Domain Controller
 - name: NTP Server Configuration for Primary Domain Controller
   ansible.windows.win_powershell:
     script: |
@@ -19,6 +20,7 @@
       }
   when: inventory_hostname == "KVM-DC01"
 
+# NTP Server Configuration for Other Windows Hosts in Domain
 - name: NTP Server Configuration for Other Windows Hosts in Domain
   ansible.windows.win_powershell:
     script: |
@@ -51,6 +53,7 @@
     - inventory_hostname != "KVM-DC01"
     - "'containers' not in group_names" # Exclude Linux hosts
 
+# NTP Server Configuration for Standalone Windows Hosts
 - name: NTP Server Configuration for Standalone Windows Hosts
   ansible.windows.win_powershell:
     script: |
