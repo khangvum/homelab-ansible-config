@@ -5,7 +5,6 @@ ansible_connection: ssh
 ansible_ssh_retries: 3
 ansible_become_method: runas
 
-ntp_servers: "0.pool.ntp.org,0x1 1.pool.ntp.org,0x1"
 time_zone: "Eastern Standard Time"
 
 # Local administrator configuration

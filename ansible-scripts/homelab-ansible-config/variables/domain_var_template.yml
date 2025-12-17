@@ -4,6 +4,8 @@ domain_admin_user: {{ DOMAIN_ADMIN_USER }}
 domain_admin_password: {{ DOMAIN_ADMIN_PASSWORD }}
 safe_mode_password: {{ SAFE_MODE_PASSWORD }}
 
+ntp_servers: "0.pool.ntp.org,0x1 1.pool.ntp.org,0x1"
+
 # OU Structure
 # ---------------------------------------------
 # khangvum.lab
