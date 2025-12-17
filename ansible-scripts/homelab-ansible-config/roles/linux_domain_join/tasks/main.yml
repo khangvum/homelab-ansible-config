@@ -16,7 +16,6 @@
       - oddjob
       - oddjob-mkhomedir
       - packagekit
-      # - krb5-user
 
 # 1. DNS Configuration
 - name: Service Facts Retrieval
@@ -99,7 +98,7 @@
     cmd: pam-auth-update --enable mkhomedir
   when: pam_mkhomedir_config.changed
 
-- name: SSSD Restart
+- name: SSSD Service Restart
   ansible.builtin.systemd_service:
     name: sssd
     state: restarted
