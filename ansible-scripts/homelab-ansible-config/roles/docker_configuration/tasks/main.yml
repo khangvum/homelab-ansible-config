@@ -14,8 +14,6 @@
     name: "{{ ansible_user }}"
     groups: docker
     append: yes
-  register: docker_group_add
 
 - name: Connection Reset to Apply Group Changes
   ansible.builtin.meta: reset_connection
-  when: docker_group_add.changed
