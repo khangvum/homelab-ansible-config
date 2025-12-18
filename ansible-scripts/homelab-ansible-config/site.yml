@@ -63,7 +63,7 @@
         name: esxi_vm_deployment
       when: inventory_hostname == "KVM-SRV02"
 
-# VM Configuration
+# Windows VM Configuration
 - name: Windows VM Configuration
   hosts: vms:!KVM-DOCKER01
   gather_facts: false
@@ -88,6 +88,7 @@
     - import_role:
         name: windows_updates
 
+# Linux VM Configuration
 - name: Linux VM Configuration
   hosts: containers
   gather_facts: false
@@ -124,7 +125,20 @@
     - include_role:
         name: domain_user_configuration
       when: inventory_hostname == "KVM-DC01"
-      # when: "'dcs' in group_names"
+
+# Container Deployment
+- name: Container Deployment
+  hosts: containers
+  gather_facts: false
+  tags: container_deployment
+  vars_files:
+    - variables/linux_var.yml
+    - variables/domain_var.yml
+  tasks:
+    - import_role:
+        name: docker_configuration
+    - import_role:
+        name: filebrowser_deployment
 
 # IIS Configuration
 - name: IIS Configuration
