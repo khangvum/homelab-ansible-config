@@ -1,0 +1,21 @@
+---
+- name: Docker Installation
+  community.general.snap:
+    name: docker
+    state: present
+
+- name: "'docker' Group Creation"
+  ansible.builtin.group:
+    name: docker
+    state: present
+
+- name: User Add to 'docker' Group
+  ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    groups: docker
+    append: yes
+  register: docker_group_add
+
+- name: Connection Reset to Apply Group Changes
+  ansible.builtin.meta: reset_connection
+  when: docker_group_add.changed

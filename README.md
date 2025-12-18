@@ -86,6 +86,7 @@ flowchart LR
 
 Role                                                                                                                            |Description
 :------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------
+[`docker_configuration`](ansible-scripts/homelab-ansible-config/roles/docker_configuration/tasks/main.yml)                      |Configures **_Docker_** settings
 [`domain_creation`](ansible-scripts/homelab-ansible-config/roles/domain_creation/tasks/main.yml)                                |Creates a new **_AD forest_** along with its **_domains_** and **_OUs_**
 [`domain_user_configuration`](ansible-scripts/homelab-ansible-config/roles/domain_user_configuration/tasks/main.yml)            |Manages **domain user accounts_** and **_passwords_**
 [`esxi_vm_deployment`](ansible-scripts/homelab-ansible-config/roles/esxi_vm_deployment/tasks/main.yml)                          |Deploys **_VMs_** on **_ESXi host_**
