@@ -1,0 +1,15 @@
+---
+services:
+  filebrowser:
+    restart: always
+    image: filebrowser/filebrowser
+    container_name: filebrowser
+    volumes:
+      - {{ mount_dir }}:/srv # Change to match your directory
+      - {{ filebrowser_parent_dir }}/database:/database # Change to match your directory
+      - {{ filebrowser_parent_dir }}/config:/config # Change to match your directory
+    environment:
+      - PUID=$(id -u)
+      - PGID=$(id -g)
+    ports:
+      - 8095:80 # Change the port if needed
