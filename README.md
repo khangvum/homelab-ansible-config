@@ -90,6 +90,7 @@ Role                                                                            
 [`domain_creation`](ansible-scripts/homelab-ansible-config/roles/domain_creation/tasks/main.yml)                                |Creates a new **_AD forest_** along with its **_domains_** and **_OUs_**
 [`domain_user_configuration`](ansible-scripts/homelab-ansible-config/roles/domain_user_configuration/tasks/main.yml)            |Manages **domain user accounts_** and **_passwords_**
 [`esxi_vm_deployment`](ansible-scripts/homelab-ansible-config/roles/esxi_vm_deployment/tasks/main.yml)                          |Deploys **_VMs_** on **_ESXi host_**
+[`filebrowser_deployment`](ansible-scripts/homelab-ansible-config/roles/filebrowser_deployment/tasks/main.yml)                  |Configures **_Filebrowser_** as a **_containerized file manager_** with **_persistent network storage_**
 [`firewall_configuration`](ansible-scripts/homelab-ansible-config/roles/firewall_configuration/tasks/main.yml)                  |Configures **_firewall rules_**
 [`hyper-v_configuration`](ansible-scripts/homelab-ansible-config/roles/hyper-v_configuration/tasks/main.yml)                    |Installs **_Hyper-V_** and configures **_virtual switches_**
 [`hyper-v_vm_deployment`](ansible-scripts/homelab-ansible-config/roles/hyper-v_vm_deployment/tasks/main.yml)                    |Deploys **_VMs_** on **_Hyper-V host_**
@@ -140,13 +141,14 @@ Role                                                                            
 
 1.  **Update the inventory and variable files:**
 
--   Update **_[`inventory.yml`](ansible-scripts/homelab-ansible-config/inventory_template.yml)_** to define the **_Windows hosts_**.
+-   Update **_[`inventory.yml`](ansible-scripts/homelab-ansible-config/inventory_template.yml)_** to define the **_target hosts_**.
 -   Update **_[`domain_var.yml`](ansible-scripts/homelab-ansible-config/variables/domain_var_template.yml)_** to define the **_domain configuration_**.
 -   Update **_[`linux_var.yml`](ansible-scripts/homelab-ansible-config/variables/linux_var_template.yml)_** to define **_Linux-specific variables_**
 -   Update **_[`user_var.yml`](ansible-scripts/homelab-ansible-config/variables/user_var_template.yml)_** to define all **_domain users_**.
 -   Update **_[`windows_var.yml`](ansible-scripts/homelab-ansible-config/variables/windows_var_template.yml)_** to define **_Windows-specific variables_** (_e.g.,_ usernames, passwords, hostnames, etc.)
 -   Update **_[`esxi_vm_var.yml`](ansible-scripts/homelab-ansible-config/variables/esxi_vm_var.yml)_** to define **_ESXI VMs_** and their **_specifications_** to be created and configured.
 -   Update **_[`hyper-v_vm_var.yml`](ansible-scripts/homelab-ansible-config/variables/hyper-v_vm_var.yml)_** to define the **_Hyper-V VMs_** and their **_specifications_** to be created and configured.
+-   Update **_[`filebrowser_var.yml`](ansible-scripts/homelab-ansible-config/variables/filebrowser_var.yml)_** to define **_Filebrowser settings_**.
 
 2.  **Start the Ansible environment:**
 
