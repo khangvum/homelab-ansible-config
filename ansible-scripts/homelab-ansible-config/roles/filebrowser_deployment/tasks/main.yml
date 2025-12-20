@@ -1,7 +1,7 @@
 ---
 - name: Filebrowser Variables Load
   ansible.builtin.include_vars:
-    file: ../../variables/filebrowser_var.yml
+    file: ../../variables/docker_var/filebrowser_var.yml
 
 - name: CIFS (Common Internet File System) Utilities Installation
   ansible.builtin.apt:
