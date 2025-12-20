@@ -92,6 +92,7 @@ Role                                                                            
 [`esxi_vm_deployment`](ansible-scripts/homelab-ansible-config/roles/esxi_vm_deployment/tasks/main.yml)                          |Deploys **_VMs_** on **_ESXi host_**
 [`filebrowser_deployment`](ansible-scripts/homelab-ansible-config/roles/filebrowser_deployment/tasks/main.yml)                  |Configures **_Filebrowser_** as a **_containerized file manager_** with **_persistent network storage_**
 [`firewall_configuration`](ansible-scripts/homelab-ansible-config/roles/firewall_configuration/tasks/main.yml)                  |Configures **_firewall rules_**
+[`grafana_deployment`](ansible-scripts/homelab-ansible-config/roles/grafana_deployment/tasks/main.yml)                          |Configures **_Grafana_** as a **_containerized analytics platform_** for **_dashboards_** and **_data virtualization_**
 [`hyper-v_configuration`](ansible-scripts/homelab-ansible-config/roles/hyper-v_configuration/tasks/main.yml)                    |Installs **_Hyper-V_** and configures **_virtual switches_**
 [`hyper-v_vm_deployment`](ansible-scripts/homelab-ansible-config/roles/hyper-v_vm_deployment/tasks/main.yml)                    |Deploys **_VMs_** on **_Hyper-V host_**
 [`iis_deployment`](ansible-scripts/homelab-ansible-config/roles/iis_deployment/tasks/main.yml)                                  |Installs and configures **_Internet Information Services_** (**_IIS_**)
