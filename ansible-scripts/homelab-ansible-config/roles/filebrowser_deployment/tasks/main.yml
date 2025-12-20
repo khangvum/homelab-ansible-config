@@ -60,6 +60,7 @@
     mode: '0644'
   register: docker_compose_file
 
+# If first time deployment, default password can be found in the filebrowser logs: `docker logs filebrowser`
 - name: Filebrowser Deployment
   ansible.builtin.command:
     cmd: docker-compose up -d
