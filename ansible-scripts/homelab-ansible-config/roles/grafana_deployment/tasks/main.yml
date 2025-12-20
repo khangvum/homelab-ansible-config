@@ -1,0 +1,27 @@
+---
+- name: Grafana Variables Load
+  ansible.builtin.include_vars:
+    file: ../../variables/docker_var/grafana_var.yml
+
+- name: grafana Directory Creation
+  ansible.builtin.file:
+    path: "{{ grafana_parent_dir }}"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0755'
+
+- name: Docker Compose File Creation
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: "{{ grafana_parent_dir }}/docker-compose.yml"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0644'
+  register: docker_compose_file
+
+- name: Grafana Deployment
+  ansible.builtin.command:
+    cmd: docker-compose up -d
+    chdir: "{{ grafana_parent_dir }}"
+  when: docker_compose_file.changed

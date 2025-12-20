@@ -139,6 +139,8 @@
         name: docker_configuration
     - import_role:
         name: filebrowser_deployment
+    - import_role:
+        name: grafana_deployment
 
 # IIS Configuration
 - name: IIS Configuration
