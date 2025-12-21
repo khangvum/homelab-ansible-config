@@ -1,7 +1,7 @@
 ---
 - name: Windows Variables Load
   ansible.builtin.include_vars:
-    file: ../../../variables/windows_var.yml
+    file: ../../../variables/os_var/windows_var.yml
   when: 
     - inventory_hostname != "KVM-SRV02"
     - "'containers' not in group_names"
@@ -41,7 +41,7 @@
 
 - name: Linux Variables Load
   ansible.builtin.include_vars:
-    file: ../../../variables/linux_var.yml
+    file: ../../../variables/os_var/linux_var.yml
   when: inventory_hostname == "KVM-DOCKER01"
 - name: Gather Linux Host Information
   ansible.builtin.setup:

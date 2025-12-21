@@ -5,8 +5,8 @@
   gather_facts: false
   tags: domain_configuration
   vars_files:
-    - ../variables/domain_var.yml
-    - ../variables/user_var.yml
+    - ../variables/domain_var/domain_var.yml
+    - ../variables/domain_var/user_var.yml
   tasks:
     - include_role:
         name: domain_creation

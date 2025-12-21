@@ -5,7 +5,7 @@
   gather_facts: false
   tags: iis_configuration
   vars_files:
-    - ../variables/windows_var.yml
+    - ../variables/os_var/windows_var.yml
   tasks:
     - import_role:
         name: iis_deployment
@@ -16,8 +16,8 @@
   gather_facts: false
   tags: container_deployment
   vars_files:
-    - ../variables/linux_var.yml
-    - ../variables/domain_var.yml
+    - ../variables/os_var/linux_var.yml
+    - ../variables/domain_var/domain_var.yml
   tasks:
     - import_role:
         name: docker_configuration

@@ -86,45 +86,45 @@ flowchart LR
 
 ### General
 
-Role                                                                                                                            |Description
-:------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------
-[`firewall_configuration`](ansible-scripts/homelab-ansible-config/roles/firewall_configuration/tasks/main.yml)                  |Configures **_firewall rules_**
-[`linux_hostname_configuration`](ansible-scripts/homelab-ansible-config/roles/linux_hostname_configuration/tasks/main.yml)      |Sets **_hostname_** of Linux hosts
-[`linux_ntp_configuration`](ansible-scripts/homelab-ansible-config/roles/linux_ntp_configuration/tasks/main.yml)                |Configures **_NTP settings_** for time synchronization on **_Linux hosts_**
-[`linux_updates`](ansible-scripts/homelab-ansible-config/roles/linux_updates/tasks/main.yml)                                    |Performs **_Linux package updates_**
-[`local_user_configuration`](ansible-scripts/homelab-ansible-config/roles/local_user_configuration/tasks/main.yml)              |Manages **_local user accounts_** and **_passwords_**
-[`region_configuration`](ansible-scripts/homelab-ansible-config/roles/region_configuration/tasks/main.yml)                      |Sets **_regional_** and **_locale settings_**
-[`system_configuration`](ansible-scripts/homelab-ansible-config/roles/system_configuration/tasks/main.yml)                      |Applies **_system-wide settings_**
-[`system_information`](ansible-scripts/homelab-ansible-config/roles/system_information/tasks/main.yml)                          |Gather **_host information_**
-[`windows_hostname_configuration`](ansible-scripts/homelab-ansible-config/roles/windows_hostname_configuration/tasks/main.yml)  |Sets **_hostname_** of Windows hosts
-[`windows_ntp_configuration`](ansible-scripts/homelab-ansible-config/roles/windows_ntp_configuration/tasks/main.yml)            |Configures **_NTP settings_** for time synchronization on **_Windows hosts_**
-[`windows_updates`](ansible-scripts/homelab-ansible-config/roles/windows_updates/tasks/main.yml)                                |Performs **_Windows updates_**
+Role                                                                                                                                    |Description
+:--------------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------
+[`firewall_configuration`](ansible-scripts/homelab-ansible-config/roles/general/firewall_configuration/tasks/main.yml)                  |Configures **_firewall rules_**
+[`linux_hostname_configuration`](ansible-scripts/homelab-ansible-config/roles/general/linux_hostname_configuration/tasks/main.yml)      |Sets **_hostname_** of Linux hosts
+[`linux_ntp_configuration`](ansible-scripts/homelab-ansible-config/roles/general/linux_ntp_configuration/tasks/main.yml)                |Configures **_NTP settings_** for time synchronization on **_Linux hosts_**
+[`linux_updates`](ansible-scripts/homelab-ansible-config/roles/general/local_user_configuration/tasks/main.yml)                         |Performs **_Linux package updates_**
+[`local_user_configuration`](ansible-scripts/homelab-ansible-config/roles/general/local_user_configuration/tasks/main.yml)              |Manages **_local user accounts_** and **_passwords_**
+[`region_configuration`](ansible-scripts/homelab-ansible-config/roles/general/region_configuration/tasks/main.yml)                      |Sets **_regional_** and **_locale settings_**
+[`system_configuration`](ansible-scripts/homelab-ansible-config/roles/general/system_configuration/tasks/main.yml)                      |Applies **_system-wide settings_**
+[`system_information`](ansible-scripts/homelab-ansible-config/roles/general/system_information/tasks/main.yml)                          |Gather **_host information_**
+[`windows_hostname_configuration`](ansible-scripts/homelab-ansible-config/roles/general/windows_hostname_configuration/tasks/main.yml)  |Sets **_hostname_** of Windows hosts
+[`windows_ntp_configuration`](ansible-scripts/homelab-ansible-config/roles/general/windows_ntp_configuration/tasks/main.yml)            |Configures **_NTP settings_** for time synchronization on **_Windows hosts_**
+[`windows_updates`](ansible-scripts/homelab-ansible-config/roles/general/windows_updates/tasks/main.yml)                                |Performs **_Windows updates_**
 
 ### Domain
 
-Role                                                                                                                            |Description
-:------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------
-[`domain_creation`](ansible-scripts/homelab-ansible-config/roles/domain_creation/tasks/main.yml)                                |Creates a new **_AD forest_** along with its **_domains_** and **_OUs_**
-[`domain_user_configuration`](ansible-scripts/homelab-ansible-config/roles/domain_user_configuration/tasks/main.yml)            |Manages **domain user accounts_** and **_passwords_**
-[`linux_domain_join`](ansible-scripts/homelab-ansible-config/roles/linux_domain_join/tasks/main.yml)                            |**_Joins Linux hosts_** to the **_domain_**
-[`windows_domain_join`](ansible-scripts/homelab-ansible-config/roles/windows_domain_join/tasks/main.yml)                        |**_Joins Windows hosts_** to the **_domain_**
+Role                                                                                                                        |Description
+:--------------------------------------------------------------------------------------------------------------------------:|:----------------------------------
+[`domain_creation`](ansible-scripts/homelab-ansible-config/roles/domain/domain_creation/tasks/main.yml)                     |Creates a new **_AD forest_** along with its **_domains_** and **_OUs_**
+[`domain_user_configuration`](ansible-scripts/homelab-ansible-config/roles/domain/domain_user_configuration/tasks/main.yml) |Manages **domain user accounts_** and **_passwords_**
+[`linux_domain_join`](ansible-scripts/homelab-ansible-config/roles/domain/linux_domain_join/tasks/main.yml)                 |**_Joins Linux hosts_** to the **_domain_**
+[`windows_domain_join`](ansible-scripts/homelab-ansible-config/roles/domain/windows_domain_join/tasks/main.yml)             |**_Joins Windows hosts_** to the **_domain_**
 
 ### Hypervisors
 
-Role                                                                                                                            |Description
-:------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------
-[`esxi_vm_deployment`](ansible-scripts/homelab-ansible-config/roles/esxi_vm_deployment/tasks/main.yml)                          |Deploys **_VMs_** on **_ESXi host_**
-[`hyper-v_configuration`](ansible-scripts/homelab-ansible-config/roles/hyper-v_configuration/tasks/main.yml)                    |Installs **_Hyper-V_** and configures **_virtual switches_**
-[`hyper-v_vm_deployment`](ansible-scripts/homelab-ansible-config/roles/hyper-v_vm_deployment/tasks/main.yml)                    |Deploys **_VMs_** on **_Hyper-V host_**
+Role                                                                                                                    |Description
+:----------------------------------------------------------------------------------------------------------------------:|:----------------------------------
+[`esxi_vm_deployment`](ansible-scripts/homelab-ansible-config/roles/hypervisors/esxi_vm_deployment/tasks/main.yml)      |Deploys **_VMs_** on **_ESXi host_**
+[`hyper-v_configuration`](ansible-scripts/homelab-ansible-config/roles/hypervisors/hyper-v_configuration/tasks/main.yml)|Installs **_Hyper-V_** and configures **_virtual switches_**
+[`hyper-v_vm_deployment`](ansible-scripts/homelab-ansible-config/roles/hypervisors/hyper-v_vm_deployment/tasks/main.yml)|Deploys **_VMs_** on **_Hyper-V host_**
 
 ### Services
 
-Role                                                                                                                            |Description
-:------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------
-[`docker_configuration`](ansible-scripts/homelab-ansible-config/roles/docker_configuration/tasks/main.yml)                      |Configures **_Docker_** settings
-[`filebrowser_deployment`](ansible-scripts/homelab-ansible-config/roles/filebrowser_deployment/tasks/main.yml)                  |Configures **_Filebrowser_** as a **_containerized file manager_** with **_persistent network storage_**
-[`grafana_deployment`](ansible-scripts/homelab-ansible-config/roles/grafana_deployment/tasks/main.yml)                          |Configures **_Grafana_** as a **_containerized analytics platform_** for **_dashboards_** and **_data virtualization_**
-[`iis_deployment`](ansible-scripts/homelab-ansible-config/roles/iis_deployment/tasks/main.yml)                                  |Installs and configures **_Internet Information Services_** (**_IIS_**)
+Role                                                                                                                    |Description
+:----------------------------------------------------------------------------------------------------------------------:|:----------------------------------
+[`docker_configuration`](ansible-scripts/homelab-ansible-config/roles/services/docker_configuration/tasks/main.yml)     |Configures **_Docker_** settings
+[`filebrowser_deployment`](ansible-scripts/homelab-ansible-config/roles/services/filebrowser_deployment/tasks/main.yml) |Configures **_Filebrowser_** as a **_containerized file manager_** with **_persistent network storage_**
+[`grafana_deployment`](ansible-scripts/homelab-ansible-config/roles/services/grafana_deployment/tasks/main.yml)         |Configures **_Grafana_** as a **_containerized analytics platform_** for **_dashboards_** and **_data virtualization_**
+[`iis_deployment`](ansible-scripts/homelab-ansible-config/roles/services/iis_deployment/tasks/main.yml)                 |Installs and configures **_Internet Information Services_** (**_IIS_**)
 
 ## Prerequisites
 
@@ -159,14 +159,34 @@ Role                                                                            
 
 1.  **Update the inventory and variable files:**
 
--   Update **_[`inventory.yml`](ansible-scripts/homelab-ansible-config/inventory_template.yml)_** to define the **_target hosts_**.
--   Update **_[`domain_var.yml`](ansible-scripts/homelab-ansible-config/variables/domain_var_template.yml)_** to define the **_domain configuration_**.
--   Update **_[`linux_var.yml`](ansible-scripts/homelab-ansible-config/variables/linux_var_template.yml)_** to define **_Linux-specific variables_**
--   Update **_[`user_var.yml`](ansible-scripts/homelab-ansible-config/variables/user_var_template.yml)_** to define all **_domain users_**.
--   Update **_[`windows_var.yml`](ansible-scripts/homelab-ansible-config/variables/windows_var_template.yml)_** to define **_Windows-specific variables_** (_e.g.,_ usernames, passwords, hostnames, etc.)
--   Update **_[`esxi_vm_var.yml`](ansible-scripts/homelab-ansible-config/variables/esxi_vm_var.yml)_** to define **_ESXI VMs_** and their **_specifications_** to be created and configured.
--   Update **_[`hyper-v_vm_var.yml`](ansible-scripts/homelab-ansible-config/variables/hyper-v_vm_var.yml)_** to define the **_Hyper-V VMs_** and their **_specifications_** to be created and configured.
--   Update **_[`filebrowser_var.yml`](ansible-scripts/homelab-ansible-config/variables/filebrowser_var.yml)_** to define **_Filebrowser settings_**.
+-   [`inventory.yml`](ansible-scripts/homelab-ansible-config/inventory_template.yml): Defines the **_target hosts_**.
+-   **Docker variables:**
+
+    File                                                                                                    |Description
+    :------------------------------------------------------------------------------------------------------:|:----------
+    [`filebrowser_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/filebrowser_var.yml)|Define **_Filebrowser settings_**
+    [`grafana_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/grafana_var.yml)        |Define **_Grafana settings_**
+
+-   **Domain variables:**
+
+    File                                                                                                    |Description
+    :------------------------------------------------------------------------------------------------------:|:----------
+    [`domain_var.yml`](ansible-scripts/homelab-ansible-config/variables/domain_var/domain_var_template.yml) |Defines the **_domain configuration_**
+    [`user_var.yml`](ansible-scripts/homelab-ansible-config/variables/domain_var/user_var_template.yml)     |Defines all **_domain users_**
+
+-   **Hypervisor variables:**
+
+    File                                                                                                        |Description
+    :----------------------------------------------------------------------------------------------------------:|:----------
+    [`esxi_vm_var.yml`](ansible-scripts/homelab-ansible-config/variables/hypervisor_var/esxi_vm_var.yml)        |Defines **_ESXI VMs_** and their **_specifications_**
+    [`hyper-v_vm_var.yml`](ansible-scripts/homelab-ansible-config/variables/hypervisor_var/hyper-v_vm_var.yml)  |Define the **_Hyper-V VMs_** and their **_specifications_**
+
+-   **OS variables:**
+
+    File                                                                                                    |Description
+    :------------------------------------------------------------------------------------------------------:|:----------
+    [`linux_var.yml`](ansible-scripts/homelab-ansible-config/variables/os_var/linux_var_template.yml)       |Defines **_Linux-specific variables_**
+    [`windows_var.yml`](ansible-scripts/homelab-ansible-config/variables/os_var/windows_var_template.yml)   |Defines **_Windows-specific variables_**
 
 2.  **Start the Ansible environment:**
 

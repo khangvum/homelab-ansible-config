@@ -5,8 +5,8 @@
   gather_facts: false
   tags: global_configuration
   vars_files:
-    - ../variables/windows_var.yml
-    - ../variables/domain_var.yml
+    - ../variables/os_var/windows_var.yml
+    - ../variables/domain_var/domain_var.yml
   tasks:
     - import_role:
         name: windows_hostname_configuration
@@ -27,8 +27,8 @@
   gather_facts: false
   tags: hyper-v_host_configuration
   vars_files:
-    - ../variables/hyper-v_vm_var.yml
-    - ../variables/windows_var.yml
+    - ../variables/hypervisor_var/hyper-v_vm_var.yml
+    - ../variables/os_var/windows_var.yml
   vars:
     hyper_v_parent_dir: "{{ srv_hyper_v_parent_dir if 'servers' in group_names else pc_hyper_v_parent_dir }}"
   tasks:
@@ -41,9 +41,9 @@
   gather_facts: false
   tags: vm_deployment
   vars_files:
-    - ../variables/esxi_vm_var.yml
-    - ../variables/hyper-v_vm_var.yml
-    - ../variables/windows_var.yml
+    - ../variables/hypervisor_var/esxi_vm_var.yml
+    - ../variables/hypervisor_var/hyper-v_vm_var.yml
+    - ../variables/os_var/windows_var.yml
   vars:
     hyper_v_parent_dir: "{{ srv_hyper_v_parent_dir if 'servers' in group_names else pc_hyper_v_parent_dir }}"
   tasks:

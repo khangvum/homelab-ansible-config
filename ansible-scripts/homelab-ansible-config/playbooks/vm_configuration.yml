@@ -5,8 +5,8 @@
   gather_facts: false
   tags: windows_vm_configuration
   vars_files:
-    - ../variables/windows_var.yml
-    - ../variables/domain_var.yml
+    - ../variables/os_var/windows_var.yml
+    - ../variables/domain_var/domain_var.yml
   tasks:
     - import_role:
         name: windows_hostname_configuration
@@ -30,8 +30,8 @@
   gather_facts: false
   tags: linux_vm_configuration
   vars_files:
-    - ../variables/linux_var.yml
-    - ../variables/domain_var.yml
+    - ../variables/os_var/linux_var.yml
+    - ../variables/domain_var/domain_var.yml
   tasks:
     - import_role:
         name: linux_hostname_configuration
