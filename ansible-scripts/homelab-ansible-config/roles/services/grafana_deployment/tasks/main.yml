@@ -1,7 +1,7 @@
 ---
 - name: Grafana Variables Load
   ansible.builtin.include_vars:
-    file: ../../variables/docker_var/grafana_var.yml
+    file: ../../../variables/docker_var/grafana_var.yml
 
 - name: grafana Directory Creation
   ansible.builtin.file:

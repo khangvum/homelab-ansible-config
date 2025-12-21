@@ -1,7 +1,7 @@
 ---
 - name: Linux Variables Load
   ansible.builtin.include_vars:
-    file: ../../variables/linux_var.yml
+    file: ../../../variables/linux_var.yml
 
 - name: Required Packages Installation
   ansible.builtin.apt:
