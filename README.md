@@ -122,8 +122,8 @@ Role                                                                            
 Role                                                                                                                    |Description
 :----------------------------------------------------------------------------------------------------------------------:|:----------------------------------
 [`docker_configuration`](ansible-scripts/homelab-ansible-config/roles/services/docker_configuration/tasks/main.yml)     |Configures **_Docker_** settings
-[`filebrowser_deployment`](ansible-scripts/homelab-ansible-config/roles/services/filebrowser_deployment/tasks/main.yml) |Configures **_Filebrowser_** as a **_containerized file manager_** with **_persistent network storage_**
-[`grafana_deployment`](ansible-scripts/homelab-ansible-config/roles/services/grafana_deployment/tasks/main.yml)         |Configures **_Grafana_** as a **_containerized analytics platform_** for **_dashboards_** and **_data virtualization_**
+[`filebrowser_deployment`](ansible-scripts/homelab-ansible-config/roles/services/filebrowser_deployment/tasks/main.yml) |Configures **_Filebrowser_** as a **_file manager_** with **_persistent network storage_**
+[`grafana_deployment`](ansible-scripts/homelab-ansible-config/roles/services/grafana_deployment/tasks/main.yml)         |Configures **_Grafana_** as a **_analytics platform_** for **_dashboards_** and **_data virtualization_**
 [`iis_deployment`](ansible-scripts/homelab-ansible-config/roles/services/iis_deployment/tasks/main.yml)                 |Installs and configures **_Internet Information Services_** (**_IIS_**)
 
 ## Prerequisites
@@ -159,34 +159,34 @@ Role                                                                            
 
 1.  **Update the inventory and variable files:**
 
--   [`inventory.yml`](ansible-scripts/homelab-ansible-config/inventory_template.yml): Defines the **_target hosts_**.
--   **Docker variables:**
+    -   [`inventory.yml`](ansible-scripts/homelab-ansible-config/inventory_template.yml): Defines the **_target hosts_**.
+    -   **Docker variables:**
 
-    File                                                                                                    |Description
-    :------------------------------------------------------------------------------------------------------:|:----------
-    [`filebrowser_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/filebrowser_var.yml)|Define **_Filebrowser settings_**
-    [`grafana_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/grafana_var.yml)        |Define **_Grafana settings_**
+        File                                                                                                    |Description
+        :------------------------------------------------------------------------------------------------------:|:----------
+        [`filebrowser_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/filebrowser_var.yml)|Define **_Filebrowser settings_**
+        [`grafana_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/grafana_var.yml)        |Define **_Grafana settings_**
 
--   **Domain variables:**
+    -   **Domain variables:**
 
-    File                                                                                                    |Description
-    :------------------------------------------------------------------------------------------------------:|:----------
-    [`domain_var.yml`](ansible-scripts/homelab-ansible-config/variables/domain_var/domain_var_template.yml) |Defines the **_domain configuration_**
-    [`user_var.yml`](ansible-scripts/homelab-ansible-config/variables/domain_var/user_var_template.yml)     |Defines all **_domain users_**
+        File                                                                                                    |Description
+        :------------------------------------------------------------------------------------------------------:|:----------
+        [`domain_var.yml`](ansible-scripts/homelab-ansible-config/variables/domain_var/domain_var_template.yml) |Defines the **_domain configuration_**
+        [`user_var.yml`](ansible-scripts/homelab-ansible-config/variables/domain_var/user_var_template.yml)     |Defines all **_domain users_**
 
--   **Hypervisor variables:**
+    -   **Hypervisor variables:**
 
-    File                                                                                                        |Description
-    :----------------------------------------------------------------------------------------------------------:|:----------
-    [`esxi_vm_var.yml`](ansible-scripts/homelab-ansible-config/variables/hypervisor_var/esxi_vm_var.yml)        |Defines **_ESXI VMs_** and their **_specifications_**
-    [`hyper-v_vm_var.yml`](ansible-scripts/homelab-ansible-config/variables/hypervisor_var/hyper-v_vm_var.yml)  |Define the **_Hyper-V VMs_** and their **_specifications_**
+        File                                                                                                        |Description
+        :----------------------------------------------------------------------------------------------------------:|:----------
+        [`esxi_vm_var.yml`](ansible-scripts/homelab-ansible-config/variables/hypervisor_var/esxi_vm_var.yml)        |Defines **_ESXI VMs_** and their **_specifications_**
+        [`hyper-v_vm_var.yml`](ansible-scripts/homelab-ansible-config/variables/hypervisor_var/hyper-v_vm_var.yml)  |Define the **_Hyper-V VMs_** and their **_specifications_**
 
--   **OS variables:**
+    -   **OS variables:**
 
-    File                                                                                                    |Description
-    :------------------------------------------------------------------------------------------------------:|:----------
-    [`linux_var.yml`](ansible-scripts/homelab-ansible-config/variables/os_var/linux_var_template.yml)       |Defines **_Linux-specific variables_**
-    [`windows_var.yml`](ansible-scripts/homelab-ansible-config/variables/os_var/windows_var_template.yml)   |Defines **_Windows-specific variables_**
+        File                                                                                                    |Description
+        :------------------------------------------------------------------------------------------------------:|:----------
+        [`linux_var.yml`](ansible-scripts/homelab-ansible-config/variables/os_var/linux_var_template.yml)       |Defines **_Linux-specific variables_**
+        [`windows_var.yml`](ansible-scripts/homelab-ansible-config/variables/os_var/windows_var_template.yml)   |Defines **_Windows-specific variables_**
 
 2.  **Start the Ansible environment:**
 
