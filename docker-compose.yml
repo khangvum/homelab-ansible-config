@@ -8,4 +8,4 @@ services:
     volumes:
       - ./ansible-scripts:/opt/ansible
     environment:
-      - ANSIBLE-CONFIG=/opt/ansible/ansible.cfg
+      - ANSIBLE_CONFIG=/opt/ansible/ansible.cfg
