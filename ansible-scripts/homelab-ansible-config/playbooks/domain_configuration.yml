@@ -1,0 +1,22 @@
+---
+# Domain Configuration
+- name: Domain Configuration
+  hosts: vms
+  gather_facts: false
+  tags: domain_configuration
+  vars_files:
+    - ../variables/domain_var.yml
+    - ../variables/user_var.yml
+  tasks:
+    - include_role:
+        name: domain_creation
+      when: "'dcs' in group_names"
+    - include_role:
+        name: windows_domain_join
+      when: "'containers' not in group_names"
+    - include_role:
+        name: linux_domain_join
+      when: "'containers' in group_names"
+    - include_role:
+        name: domain_user_configuration
+      when: inventory_hostname == "KVM-DC01"

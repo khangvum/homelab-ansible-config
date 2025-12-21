@@ -1,0 +1,27 @@
+---
+# IIS Configuration
+- name: IIS Configuration
+  hosts: webs
+  gather_facts: false
+  tags: iis_configuration
+  vars_files:
+    - ../variables/windows_var.yml
+  tasks:
+    - import_role:
+        name: iis_deployment
+
+# Container Deployment
+- name: Container Deployment
+  hosts: containers
+  gather_facts: false
+  tags: container_deployment
+  vars_files:
+    - ../variables/linux_var.yml
+    - ../variables/domain_var.yml
+  tasks:
+    - import_role:
+        name: docker_configuration
+    - import_role:
+        name: filebrowser_deployment
+    - import_role:
+        name: grafana_deployment

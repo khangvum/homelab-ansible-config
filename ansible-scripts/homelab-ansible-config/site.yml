@@ -8,147 +8,25 @@
     - import_role:
         name: system_information
 
-# Global Configuration
-- name: Global Configuration
-  hosts: servers:!KVM-SRV02
-  gather_facts: false
-  tags: global_configuration
-  vars_files:
-    - variables/windows_var.yml
-    - variables/domain_var.yml
-  tasks:
-    - import_role:
-        name: windows_hostname_configuration
-    - import_role:
-        name: windows_ntp_configuration
-    - import_role:
-        name: region_configuration
-    - import_role:
-        name: system_configuration
-    - import_role:
-        name: local_user_configuration
-    - import_role:
-        name: windows_updates
+# Hypervisor Configuration
+# 1. global_configuration
+# 2. hyper-v_host_configuration
+# 3. vm_deployment
+- name: Hypervisor Configuration
+  import_playbook: playbooks/hypervisor_configuration.yml
 
-# Hyper-V Host Configuration
-- name: Hyper-V Host Configuration
-  hosts: servers:!KVM-SRV02
-  gather_facts: false
-  tags: hyper-v_host_configuration
-  vars_files:
-    - variables/hyper-v_vm_var.yml
-    - variables/windows_var.yml
-  vars:
-    hyper_v_parent_dir: "{{ srv_hyper_v_parent_dir if 'servers' in group_names else pc_hyper_v_parent_dir }}"
-  tasks:
-    - import_role:
-        name: hyper-v_configuration
+# VM Configuration
+# 1. windows_vm_configuration
+# 2. linux_vm_configuration
+- name: VM Configuration
+  import_playbook: playbooks/vm_configuration.yml
 
-# VM Deployment
-- name: VM Deployment
-  hosts: servers
-  gather_facts: false
-  tags: vm_deployment
-  vars_files:
-    - variables/esxi_vm_var.yml
-    - variables/hyper-v_vm_var.yml
-    - variables/windows_var.yml
-  vars:
-    hyper_v_parent_dir: "{{ srv_hyper_v_parent_dir if 'servers' in group_names else pc_hyper_v_parent_dir }}"
-  tasks:
-    - import_role:
-        name: hyper-v_vm_deployment
-      when: inventory_hostname == "KVM-SRV01"
-    - include_role:
-        name: esxi_vm_deployment
-      when: inventory_hostname == "KVM-SRV02"
-
-# Windows VM Configuration
-- name: Windows VM Configuration
-  hosts: vms:!KVM-DOCKER01
-  gather_facts: false
-  tags: windows_vm_configuration
-  vars_files:
-    - variables/windows_var.yml
-    - variables/domain_var.yml
-  tasks:
-    - import_role:
-        name: windows_hostname_configuration
-    - import_role:
-        name: firewall_configuration
-    - import_role:
-        name: windows_ntp_configuration
-    - import_role:
-        name: region_configuration
-    - import_role:
-        name: system_configuration
-    - include_role:
-        name: local_user_configuration
-      when: "'dcs' not in group_names"
-    - import_role:
-        name: windows_updates
-
-# Linux VM Configuration
-- name: Linux VM Configuration
-  hosts: containers
-  gather_facts: false
-  tags: linux_vm_configuration
-  vars_files:
-    - variables/linux_var.yml
-    - variables/domain_var.yml
-  tasks:
-    - import_role:
-        name: linux_hostname_configuration
-    - import_role:
-        name: linux_ntp_configuration
-    - import_role:
-        name: linux_updates
-
-# Domain Configuration
+# Domain Configuration (domain_configuration)
 - name: Domain Configuration
-  hosts: vms
-  gather_facts: false
-  tags: domain_configuration
-  vars_files:
-    - variables/domain_var.yml
-    - variables/user_var.yml
-  tasks:
-    - include_role:
-        name: domain_creation
-      when: "'dcs' in group_names"
-    - include_role:
-        name: windows_domain_join
-      when: "'containers' not in group_names"
-    - include_role:
-        name: linux_domain_join
-      when: "'containers' in group_names"
-    - include_role:
-        name: domain_user_configuration
-      when: inventory_hostname == "KVM-DC01"
+  import_playbook: playbooks/domain_configuration.yml
 
-# Container Deployment
-- name: Container Deployment
-  hosts: containers
-  gather_facts: false
-  tags: container_deployment
-  vars_files:
-    - variables/linux_var.yml
-    - variables/domain_var.yml
-  tasks:
-    - import_role:
-        name: docker_configuration
-    - import_role:
-        name: filebrowser_deployment
-    - import_role:
-        name: grafana_deployment
-
-# IIS Configuration
-- name: IIS Configuration
-  hosts: webs
-  gather_facts: false
-  tags: iis_configuration
-  vars_files:
-    - variables/windows_var.yml
-  tasks:
-    - import_role:
-        name: iis_deployment
+# Service Configuration
+# 1. iis_configuration
+# 2. container_deployment
+- name: Service Configuration
+  import_playbook: playbooks/service_configuration.yml

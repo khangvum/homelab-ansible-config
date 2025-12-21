@@ -1,0 +1,41 @@
+---
+# Windows VM Configuration
+- name: Windows VM Configuration
+  hosts: vms:!KVM-DOCKER01
+  gather_facts: false
+  tags: windows_vm_configuration
+  vars_files:
+    - ../variables/windows_var.yml
+    - ../variables/domain_var.yml
+  tasks:
+    - import_role:
+        name: windows_hostname_configuration
+    - import_role:
+        name: firewall_configuration
+    - import_role:
+        name: windows_ntp_configuration
+    - import_role:
+        name: region_configuration
+    - import_role:
+        name: system_configuration
+    - include_role:
+        name: local_user_configuration
+      when: "'dcs' not in group_names"
+    - import_role:
+        name: windows_updates
+
+# Linux VM Configuration
+- name: Linux VM Configuration
+  hosts: containers
+  gather_facts: false
+  tags: linux_vm_configuration
+  vars_files:
+    - ../variables/linux_var.yml
+    - ../variables/domain_var.yml
+  tasks:
+    - import_role:
+        name: linux_hostname_configuration
+    - import_role:
+        name: linux_ntp_configuration
+    - import_role:
+        name: linux_updates
