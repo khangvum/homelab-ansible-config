@@ -166,7 +166,7 @@ Role                                                                            
     File                                                                                                    |Description
     :------------------------------------------------------------------------------------------------------:|:----------
     [`filebrowser_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/filebrowser_var.yml)|Define **_Filebrowser settings_**
-    [`grafana_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/grafana_var.yml)        |Define **_Grafana settings_**
+    [`monitoring_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/monitoring_var.yml)  |Define **_Grafana_**, **_Prometheus_**, and **_Node Exporter settings_** for **_monitoring stack_**
 
 -   **Domain variables:**
 
