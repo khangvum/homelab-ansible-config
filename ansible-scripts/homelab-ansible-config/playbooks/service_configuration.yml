@@ -25,3 +25,5 @@
         name: filebrowser_deployment
     - import_role:
         name: grafana_deployment
+    - import_role:
+        name: prometheus_deployment

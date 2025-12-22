@@ -1,0 +1,39 @@
+---
+- name: Prometheus Variables Load
+  ansible.builtin.include_vars:
+    file: ../../../variables/docker_var/prometheus_var.yml
+
+- name: prometheus Directory Creation
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0755'
+  loop:
+    - "{{ prometheus_parent_dir }}"
+    - "{{ prometheus_parent_dir }}/prometheus"
+
+- name: Docker Compose File Creation
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: "{{ prometheus_parent_dir }}/docker-compose.yml"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0644'
+  register: docker_compose_file
+
+- name: Prometheus Configuration File Creation
+  ansible.builtin.template:
+    src: prometheus.yml.j2
+    dest: "{{ prometheus_parent_dir }}/prometheus/prometheus.yml"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0644'
+  register: prometheus_config_file
+
+- name: Prometheus Deployment
+  ansible.builtin.command:
+    cmd: docker-compose up -d
+    chdir: "{{ prometheus_parent_dir }}"
+  when: docker_compose_file.changed or prometheus_config_file.changed
