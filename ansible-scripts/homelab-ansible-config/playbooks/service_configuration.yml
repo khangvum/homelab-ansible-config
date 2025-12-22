@@ -18,6 +18,8 @@
   vars_files:
     - ../variables/os_var/linux_var.yml
     - ../variables/domain_var/domain_var.yml
+    - ../variables/docker_var/filebrowser_var.yml
+    - ../variables/docker_var/monitoring.yml
   tasks:
     - import_role:
         name: docker_configuration

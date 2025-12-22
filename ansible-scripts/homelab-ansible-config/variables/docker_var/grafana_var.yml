@@ -1,2 +1,0 @@
----
-grafana_parent_dir: "/home/{{ ansible_user }}/docker/grafana"

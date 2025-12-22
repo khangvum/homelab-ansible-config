@@ -1,8 +1,4 @@
 ---
-- name: Prometheus Variables Load
-  ansible.builtin.include_vars:
-    file: ../../../variables/docker_var/prometheus_var.yml
-
 - name: prometheus Directory Creation
   ansible.builtin.file:
     path: "{{ item }}"
