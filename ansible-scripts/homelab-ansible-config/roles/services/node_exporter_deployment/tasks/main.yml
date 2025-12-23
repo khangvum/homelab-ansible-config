@@ -1,0 +1,95 @@
+---
+# Reference: https://docs.techdox.nz/node-exporter/
+- name: Node Exporter Latest Version Retrieval
+  ansible.builtin.uri:
+    url: "https://api.github.com/repos/prometheus/node_exporter/releases/latest"
+    return_content: true
+    body_format: json
+  register: github_api_output
+
+- name: Node Exporter Latest Version Definition
+  ansible.builtin.set_fact:
+    # Pulls "v1.10.2" and removes the "v" to get "1.10.2"
+    latest_version: "{{ github_api_output.json.tag_name | replace('v', '') }}"
+- debug:
+    msg: "Latest Version: {{ latest_version }}"
+
+- name: Node Exporter Installed Version Query
+  ansible.builtin.shell:
+    cmd: /usr/local/bin/node_exporter --version
+  register: installed_version
+  failed_when: false
+  changed_when: false
+
+- name: Node Exporter Current Version Definition
+  ansible.builtin.set_fact:
+    current_version: "{{ installed_version.stdout | regex_search('version ([0-9.]+)', '\\1') | first | default('0.0.0') }}"
+- debug:
+    msg: "Current Version: {{ current_version }}"
+
+- name: Node Exporter User Creation
+  ansible.builtin.user:
+    name: "{{ node_exporter_user }}"
+    create_home: false
+    shell: /bin/false
+    system: true
+    state: present
+
+- name: Node Exporter Installation/Upgrade
+  block:
+    - name: Node Exporter Download
+      ansible.builtin.get_url:
+        url: "https://github.com/prometheus/node_exporter/releases/download/v{{ latest_version }}/node_exporter-{{ latest_version }}.linux-amd64.tar.gz"
+        dest: "/home/{{ ansible_user }}/node_exporter-{{ latest_version }}.linux-amd64.tar.gz"
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0755'
+
+    - name: Node Exporter Extraction
+      ansible.builtin.unarchive:
+        src: "/home/{{ ansible_user }}/node_exporter-{{ latest_version }}.linux-amd64.tar.gz"
+        dest: "/home/{{ ansible_user }}"
+        remote_src: true
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0755'
+
+    - name: Node Exporter Binary Copy
+      ansible.builtin.copy:
+        src: "/home/{{ ansible_user }}/node_exporter-{{ latest_version }}.linux-amd64/node_exporter"
+        dest: "/usr/local/bin/node_exporter"
+        remote_src: true
+        owner: "{{ node_exporter_user }}"
+        group: "{{ node_exporter_user }}"
+        mode: '0755'
+
+    - name: Node Exporter Cleanup
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - "/home/{{ ansible_user }}/node_exporter-{{ latest_version }}.linux-amd64"
+        - "/home/{{ ansible_user }}/node_exporter-{{ latest_version }}.linux-amd64.tar.gz"
+  when: current_version != latest_version
+
+- name: Node Exporter Systemd Service Configuration
+  ansible.builtin.template:
+    src: node_exporter.service.j2
+    dest: /etc/systemd/system/node_exporter.service
+    owner: root
+    group: root
+    mode: '0644'
+  register: node_exporter_service_config
+
+- name: Node Exporter Service Application and Start
+  block:
+    - name: Reload to Apply Changes
+      ansible.builtin.systemd_service:
+        daemon_reload: true
+
+    - name: Node Exporter Service Start
+      ansible.builtin.systemd_service:
+        name: node_exporter.service
+        state: restarted
+        enabled: true
+  when: node_exporter_service_config.changed or current_version != latest_version

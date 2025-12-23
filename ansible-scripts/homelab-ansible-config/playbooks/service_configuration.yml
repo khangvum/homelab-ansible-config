@@ -19,7 +19,7 @@
     - ../variables/os_var/linux_var.yml
     - ../variables/domain_var/domain_var.yml
     - ../variables/docker_var/filebrowser_var.yml
-    - ../variables/docker_var/monitoring.yml
+    - ../variables/docker_var/monitoring_var.yml
   tasks:
     - import_role:
         name: docker_configuration
@@ -29,3 +29,5 @@
         name: grafana_deployment
     - import_role:
         name: prometheus_deployment
+    - import_role:
+        name: node_exporter_deployment
