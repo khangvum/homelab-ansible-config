@@ -58,7 +58,7 @@
 
 # Configure DNS servers for Domain Controllers
 - name: Domain Controllers' DNS List Build
-  set_fact:
+  ansible.builtin.set_fact:
     adapters_dc_dns_servers: >-
       {{
         (adapters_dc_dns_servers | default({})) 
