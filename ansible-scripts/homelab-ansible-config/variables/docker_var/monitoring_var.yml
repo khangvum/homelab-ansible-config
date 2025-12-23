@@ -1,3 +1,9 @@
 ---
+# Grafana
 grafana_parent_dir: "/home/{{ ansible_user }}/docker/grafana"
+
+# Prometheus
 prometheus_parent_dir: "/home/{{ ansible_user }}/docker/prometheus"
+
+# Node Exporter
+node_exporter_user: node_exporter
