@@ -119,13 +119,14 @@ Role                                                                            
 
 ### Services
 
-Role                                                                                                                    |Description
-:----------------------------------------------------------------------------------------------------------------------:|:----------------------------------
-[`docker_configuration`](ansible-scripts/homelab-ansible-config/roles/services/docker_configuration/tasks/main.yml)     |Configures **_Docker_** settings
-[`filebrowser_deployment`](ansible-scripts/homelab-ansible-config/roles/services/filebrowser_deployment/tasks/main.yml) |Configures **_Filebrowser_** as a **_file manager_** with **_persistent network storage_**
-[`grafana_deployment`](ansible-scripts/homelab-ansible-config/roles/services/grafana_deployment/tasks/main.yml)         |Configures **_Grafana_** as a **_analytics platform_** for **_dashboards_** and **_data virtualization_**
-[`iis_deployment`](ansible-scripts/homelab-ansible-config/roles/services/iis_deployment/tasks/main.yml)                 |Installs and configures **_Internet Information Services_** (**_IIS_**)
-[`prometheus_deployment`](ansible-scripts/homelab-ansible-config/roles/services/prometheus_deployment/tasks/main.yml)   |Configures **_Prometheus_** as a **_time-series database_** for **_metrics collection_**
+Role                                                                                                                        |Description
+:--------------------------------------------------------------------------------------------------------------------------:|:----------------------------------
+[`docker_configuration`](ansible-scripts/homelab-ansible-config/roles/services/docker_configuration/tasks/main.yml)         |Configures **_Docker_** settings
+[`filebrowser_deployment`](ansible-scripts/homelab-ansible-config/roles/services/filebrowser_deployment/tasks/main.yml)     |Configures **_Filebrowser_** as a **_file manager_** with **_persistent network storage_**
+[`grafana_deployment`](ansible-scripts/homelab-ansible-config/roles/services/grafana_deployment/tasks/main.yml)             |Configures **_Grafana_** as a **_analytics platform_** for **_dashboards_** and **_data virtualization_**
+[`iis_deployment`](ansible-scripts/homelab-ansible-config/roles/services/iis_deployment/tasks/main.yml)                     |Installs and configures **_Internet Information Services_** (**_IIS_**)
+[`node_exporter_deployment`](ansible-scripts/homelab-ansible-config/roles/services/node_exporter_deployment/tasks/main.yml) |Configures **_Node Exporter_** as a **_metrics collector_** for **_Prometheus monitoring_**
+[`prometheus_deployment`](ansible-scripts/homelab-ansible-config/roles/services/prometheus_deployment/tasks/main.yml)       |Configures **_Prometheus_** as a **_time-series database_** for **_metrics collection_**
 
 ## Prerequisites
 
