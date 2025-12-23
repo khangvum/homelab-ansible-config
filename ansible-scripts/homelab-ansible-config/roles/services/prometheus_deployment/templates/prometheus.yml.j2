@@ -11,6 +11,7 @@ alerting:
       timeout: 10s
       api_version: v2
 scrape_configs:
+  # Job 1: Prometheus Self-Monitoring
   - job_name: prometheus
     # honor_timestamps: true
     # scrape_interval: 15s
@@ -20,3 +21,8 @@ scrape_configs:
     static_configs:
       - targets:
         - localhost:9090
+  # Job 2: Linux Monitoring
+  - job_name: node_exporter
+    static_configs:
+      - targets:
+        - {{ hostvars['KVM-DOCKER01'].v_switches[1].ip }}:9100
