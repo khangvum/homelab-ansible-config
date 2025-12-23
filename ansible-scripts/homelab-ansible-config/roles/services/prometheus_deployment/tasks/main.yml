@@ -29,6 +29,13 @@
     mode: '0644'
   register: prometheus_config_file
 
+- name: Docker Compose Down When Configuration Changes
+  ansible.builtin.command:
+    cmd: docker-compose down
+    chdir: "{{ prometheus_parent_dir }}"
+  when: prometheus_config_file.changed
+
+# `docker-compose up -d` will only apply changes in the docker-compose.yml, not the prometheus.yml configuration file
 - name: Prometheus Deployment
   ansible.builtin.command:
     cmd: docker-compose up -d
