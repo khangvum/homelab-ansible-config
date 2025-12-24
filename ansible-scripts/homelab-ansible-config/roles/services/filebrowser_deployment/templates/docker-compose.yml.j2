@@ -9,7 +9,7 @@ services:
       - {{ filebrowser_parent_dir }}/database:/database # Change to match your directory
       - {{ filebrowser_parent_dir }}/config:/config # Change to match your directory
     environment:
-      - PUID=$(id -u)
-      - PGID=$(id -g)
+      - PUID={{ administrator_uid }}
+      - PGID={{ administrator_gid }}
     ports:
       - 8095:80 # Change the port if needed
