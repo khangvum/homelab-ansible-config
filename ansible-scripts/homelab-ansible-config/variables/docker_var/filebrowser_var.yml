@@ -2,3 +2,6 @@
 mount_dir: /mnt/nas
 filebrowser_parent_dir: "/home/{{ ansible_user }}/docker/filebrowser"
 nas_path: "//{{ hostvars['KVM-SRV01'].v_switches[1].ip }}/NAS"
+
+administrator_uid: 1000
+administrator_gid: 1000
