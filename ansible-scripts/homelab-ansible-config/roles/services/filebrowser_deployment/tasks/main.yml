@@ -25,7 +25,7 @@
     src: "{{ nas_path }}"
     path: "{{ mount_dir }}"
     fstype: cifs
-    opts: "credentials=/etc/cifs_credentials,uid=1000,gid=1000,iocharset=utf8,vers=3.0,nofail"
+    opts: "credentials=/etc/cifs_credentials,uid=1000,gid=1000,file_mode=0775,dir_mode=0775,iocharset=utf8,vers=3.0,nofail"
     state: mounted
   register: permanent_mount
 
