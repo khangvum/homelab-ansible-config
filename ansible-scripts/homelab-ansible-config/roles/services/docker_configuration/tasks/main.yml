@@ -1,4 +1,8 @@
 ---
+- name: Linux Variables Load
+  ansible.builtin.include_vars:
+    file: ../../../variables/os_var/linux_var.yml
+    
 - name: Docker Installation
   community.general.snap:
     name: docker
