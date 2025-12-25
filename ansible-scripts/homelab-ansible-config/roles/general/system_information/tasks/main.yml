@@ -42,14 +42,14 @@
 - name: Linux Variables Load
   ansible.builtin.include_vars:
     file: ../../../variables/os_var/linux_var.yml
-  when: inventory_hostname == "KVM-DOCKER01"
+  when: "'containers' in group_names"
 - name: Gather Linux Host Information
   ansible.builtin.setup:
     filter:
       - ansible_hostname
       - ansible_distribution*
   register: linux_info
-  when: inventory_hostname == "KVM-DOCKER01"
+  when: "'containers' in group_names"
 - debug:
     msg: "{{ linux_info }}"
-  when: inventory_hostname == "KVM-DOCKER01"
+  when: "'containers' in group_names"
