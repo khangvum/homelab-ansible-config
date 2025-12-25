@@ -1,7 +1,7 @@
 ---
 # Windows VM Configuration
 - name: Windows VM Configuration
-  hosts: vms:!KVM-DOCKER01
+  hosts: vms:!containers
   gather_facts: false
   tags: windows_vm_configuration
   vars_files:
