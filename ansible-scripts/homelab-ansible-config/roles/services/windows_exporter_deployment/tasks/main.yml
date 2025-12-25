@@ -1,0 +1,44 @@
+---
+- name: Windows Variables Load
+  ansible.builtin.include_vars:
+    file: ../../../variables/os_var/windows_var.yml
+
+- name: Windows Exporter Latest Version Retrieval
+  ansible.builtin.uri:
+    url: "https://api.github.com/repos/prometheus-community/windows_exporter/releases/latest"
+    return_content: true
+    body_format: json
+  register: github_api_output
+  delegate_to: localhost
+  run_once: true
+
+- name: Windows Exporter Latest Version Definition
+  ansible.builtin.set_fact:
+    # Pulls "v1.10.2" and removes the "v" to get "1.10.2"
+    latest_version: "{{ github_api_output.json.tag_name | replace('v', '') }}"
+  run_once: true
+- debug:
+    msg: "Latest Version: {{ latest_version }}"
+  run_once: true
+
+# ansible.windows.win_file_version wouldn't work if the file doesn't exist
+- name: Windows Exporter Installed Version Query
+  ansible.windows.win_powershell:
+    script: |
+      if (Test-Path "C:\Program Files\windows_exporter\windows_exporter.exe") {
+        (Get-Item "C:\Program Files\windows_exporter\windows_exporter.exe").VersionInfo.ProductVersion
+      } else {
+        Write-Output "0.0.0"
+      }
+
+      $Ansible.Changed = $false
+  register: current_version
+- debug:
+    msg: "Current Version: {{ current_version.output }}"
+
+- name: Windows Exporter Installation/Upgrade
+  ansible.windows.win_package:
+    path: "https://github.com/prometheus-community/windows_exporter/releases/download/v{{ latest_version }}/windows_exporter-{{ latest_version }}-amd64.msi"
+    state: present
+    arguments: ADDLOCAL=FirewallException
+  when: current_version.output != latest_version
