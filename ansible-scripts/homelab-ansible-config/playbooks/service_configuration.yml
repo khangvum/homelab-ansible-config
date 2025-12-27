@@ -12,22 +12,29 @@
 
 # Container Deployment
 - name: Container Deployment
-  hosts: containers
+  hosts: all:!KVM-SRV02
   gather_facts: false
   tags: container_deployment
   vars_files:
-    - ../variables/os_var/linux_var.yml
     - ../variables/domain_var/domain_var.yml
     - ../variables/docker_var/filebrowser_var.yml
     - ../variables/docker_var/monitoring_var.yml
   tasks:
-    - import_role:
+    - include_role:
         name: docker_configuration
-    - import_role:
+      when: "'containers' in group_names"
+    - include_role:
         name: filebrowser_deployment
-    - import_role:
+      when: inventory_hostname == "KVM-NAS"
+    - include_role:
         name: grafana_deployment
-    - import_role:
+      when: inventory_hostname == "KVM-MONITOR"
+    - include_role:
         name: prometheus_deployment
-    - import_role:
+      when: inventory_hostname == "KVM-MONITOR"
+    - include_role:
         name: node_exporter_deployment
+      when: "'containers' in group_names"
+    - include_role:
+        name: windows_exporter_deployment
+      when: "'containers' not in group_names"
