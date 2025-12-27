@@ -19,5 +19,16 @@
     groups: docker
     append: yes
 
+- name: Docker Socket and Directory Permission Assignment to 'docker' Group
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    owner: root
+    group: docker
+    mode: "{{ item.mode }}"
+    recurse: "{{ item.recurse | default(false) }}"
+  loop:
+    - { path: '/var/run/docker.sock', mode: '0660', recurse: false }
+    - { path: '/var/run/docker', mode: '0750', recurse: true }
+
 - name: Connection Reset to Apply Group Changes
   ansible.builtin.meta: reset_connection
