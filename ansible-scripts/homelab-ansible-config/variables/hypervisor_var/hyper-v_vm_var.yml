@@ -73,10 +73,38 @@ hyper_v_vm_list:
     autostop: turnOff
     power: on
     state: present
-  - name: KVM-DOCKER01
+  # - name: KVM-DOCKER01
+  #   host: KVM-SRV01
+  #   cpu: 2
+  #   memory: 8
+  #   storage: 100
+  #   generation: 2
+  #   tpm: false
+  #   iso_source: /opt/ansible/homelab-ansible-config/installation-files/ubuntu_server_24.04_unattend.iso
+  #   iso_destination: ubuntu_server_24.04_unattend.iso
+  #   secure_boot_template: "Microsoft UEFI Certificate Authority"
+  #   autostart: start
+  #   autostop: turnOff
+  #   power: on
+  #   state: absent
+  - name: KVM-MONITOR
     host: KVM-SRV01
     cpu: 2
-    memory: 8
+    memory: 4
+    storage: 50
+    generation: 2
+    tpm: false
+    iso_source: /opt/ansible/homelab-ansible-config/installation-files/ubuntu_server_24.04_unattend.iso
+    iso_destination: ubuntu_server_24.04_unattend.iso
+    secure_boot_template: "Microsoft UEFI Certificate Authority"
+    autostart: start
+    autostop: turnOff
+    power: on
+    state: present
+  - name: KVM-NAS
+    host: KVM-SRV01
+    cpu: 2
+    memory: 4
     storage: 100
     generation: 2
     tpm: false
