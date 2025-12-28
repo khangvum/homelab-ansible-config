@@ -10,14 +10,17 @@
     return_content: true
     body_format: json
   register: github_api_output
+  run_once: true
 
 - name: Node Exporter Latest Version Definition
   ansible.builtin.set_fact:
     # Pulls "v1.10.2" and removes the "v" to get "1.10.2"
     latest_version: "{{ github_api_output.json.tag_name | replace('v', '') }}"
+  run_once: true
 - debug:
     msg: "Latest Version: {{ latest_version }}"
-
+  run_once: true
+  
 - name: Node Exporter Installed Version Query
   ansible.builtin.shell:
     cmd: /usr/local/bin/node_exporter --version
@@ -27,7 +30,7 @@
 
 - name: Node Exporter Current Version Definition
   ansible.builtin.set_fact:
-    current_version: "{{ installed_version.stdout | regex_search('version ([0-9.]+)', '\\1') | first | default('0.0.0') }}"
+    current_version: "{{ (installed_version.stdout | regex_search('version ([0-9.]+)', '\\1') or ['0.0.0']) | first }}"
 - debug:
     msg: "Current Version: {{ current_version }}"
 
