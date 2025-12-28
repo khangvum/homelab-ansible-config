@@ -1,9 +1,9 @@
 ---
+# Reference: https://docs.techdox.nz/node-exporter/
 - name: Linux Variables Load
   ansible.builtin.include_vars:
     file: ../../../variables/os_var/linux_var.yml
     
-# Reference: https://docs.techdox.nz/node-exporter/
 - name: Node Exporter Latest Version Retrieval
   ansible.builtin.uri:
     url: "https://api.github.com/repos/prometheus/node_exporter/releases/latest"
