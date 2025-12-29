@@ -35,11 +35,16 @@ flowchart LR
                                                         **Storage:** 100GB
                                                         **OS:** Windows Server 2025
                                                         **Role:** Domain Controller`")]
-    SRV01 --> DOCKER01[KVM-DOCKER01] -- specs --- DOCKER01_SPECS[("`**CPU:** 2 vCPU
-                                                                    **RAM:** 8GB
-                                                                    **Storage:** 100GB
-                                                                    **OS:** Ubuntu Server 24.04
-                                                                    **Role:** Container Host`")]
+    SRV01 --> MONITOR[KVM-MONITOR] -- specs --- MONITOR_SPECS[("`**CPU:** 2 vCPU
+                                                                **RAM:** 4GB
+                                                                **Storage:** 100GB
+                                                                **OS:** Ubuntu Server 24.04
+                                                                **Role:** Monitoring Server`")]
+    SRV01 --> NAS[KVM-NAS] -- specs --- NAS_SPECS[("`**CPU:** 2 vCPU
+                                                    **RAM:** 4GB
+                                                    **Storage:** 50GB
+                                                    **OS:** Ubuntu Server 24.04
+                                                    **Role:** NAS`")]        
     SRV01 --> WEB01[KVM-WEB01] -- specs --- WEB01_SPECS[("`**CPU:** 2 vCPU
                                                             **RAM:** 8GB
                                                             **Storage:** 100GB
@@ -76,9 +81,9 @@ flowchart LR
     %% Styling
     class SRV01,SRV02 hosts
     classDef hosts fill:#f1c232,stroke:#000,color:#000
-    class DB01,DC01,DC02,DOCKER01,WEB01,WRK01,WRK02 vms
+    class DB01,DC01,DC02,MONITOR,NAS,WEB01,WRK01,WRK02 vms
     classDef vms fill:#7ea6e0,stroke:#000,color:#000
-    class SRV01_SPECS,SRV02_SPECS,DB01_SPECS,DC01_SPECS,DC02_SPECS,DOCKER01_SPECS,WEB01_SPECS,WRK01_SPECS,WRK02_SPECS specs
+    class SRV01_SPECS,SRV02_SPECS,DB01_SPECS,DC01_SPECS,DC02_SPECS,MONITOR_SPECS,NAS_SPECS,WEB01_SPECS,WRK01_SPECS,WRK02_SPECS specs
     classDef specs fill:#d3d3d3,stroke:#000,color:#000
 ```
 
