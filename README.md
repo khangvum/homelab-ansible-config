@@ -17,7 +17,7 @@ flowchart LR
     %% - Host
     SRV01_SPECS[("`**Model:** Precision 5820 Tower
         **CPU:** Intel Xeon W-2155 (10 cores - 20 threads)
-        **RAM:** 128GB (4 x 32GB ECC 2666MHz)
+        **RAM:** 256GB (8 x 32GB ECC 2666MHz)
         **Storage:**
         • 2 x 1TB NVMe SSD (1 OS & 1 VMs)
         • 1 x 1TB SATA SSD
