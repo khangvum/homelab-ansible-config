@@ -1,0 +1,41 @@
+---
+- name: Linux Variables Load
+  ansible.builtin.include_vars:
+    file: ../../../variables/os_var/linux_var.yml
+
+- name: IP Forwarding Enablement
+  ansible.posix.sysctl:
+    name: "{{ item }}"
+    value: '1'
+    reload: yes
+    state: present
+    sysctl_file: /etc/sysctl.d/99-tailscale.conf
+  loop:
+    - net.ipv4.ip_forward
+    - net.ipv6.conf.all.forwarding
+
+- name: tailscale Directory Creation
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0755'
+  loop:
+    - "{{ tailscale_parent_dir }}"
+    - "{{ tailscale_parent_dir }}/state"
+
+- name: Docker Compose File Creation
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: "{{ tailscale_parent_dir }}/docker-compose.yml"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0644'
+  register: docker_compose_file
+
+- name: Tailscale Deployment
+  ansible.builtin.command:
+    cmd: docker-compose up -d
+    chdir: "{{ tailscale_parent_dir }}"
+  when: docker_compose_file.changed
