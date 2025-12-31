@@ -132,6 +132,7 @@ Role                                                                            
 [`iis_deployment`](ansible-scripts/homelab-ansible-config/roles/services/iis_deployment/tasks/main.yml)                     |Install and configure **_Internet Information Services_** (**_IIS_**)
 [`node_exporter_deployment`](ansible-scripts/homelab-ansible-config/roles/services/node_exporter_deployment/tasks/main.yml) |Configure **_Node Exporter_** as a **_metrics collector_** for **_Prometheus monitoring_**
 [`prometheus_deployment`](ansible-scripts/homelab-ansible-config/roles/services/prometheus_deployment/tasks/main.yml)       |Configure **_Prometheus_** as a **_time-series database_** for **_metrics collection_**
+[`tailscale_deployment`](ansible-scripts/homelab-ansible-config/roles/services/tailscale_deployment/tasks/main.yml)         |Configure **_Tailscale_** as a **_mash VPN service_** for **_secure remote access_**
 
 ## Prerequisites
 
