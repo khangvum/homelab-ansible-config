@@ -72,7 +72,7 @@ flowchart LR
         **CPU:** Intel Xeon W-2123 (4 cores - 8 threads)
         **RAM:** 32GB (2 x 16GB ECC 2666MHz)
         **Storage:**
-        • 1 x 1TB NVMe SSD (OS)
+        • 1 x 512GB NVMe SSD (OS)
         • 1 x 1TB SATA SSD (VMs)
         **OS:** VMware ESXi 8.0 Update 3e`")] -- specs --- SRV02[KVM-SRV02]
 
