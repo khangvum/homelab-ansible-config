@@ -41,15 +41,15 @@ flowchart LR
                                                                 **OS:** Ubuntu Server 24.04
                                                                 **Role:** Monitoring Server`")]
     SRV01 --> NAS[KVM-NAS] -- specs --- NAS_SPECS[("`**CPU:** 2 vCPU
-                                                    **RAM:** 2GB
-                                                    **Storage:** 20GB
-                                                    **OS:** Ubuntu Server 24.04
-                                                    **Role:** VPN`")]
-    SRV01 --> VPN[KVM-VPN] -- specs --- VPN_SPECS[("`**CPU:** 2 vCPU
                                                     **RAM:** 4GB
                                                     **Storage:** 50GB
                                                     **OS:** Ubuntu Server 24.04
                                                     **Role:** NAS`")]        
+    SRV01 --> VPN[KVM-VPN] -- specs --- VPN_SPECS[("`**CPU:** 2 vCPU
+                                                    **RAM:** 2GB
+                                                    **Storage:** 20GB
+                                                    **OS:** Ubuntu Server 24.04
+                                                    **Role:** VPN`")]
     SRV01 --> WEB01[KVM-WEB01] -- specs --- WEB01_SPECS[("`**CPU:** 2 vCPU
                                                             **RAM:** 8GB
                                                             **Storage:** 100GB
