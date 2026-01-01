@@ -41,6 +41,11 @@ flowchart LR
                                                                 **OS:** Ubuntu Server 24.04
                                                                 **Role:** Monitoring Server`")]
     SRV01 --> NAS[KVM-NAS] -- specs --- NAS_SPECS[("`**CPU:** 2 vCPU
+                                                    **RAM:** 2GB
+                                                    **Storage:** 20GB
+                                                    **OS:** Ubuntu Server 24.04
+                                                    **Role:** VPN`")]
+    SRV01 --> VPN[KVM-VPN] -- specs --- VPN_SPECS[("`**CPU:** 2 vCPU
                                                     **RAM:** 4GB
                                                     **Storage:** 50GB
                                                     **OS:** Ubuntu Server 24.04
@@ -81,9 +86,9 @@ flowchart LR
     %% Styling
     class SRV01,SRV02 hosts
     classDef hosts fill:#f1c232,stroke:#000,color:#000
-    class DB01,DC01,DC02,MONITOR,NAS,WEB01,WRK01,WRK02 vms
+    class DB01,DC01,DC02,MONITOR,NAS,VPN,WEB01,WRK01,WRK02 vms
     classDef vms fill:#7ea6e0,stroke:#000,color:#000
-    class SRV01_SPECS,SRV02_SPECS,DB01_SPECS,DC01_SPECS,DC02_SPECS,MONITOR_SPECS,NAS_SPECS,WEB01_SPECS,WRK01_SPECS,WRK02_SPECS specs
+    class SRV01_SPECS,SRV02_SPECS,DB01_SPECS,DC01_SPECS,DC02_SPECS,MONITOR_SPECS,NAS_SPECS,VPN_SPECS,WEB01_SPECS,WRK01_SPECS,WRK02_SPECS specs
     classDef specs fill:#d3d3d3,stroke:#000,color:#000
 ```
 
@@ -110,7 +115,7 @@ Role                                                                            
 Role                                                                                                                        |Description
 :--------------------------------------------------------------------------------------------------------------------------:|:----------------------------------
 [`domain_creation`](ansible-scripts/homelab-ansible-config/roles/domain/domain_creation/tasks/main.yml)                     |Create a new **_AD forest_** along with its **_domains_** and **_OUs_**
-[`domain_user_configuration`](ansible-scripts/homelab-ansible-config/roles/domain/domain_user_configuration/tasks/main.yml) |Manage **domain user accounts_** and **_passwords_**
+[`domain_user_configuration`](ansible-scripts/homelab-ansible-config/roles/domain/domain_user_configuration/tasks/main.yml) |Manage **_domain user accounts_** and **_passwords_**
 [`linux_domain_join`](ansible-scripts/homelab-ansible-config/roles/domain/linux_domain_join/tasks/main.yml)                 |**_Join Linux hosts_** to the **_domain_**
 [`windows_domain_join`](ansible-scripts/homelab-ansible-config/roles/domain/windows_domain_join/tasks/main.yml)             |**_Join Windows hosts_** to the **_domain_**
 
