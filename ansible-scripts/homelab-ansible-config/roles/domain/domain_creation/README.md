@@ -18,7 +18,7 @@ Domain Controller   |Sync Source
 `KVM-DC01`          |External **_NTP source_** (_e.g.,_ `0.pool.ntp.org,0x1`, `1.pool.ntp.org,0x1`)
 `KVM-DC02`          |Internal **_domain hierarchy_** (**_NT5DS_**)
 
-This is configured in [`windows_ntp_configuration`](ansible-scripts/homelab-ansible-config/roles/general/windows_ntp_configuration/tasks/main.yml) role.
+This is configured in [`windows_ntp_configuration`](../../general/windows_ntp_configuration/tasks/main.yml) role.
 
 ## Replication Management
 
