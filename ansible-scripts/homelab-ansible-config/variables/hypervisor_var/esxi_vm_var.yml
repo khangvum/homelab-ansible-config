@@ -14,3 +14,31 @@ esxi_vm_var:
     start_order: 1
     power: on
     state: present
+  - name: KVM-WRK02
+    host: KVM-SRV02
+    cpu: 4
+    memory: 8
+    storage: 100
+    generation: 2
+    tpm: true
+    iso_source: /opt/ansible/homelab-ansible-config/installation-files/windows_11_pro_x64_unattend_bypass_requirements.iso
+    iso_destination: windows_11_pro_x64_unattend_bypass_requirements.iso
+    guest_os: windows11-64  # https://knowledge.broadcom.com/external/article/321876/determine-the-guest-os-from-a-vm-configu.html
+    autostart: true
+    start_order: 2
+    power: on
+    state: present
+  - name: KVM-WRK04
+    host: KVM-SRV02
+    cpu: 4
+    memory: 8
+    storage: 100
+    generation: 2
+    tpm: false
+    iso_source: /opt/ansible/homelab-ansible-config/installation-files/windows_10_pro_x64_unattend.iso
+    iso_destination: windows_10_pro_x64_unattend.iso
+    guest_os: windows9-64 # https://knowledge.broadcom.com/external/article/321876/determine-the-guest-os-from-a-vm-configu.html
+    autostart: true
+    start_order: 3
+    power: on
+    state: present
