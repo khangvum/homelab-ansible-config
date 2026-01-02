@@ -6,7 +6,7 @@ A **_domain infrastructure_** setup for the `khangvum.lab` forest, which involve
 
 Domain Controller   |Role
 :------------------:|----
-`KVM-DC01`          |Hold all the **_Flexible Single Master Operations_** (**_FSMO_**) **roles_** and act as the **_primary NTP time source_**
+`KVM-DC01`          |Hold all the **_Flexible Single Master Operations_** (**_FSMO_**) **_roles_** and act as the **_primary NTP time source_**
 `KVM-DC02`          |Provide **_high availability_** (**_HA_**) and **_fault tolerance_** if the PDC is offline
 
 ## Time Synchronization
@@ -17,6 +17,8 @@ Domain Controller   |Sync Source
 :------------------:|-----------
 `KVM-DC01`          |External **_NTP source_** (_e.g.,_ `0.pool.ntp.org,0x1`, `1.pool.ntp.org,0x1`)
 `KVM-DC02`          |Internal **_domain hierarchy_** (**_NT5DS_**)
+
+This is configured in [`windows_ntp_configuration`](ansible-scripts/homelab-ansible-config/roles/general/windows_ntp_configuration/tasks/main.yml) role.
 
 ## Replication Management
 
