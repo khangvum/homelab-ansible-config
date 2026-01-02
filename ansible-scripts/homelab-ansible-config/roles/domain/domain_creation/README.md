@@ -8,3 +8,36 @@ Domain Controller   |Role
 :------------------:|----
 `KVM-DC01`          |Hold all the **_Flexible Single Master Operations_** (**_FSMO_**) **roles_** and act as the **_primary NTP time source_**
 `KVM-DC02`          |Provide **_high availability_** (**_HA_**) and **_fault tolerance_** if the PDC is offline
+
+## Time Synchronization
+
+**_Replication integrity_** depends on **_Kerberos_** authentication protocol, which requires synchronized system clocks:
+
+Domain Controller   |Sync Source
+:------------------:|-----------
+`KVM-DC01`          |External **_NTP source_** (_e.g.,_ `0.pool.ntp.org,0x1`, `1.pool.ntp.org,0x1`)
+`KVM-DC02`          |Internal **_domain hierarchy_** (**_NT5DS_**)
+
+## Replication Management
+
+Active Directory uses **_multi-master replication_** to maintain **_identical copies_** of the **_NTDS database_** on both DCs, ensuring any changes made on any DC eventually converges across the entire forest.
+
+### Force Synchronization
+
+**_Manually_** trigger a **_synchronization_**:
+
+```powershell
+repadmin /syncall /AeP
+```
+
+-   `/A`: All partitions.
+-   `/e`: Enterprise/Entire forest.
+-   `/P`: Push changes out to all its partners.
+
+### Health Monitoring
+
+Verify the DCs are communicating correctly with **_no replication latencies_**:
+
+```powershell
+repadmin /replsummary
+```
