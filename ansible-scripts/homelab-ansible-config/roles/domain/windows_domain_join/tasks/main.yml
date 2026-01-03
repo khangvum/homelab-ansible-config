@@ -23,10 +23,8 @@
     dns_servers: 
       - "{{ hostvars['KVM-DC01'].v_switches | selectattr('adapter', 'equalto', item.adapter) | map(attribute='ip') | first }}"
       - "{{ hostvars['KVM-DC02'].v_switches | selectattr('adapter', 'equalto', item.adapter) | map(attribute='ip') | first }}"
-      # - "{{ hostvars['KVM-DC02'].v_switches[0].ip }}"
   loop: "{{ v_switches }}"
   when: "'dcs' not in group_names"
-
 - name: Host Domain Join
   microsoft.ad.membership:
     dns_domain_name: "{{ domain_name }}"
