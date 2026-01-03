@@ -16,4 +16,4 @@ services:
       - TS_AUTHKEY={{ tailscale_authentication_key }}
       - TS_ROUTES={{ tailscale_advertised_routes }}
       - TS_STATE_DIR=/var/lib/tailscale
-      - TS_EXTRA_ARGS=--advertise-tags=tag:subnet-router
+      - TS_EXTRA_ARGS=--advertise-tags=tag:subnet-router --advertise-exit-node
