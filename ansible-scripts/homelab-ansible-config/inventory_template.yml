@@ -21,6 +21,7 @@ all:
           computer_name: KVM-SRV02
           ansible_user: {{ USERNAME }}
           ansible_password: {{ PASSWORD }}
+          datastore: KVM-SRV02-DS02
     vms:
       children:
         dcs:
@@ -45,9 +46,12 @@ all:
               ansible_password: {{ PASSWORD }}
               win_license_key: {{ WIN_SERVER_2025_STANDARD_LICENSE_KEY }}
               v_switches:
-                - name: "KVM-SRV02-SW01"
-                  adapter: "Ethernet"
+                - name: "KVM-SRV01-SW01"
+                  adapter: "Wi-Fi"
                   ip: {{ DC02_SW01_IP }}
+                - name: "KVM-SRV01-SW02"
+                  adapter: "Ethernet"
+                  ip: {{ DC02_SW02_IP }}
         webs:
           hosts:
             KVM-WEB01:
@@ -89,10 +93,10 @@ all:
               v_switches:
                 - name: "KVM-SRV01-SW01"
                   adapter: "Wi-Fi"
-                  ip: {{ DB01_SW01_IP }}
+                  ip: {{ WRK01_SW01_IP }}
                 - name: "KVM-SRV01-SW02"
                   adapter: "Ethernet"
-                  ip: {{ DB01_SW02_IP }}
+                  ip: {{ WRK01_SW02_IP }}
             KVM-WRK02:
               ansible_host: {{ WRK02_IP_ADDRESS }}
               computer_name: KVM-WRK02
@@ -100,23 +104,73 @@ all:
               ansible_password: {{ PASSWORD }}
               win_license_key: {{ WIN_11_PRO_LICENSE_KEY }}
               v_switches:
-                - name: "KVM-SRV01-SW01"
-                  adapter: "Wi-Fi"
-                  ip: {{ DB01_SW01_IP }}
+                # - name: "KVM-SRV01-SW01"
+                #   adapter: "Wi-Fi"
+                #   ip: {{ WRK02_SW01_IP }}
                 - name: "KVM-SRV01-SW02"
                   adapter: "Ethernet"
-                  ip: {{ DB01_SW02_IP }}
+                  ip: {{ WRK02_SW02_IP }}
+            KVM-WRK03:
+              ansible_host: {{ WRK03_IP_ADDRESS }}
+              computer_name: KVM-WRK03
+              ansible_user: {{ USERNAME }}
+              ansible_password: {{ PASSWORD }}
+              win_license_key: {{ WIN_11_PRO_LICENSE_KEY }}
+              v_switches:
+                - name: "KVM-SRV01-SW01"
+                  adapter: "Wi-Fi"
+                  ip: {{ WRK03_SW01_IP }}
+                - name: "KVM-SRV01-SW02"
+                  adapter: "Ethernet"
+                  ip: {{ WRK03_SW02_IP }}
+            KVM-WRK04:
+              ansible_host: {{ WRK04_IP_ADDRESS }}
+              computer_name: KVM-WRK04
+              ansible_user: {{ USERNAME }}
+              ansible_password: {{ PASSWORD }}
+              win_license_key: {{ WIN_11_PRO_LICENSE_KEY }}
+              # v_switches:
+              #   - name: "KVM-SRV01-SW01"
+              #     adapter: "Wi-Fi"
+              #     ip: {{ WRK04_SW01_IP }}
+                - name: "KVM-SRV01-SW02"
+                  adapter: "Ethernet"
+                  ip: {{ WRK04_SW02_IP }}
         containers:
           hosts:
-            KVM-DOCKER01:
-              ansible_host: {{ DOCKER01_IP_ADDRESS }}
-              computer_name: KVM-DOCKER01
+            KVM-MONITOR:
+              ansible_host: {{ MONITOR_IP_ADDRESS }}
+              computer_name: KVM-MONITOR
               ansible_user: {{ USERNAME }}
               ansible_password: {{ PASSWORD }}
               v_switches:
                 - name: "KVM-SRV01-SW01"
                   adapter: "Wi-Fi"
-                  ip: {{ DOCKER01_SW01_IP }}
+                  ip: {{ MONITOR_SW01_IP }}
                 - name: "KVM-SRV01-SW02"
                   adapter: "Ethernet"
-                  ip: {{ DOCKER01_SW02_IP }}
+                  ip: {{ MONITOR_SW02_IP }}
+            KVM-NAS:
+              ansible_host: {{ NAS_IP_ADDRESS }}
+              computer_name: KVM-NAS
+              ansible_user: {{ USERNAME }}
+              ansible_password: {{ PASSWORD }}
+              v_switches:
+                - name: "KVM-SRV01-SW01"
+                  adapter: "Wi-Fi"
+                  ip: {{ NAS_SW01_IP }}
+                - name: "KVM-SRV01-SW02"
+                  adapter: "Ethernet"
+                  ip: {{ NAS_SW02_IP }}
+            KVM-VPN:
+              ansible_host: {{ VPN_IP_ADDRESS }}
+              computer_name: KVM-VPN
+              ansible_user: {{ USERNAME }}
+              ansible_password: {{ PASSWORD }}
+              v_switches:
+                - name: "KVM-SRV01-SW01"
+                  adapter: "Wi-Fi"
+                  ip: {{ VPN_SW01_IP }}
+                - name: "KVM-SRV01-SW02"
+                  adapter: "Ethernet"
+                  ip: {{ VPN_SW02_IP }}
