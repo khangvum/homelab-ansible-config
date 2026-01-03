@@ -26,14 +26,14 @@ scrape_configs:
     static_configs:
       - targets:
 {% for host in groups['containers'] %}
-        - {{ hostvars[host].v_switches[0].ip }}:9100
+        - {{ hostvars[host].ansible_host }}:9100
 {% endfor %}
   # Job 3: Windows Monitoring
   - job_name: windows_exporter
     static_configs:
 {% for host in groups['all'] %}
 {% if host not in groups['containers'] and hostvars[host].v_switches is defined %}
-      - targets: [{{ hostvars[host].v_switches[0].ip }}:9182]
+      - targets: [{{ hostvars[host].ansible_host }}:9182]
         labels:
           host_type: "{{ 'Server' if host == 'KVM-SRV01' else 'VM' }}"
 {% endif %}
