@@ -11,15 +11,6 @@
     - "{{ prometheus_parent_dir }}"
     - "{{ prometheus_parent_dir }}/prometheus"
 
-- name: Docker Compose File Creation
-  ansible.builtin.template:
-    src: docker-compose.yml.j2
-    dest: "{{ prometheus_parent_dir }}/docker-compose.yml"
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
-    mode: '0644'
-  register: docker_compose_file
-
 - name: Prometheus Configuration File Creation
   ansible.builtin.template:
     src: prometheus.yml.j2
@@ -28,6 +19,15 @@
     group: "{{ ansible_user }}"
     mode: '0644'
   register: prometheus_config_file
+
+- name: Docker Compose File Creation
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: "{{ prometheus_parent_dir }}/docker-compose.yml"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0644'
+  register: docker_compose_file
 
 - name: Docker Compose Down When Configuration Changes
   ansible.builtin.command:
