@@ -6,6 +6,7 @@ domain_var.yml
 linux_var.yml
 user_var.yml
 windows_var.yml
+monitoring_var.yml
 tailscale_var.yml
 
 # Installation files

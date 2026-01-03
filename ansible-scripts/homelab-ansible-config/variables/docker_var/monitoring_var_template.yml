@@ -7,3 +7,7 @@ prometheus_parent_dir: "/home/{{ ansible_user }}/docker/prometheus"
 
 # Node Exporter
 node_exporter_user: node_exporter
+
+# SNMP Exporter
+snmp_community: {{ SNMP_COMMUNITY }}
+snmp_exporter_parent_dir: "/home/{{ ansible_user }}/docker/snmp_exporter"
