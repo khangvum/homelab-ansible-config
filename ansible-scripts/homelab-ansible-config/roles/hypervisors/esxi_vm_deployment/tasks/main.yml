@@ -100,10 +100,19 @@
       map "memSize" "{{ item.memory * 1024 }}"
 
       # 3. Configure guest OS
-      map "guestOS" "{{ item.guest_os }}"
+      guest_os="{{ item.guest_os }}"
+      map "guestOS" "$guest_os"
 
       # 4. Configure storage controller
-      map "scsi0.virtualDev" "pvscsi"
+      case "$guest_os" in
+        *srv*|*Srv*|*SRV*)
+          controller_type="pvscsi"
+          ;;
+        *)
+          controller_type="lsisas1068"
+          ;;
+      esac
+      map "scsi0.virtualDev" "$controller_type"
       map "scsi0.present" "TRUE"
       map "scsi0:0.present" "TRUE"
       map "scsi0:0.deviceType" "scsi-hardDisk"
