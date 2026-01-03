@@ -26,7 +26,7 @@ Active Directory uses **_multi-master replication_** to maintain **_identical co
 
 ### Force Synchronization
 
-**_Manually_** trigger a **_synchronization_**:
+**_Force synchronization_** between all domain controllers:
 
 ```powershell
 repadmin /syncall /AeP
@@ -38,7 +38,7 @@ repadmin /syncall /AeP
 
 ### Health Monitoring
 
-Verify the DCs are communicating correctly with **_no replication latencies_**:
+Verify **_replication health_** with **_no replication latencies_**:
 
 ```powershell
 repadmin /replsummary
