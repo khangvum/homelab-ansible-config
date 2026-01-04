@@ -1,9 +1,13 @@
 ---
 # Tailscale
 tailscale_parent_dir: "/home/{{ ansible_user }}/docker/tailscale"
+tailnet_id: {{ TAILNET_ID }}
 
 tailscale_authentication_key: {{ TAILSCALE_AUTHENTICATION_KEY }}
 tailscale_advertised_routes: {{ TAILSCALE_ADVERTISED_ROUTES }}
+
+tailscale_oauth_id: {{ TAILSCALE_OAUTH_ID }}
+tailscale_oauth_secret: {{ TAILSCALE_OAUTH_SECRET }}
 
 # Nginx Proxy Manager (NPM)
 npm_parent_dir: "/home/{{ ansible_user }}/docker/npm"

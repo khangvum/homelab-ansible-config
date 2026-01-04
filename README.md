@@ -189,7 +189,7 @@ Role                                                                            
     :--------------------------------------------------------------------------------------------------------------:|:----------
     [`filebrowser_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/filebrowser_var.yml)        |Define **_Filebrowser settings_** for **_self-hosted file manager_**
     [`monitoring_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/monitoring_var_template.yml) |Define **_Grafana_**, **_Prometheus_**, and **_Node Exporter settings_** for **_monitoring stack_**
-    [`tailscale_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/tailscale_var_template.yml)   |Define **_Tailscale settings_** for **_Mesh VPN service_**
+    [`vpn_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/vpn_var_template.yml)   |Define **_Tailscale_** and **_Nginx Proxy Manager settings_** for **_Mesh VPN service_**
 
 -   **Domain variables:**
 
