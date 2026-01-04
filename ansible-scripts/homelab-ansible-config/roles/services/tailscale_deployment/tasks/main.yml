@@ -39,3 +39,37 @@
     cmd: docker-compose up -d
     chdir: "{{ tailscale_parent_dir }}"
   when: docker_compose_file.changed
+
+- name: Tailscale Split DNS Configuration
+  block:
+    # curl -u "'OAUTH_ID':'OAUTH_SECRET" \
+    #   -d "grant_type=client_credentials" \
+    #   https://api.tailscale.com/api/v2/oauth/token
+    - name: OAuth Access Token Retrieval
+      ansible.builtin.uri:
+        url: "https://api.tailscale.com/api/v2/oauth/token"
+        method: POST
+        body_format: form-urlencoded
+        body:
+          client_id: "{{ tailscale_oauth_id }}"
+          client_secret: "{{ tailscale_oauth_secret }}"
+          grant_type: "client_credentials"
+      register: oauth
+
+    # curl -X PUT \
+    #   -H "Authorization: Bearer 'ACCESS_TOKEN'" \
+    #   -H "Content-Type: application/json" \
+    #   -d "{'khangvum.lab': ['DC01_IP_ADDRESS']}" \
+    #   "https://api.tailscale.com/api/v2/tailnet/'TAILNET_ID'/dns/split-dns"
+    - name: Split DNS Setup
+      ansible.builtin.uri:
+        url: "https://api.tailscale.com/api/v2/tailnet/{{ tailnet_id }}/dns/split-dns"
+        method: PUT
+        headers:
+          Authorization: "Bearer {{ oauth.json.access_token }}"
+        body_format: json
+        body: |
+          {
+            "{{ domain_name }}": ["{{ hostvars['KVM-DC01'].ansible_host }}"]
+          }
+        status_code: 200
