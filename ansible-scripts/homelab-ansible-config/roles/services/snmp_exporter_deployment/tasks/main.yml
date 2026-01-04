@@ -1,0 +1,85 @@
+---
+- name: SNMP Enablement for KVM-SRV02 Running ESXi
+  delegate_to: localhost
+  vars:
+    ansible_connection: local
+    ansible_shell_type: sh
+  ansible.builtin.shell: |
+    sshpass -p {{ hostvars['KVM-SRV02'].ansible_password }} ssh root@{{ hostvars['KVM-SRV02'].ansible_host }} << 'EOF'
+
+    changed=false
+
+    # Retrieve current SNMP configuration
+    currentConfig=$(esxcli system snmp get)
+
+    # 1. Check Community string
+    if ! echo "$currentConfig" | grep -q "Communities: {{ snmp_community }}"; then
+      esxcli system snmp set --communities={{ snmp_community }}
+      changed=true
+    fi
+
+    # 2. Check Enable status
+    if ! echo "$currentConfig" | grep -q "Enable: true"; then
+      esxcli system snmp set --enable=true
+      changed=true
+    fi
+
+    # 3. Check Firewall ruleset
+    # Name                         Enabled  Enable/Disable configurable  Allowed IP configurable
+    # ---------------------------  -------  ---------------------------  -----------------------
+    # snmp                           false                        false                     true
+    firewallEnabled=$(esxcli network firewall ruleset list | grep "^snmp " | awk '{print $2}')
+    if [ "$firewallEnabled" != "true" ]; then
+      esxcli network firewall ruleset set --ruleset-id=snmp --enabled=true
+      changed=true
+    fi
+
+    if [ "$changed" = true ]; then
+      /etc/init.d/snmpd restart > /dev/null 2>&1
+      echo "changed"
+    fi
+
+    EOF
+  register: result
+  changed_when: "'changed' in result.stdout"
+
+- name: SNMP Exporter Directory Creation
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0755'
+  loop:
+    - "{{ snmp_exporter_parent_dir }}"
+    - "{{ snmp_exporter_parent_dir }}/snmp_exporter"
+
+- name: SNMP Exporter Configuration File Download
+  ansible.builtin.get_url:
+    url: "https://raw.githubusercontent.com/prometheus/snmp_exporter/master/snmp.yml"
+    dest: "{{ snmp_exporter_parent_dir }}/snmp_exporter/snmp.yml"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0644'
+  register: snmp_exporter_config_file
+
+- name: Docker Compose File Creation
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: "{{ snmp_exporter_parent_dir }}/docker-compose.yml"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0644'
+  register: docker_compose_file
+
+- name: Docker Compose Down When Configuration Changes
+  ansible.builtin.command:
+    cmd: docker-compose down
+    chdir: "{{ snmp_exporter_parent_dir }}"
+  when: snmp_exporter_config_file.changed
+
+- name: SNMP Exporter Deployment
+  ansible.builtin.command:
+    cmd: docker-compose up -d
+    chdir: "{{ snmp_exporter_parent_dir }}"
+  when: docker_compose_file.changed or snmp_exporter_config_file.changed

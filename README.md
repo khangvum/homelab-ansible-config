@@ -105,7 +105,7 @@ flowchart LR
 ### General
 
 Role                                                                                                                                    |Description
-:--------------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------
+:--------------------------------------------------------------------------------------------------------------------------------------:|:----------
 [`firewall_configuration`](ansible-scripts/homelab-ansible-config/roles/general/firewall_configuration/tasks/main.yml)                  |Configure **_firewall rules_**
 [`linux_hostname_configuration`](ansible-scripts/homelab-ansible-config/roles/general/linux_hostname_configuration/tasks/main.yml)      |Set **_hostname_** of Linux hosts
 [`linux_ntp_configuration`](ansible-scripts/homelab-ansible-config/roles/general/linux_ntp_configuration/tasks/main.yml)                |Configure **_NTP settings_** for time synchronization on **_Linux hosts_**
@@ -121,7 +121,7 @@ Role                                                                            
 ### Domain
 
 Role                                                                                                                        |Description
-:--------------------------------------------------------------------------------------------------------------------------:|:----------------------------------
+:--------------------------------------------------------------------------------------------------------------------------:|:----------
 [`domain_creation`](ansible-scripts/homelab-ansible-config/roles/domain/domain_creation/tasks/main.yml)                     |Create a new **_AD forest_** along with its **_domains_** and **_OUs_**
 [`domain_user_configuration`](ansible-scripts/homelab-ansible-config/roles/domain/domain_user_configuration/tasks/main.yml) |Manage **_domain user accounts_** and **_passwords_**
 [`linux_domain_join`](ansible-scripts/homelab-ansible-config/roles/domain/linux_domain_join/tasks/main.yml)                 |**_Join Linux hosts_** to the **_domain_**
@@ -130,22 +130,24 @@ Role                                                                            
 ### Hypervisors
 
 Role                                                                                                                    |Description
-:----------------------------------------------------------------------------------------------------------------------:|:----------------------------------
+:----------------------------------------------------------------------------------------------------------------------:|:----------
 [`esxi_vm_deployment`](ansible-scripts/homelab-ansible-config/roles/hypervisors/esxi_vm_deployment/tasks/main.yml)      |Deploy **_VMs_** on **_ESXi host_**
 [`hyper-v_configuration`](ansible-scripts/homelab-ansible-config/roles/hypervisors/hyper-v_configuration/tasks/main.yml)|Install **_Hyper-V_** and configure **_virtual switches_**
 [`hyper-v_vm_deployment`](ansible-scripts/homelab-ansible-config/roles/hypervisors/hyper-v_vm_deployment/tasks/main.yml)|Deploy **_VMs_** on **_Hyper-V host_**
 
 ### Services
 
-Role                                                                                                                        |Description
-:--------------------------------------------------------------------------------------------------------------------------:|:----------------------------------
-[`docker_configuration`](ansible-scripts/homelab-ansible-config/roles/services/docker_configuration/tasks/main.yml)         |Configure **_Docker_** settings
-[`filebrowser_deployment`](ansible-scripts/homelab-ansible-config/roles/services/filebrowser_deployment/tasks/main.yml)     |Configure **_Filebrowser_** as a **_self-hosted file manager_**
-[`grafana_deployment`](ansible-scripts/homelab-ansible-config/roles/services/grafana_deployment/tasks/main.yml)             |Configure **_Grafana_** as a **_analytics platform_** for **_dashboards_** and **_data virtualization_**
-[`iis_deployment`](ansible-scripts/homelab-ansible-config/roles/services/iis_deployment/tasks/main.yml)                     |Install and configure **_Internet Information Services_** (**_IIS_**)
-[`node_exporter_deployment`](ansible-scripts/homelab-ansible-config/roles/services/node_exporter_deployment/tasks/main.yml) |Configure **_Node Exporter_** as a **_metrics collector_** for **_Prometheus monitoring_**
-[`prometheus_deployment`](ansible-scripts/homelab-ansible-config/roles/services/prometheus_deployment/tasks/main.yml)       |Configure **_Prometheus_** as a **_time-series database_** for **_metrics collection_**
-[`tailscale_deployment`](ansible-scripts/homelab-ansible-config/roles/services/tailscale_deployment/tasks/main.yml)         |Configure **_Tailscale_** as a **_mash VPN service_** for **_secure remote access_**
+Role                                                                                                                                |Description
+:----------------------------------------------------------------------------------------------------------------------------------:|:----------
+[`docker_configuration`](ansible-scripts/homelab-ansible-config/roles/services/docker_configuration/tasks/main.yml)                 |Configure **_Docker_** settings
+[`filebrowser_deployment`](ansible-scripts/homelab-ansible-config/roles/services/filebrowser_deployment/tasks/main.yml)             |Configure **_Filebrowser_** as a **_self-hosted file manager_**
+[`grafana_deployment`](ansible-scripts/homelab-ansible-config/roles/services/grafana_deployment/tasks/main.yml)                     |Configure **_Grafana_** as a **_analytics platform_** for **_dashboards_** and **_data virtualization_**
+[`iis_deployment`](ansible-scripts/homelab-ansible-config/roles/services/iis_deployment/tasks/main.yml)                             |Install and configure **_Internet Information Services_** (**_IIS_**)
+[`node_exporter_deployment`](ansible-scripts/homelab-ansible-config/roles/services/node_exporter_deployment/tasks/main.yml)         |Configure **_Node Exporter_** as a **_metrics collector_** for **_Prometheus monitoring_** on **_Linux hosts_**
+[`prometheus_deployment`](ansible-scripts/homelab-ansible-config/roles/services/prometheus_deployment/tasks/main.yml)               |Configure **_Prometheus_** as a **_time-series database_** for **_metrics collection_**
+[`snmp_exporter_deployment`](ansible-scripts/homelab-ansible-config/roles/services/snmp_exporter_deployment/tasks/main.yml)         |Configure **_SNMP Exporter_** as a **_metrics collector_** from **_network devices_** and **_ESXi host_** via **_SNMP_**
+[`tailscale_deployment`](ansible-scripts/homelab-ansible-config/roles/services/tailscale_deployment/tasks/main.yml)                 |Configure **_Tailscale_** as a **_mash VPN service_** for **_secure remote access_**
+[`windows_exporter_deployment`](ansible-scripts/homelab-ansible-config/roles/services/windows_exporter_deployment/tasks/main.yml)   |Configure **_Windows Exporter_** as a **_metrics collector_** for **_Prometheus monitoring_** on **_Windows hosts_**
 
 ## Prerequisites
 
@@ -186,7 +188,7 @@ Role                                                                            
     File                                                                                                            |Description
     :--------------------------------------------------------------------------------------------------------------:|:----------
     [`filebrowser_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/filebrowser_var.yml)        |Define **_Filebrowser settings_** for **_self-hosted file manager_**
-    [`monitoring_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/monitoring_var.yml)          |Define **_Grafana_**, **_Prometheus_**, and **_Node Exporter settings_** for **_monitoring stack_**
+    [`monitoring_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/monitoring_var_template.yml) |Define **_Grafana_**, **_Prometheus_**, and **_Node Exporter settings_** for **_monitoring stack_**
     [`tailscale_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/tailscale_var_template.yml)   |Define **_Tailscale settings_** for **_Mesh VPN service_**
 
 -   **Domain variables:**
