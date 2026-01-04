@@ -38,3 +38,18 @@ scrape_configs:
           host_type: "{{ 'Server' if host == 'KVM-SRV01' else 'VM' }}"
 {% endif %}
 {% endfor %}
+  # Job 4: ESXi Monitoring (using SNMP Exporter)
+  - job_name: snmp_exporter
+    metrics_path: /snmp
+    static_configs:
+      - targets:
+        - {{ hostvars['KVM-SRV02'].ansible_host }}
+    params:
+      module: [if_mib]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: {{ hostvars['KVM-MONITOR'].ansible_host }}:9116
