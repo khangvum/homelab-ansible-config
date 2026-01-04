@@ -19,10 +19,13 @@
     - ../variables/domain_var/domain_var.yml
     - ../variables/docker_var/filebrowser_var.yml
     - ../variables/docker_var/monitoring_var.yml
-    - ../variables/docker_var/tailscale_var.yml
+    - ../variables/docker_var/vpn_var.yml
   tasks:
     - include_role:
         name: docker_configuration
+      when: "'containers' in group_names"
+    - include_role:
+        name: node_exporter_deployment
       when: "'containers' in group_names"
     - include_role:
         name: filebrowser_deployment
@@ -37,11 +40,11 @@
         name: snmp_exporter_deployment
       when: inventory_hostname == "KVM-MONITOR"
     - include_role:
+        name: windows_exporter_deployment
+      when: "'containers' not in group_names"
+    - include_role:
         name: tailscale_deployment
       when: inventory_hostname == "KVM-VPN"
     - include_role:
-        name: node_exporter_deployment
-      when: "'containers' in group_names"
-    - include_role:
-        name: windows_exporter_deployment
-      when: "'containers' not in group_names"
+        name: npm_deployment
+      when: inventory_hostname == "KVM-VPN"

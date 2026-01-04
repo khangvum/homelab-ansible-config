@@ -1,0 +1,13 @@
+---
+services:
+  nginx-proxy-manager:
+    restart: unless-stopped
+    image: 'jc21/nginx-proxy-manager:latest'
+    container_name: nginx-proxy-manager
+    ports:
+      - 80:80   # Public HTTP Port
+      - 81:81   # Admin Web UI Port
+      - 443:443 # Public HTTPS Port
+    volumes:
+      - ./npm/data:/data
+      - ./npm/letsencrypt:/etc/letsencrypt

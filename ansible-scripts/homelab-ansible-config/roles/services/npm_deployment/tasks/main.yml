@@ -1,0 +1,47 @@
+---
+- name: Linux Variables Load
+  ansible.builtin.include_vars:
+    file: ../../../variables/os_var/linux_var.yml
+
+- name: Nginx Proxy Manager (npm) Directory Creation
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0755'
+  loop:
+    - "{{ npm_parent_dir }}"
+    - "{{ npm_parent_dir }}/data"
+    - "{{ npm_parent_dir }}/letsencrypt"
+
+- name: Docker Compose File Creation
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: "{{ npm_parent_dir }}/docker-compose.yml"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0644'
+  register: docker_compose_file
+
+- name: Nginx Proxy Manager (npm) Deployment
+  ansible.builtin.command:
+    cmd: docker-compose up -d
+    chdir: "{{ npm_parent_dir }}"
+  when: docker_compose_file.changed
+
+- name: A-record for Tailscale Creation on Windows DNS Server (KVM-DC01)
+  delegate_to: KVM-DC01
+  vars: # To run on Windows host
+    host_key_checking: False
+    ansible_shell_type: cmd
+    ansible_connection: ssh
+    ansible_ssh_retries: 3
+    ansible_become_method: runas
+  ansible.windows.win_dns_record:
+    name: "{{ item }}"
+    zone: "{{ domain_name }}"
+    type: "A"
+    value: "{{ hostvars['KVM-VPN'].ansible_host }}"
+    state: present
+  loop: "{{ docker_services }}"
