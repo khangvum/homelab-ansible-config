@@ -7,7 +7,7 @@ linux_var.yml
 user_var.yml
 windows_var.yml
 monitoring_var.yml
-tailscale_var.yml
+vpn_var.yml
 
 # Installation files
 ubuntu_server_24.04_unattend.iso

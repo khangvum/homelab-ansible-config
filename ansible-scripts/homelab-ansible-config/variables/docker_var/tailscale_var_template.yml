@@ -1,5 +1,0 @@
----
-tailscale_parent_dir: "/home/{{ ansible_user }}/docker/tailscale"
-
-tailscale_authentication_key: {{ TAILSCALE_AUTHENTICATION_KEY }}
-tailscale_advertised_routes: {{ TAILSCALE_ADVERTISED_ROUTES }}
