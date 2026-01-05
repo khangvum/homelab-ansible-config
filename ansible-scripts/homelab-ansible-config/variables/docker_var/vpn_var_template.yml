@@ -13,7 +13,15 @@ tailscale_oauth_secret: {{ TAILSCALE_OAUTH_SECRET }}
 npm_parent_dir: "/home/{{ ansible_user }}/docker/npm"
 
 docker_services:
-  - filebrowser
-  - grafana
-  - prometheus
-  - npm
+  - name: filebrowser
+    forward_host: "{{ hostvars['KVM-NAS'].ansible_host }}"
+    forward_port: 8095
+  - name: grafana
+    forward_host: "{{ hostvars['KVM-MONITOR'].ansible_host }}"
+    forward_port: 3000
+  - name: prometheus
+    forward_host: "{{ hostvars['KVM-MONITOR'].ansible_host }}"
+    forward_port: 9090
+  - name: npm
+    forward_host: "{{ hostvars['KVM-VPN'].ansible_host }}"
+    forward_port: 81
