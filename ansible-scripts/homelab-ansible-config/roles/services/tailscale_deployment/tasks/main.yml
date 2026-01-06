@@ -42,7 +42,7 @@
 
 - name: Tailscale Split DNS Configuration
   block:
-    # curl -u "'OAUTH_ID':'OAUTH_SECRET" \
+    # curl -u "{{ OAUTH_ID }}:{{ OAUTH_SECRET }}" \
     #   -d "grant_type=client_credentials" \
     #   https://api.tailscale.com/api/v2/oauth/token
     - name: OAuth Access Token Retrieval
@@ -57,9 +57,9 @@
       register: oauth
 
     # curl -X PUT \
-    #   -H "Authorization: Bearer 'ACCESS_TOKEN'" \
+    #   -H "Authorization: Bearer {{ ACCESS_TOKEN }}" \
     #   -H "Content-Type: application/json" \
-    #   -d "{'khangvum.lab': ['DC01_IP_ADDRESS']}" \
+    #   -d '{"khangvum.lab": ["{{ DC01_IP_ADDRESS }}"]}' \
     #   "https://api.tailscale.com/api/v2/tailnet/'TAILNET_ID'/dns/split-dns"
     - name: Split DNS Setup
       ansible.builtin.uri:
