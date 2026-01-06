@@ -30,6 +30,68 @@
     chdir: "{{ npm_parent_dir }}"
   when: docker_compose_file.changed
 
+- name: Nginx Proxy Host Configuration
+  block:
+    # curl -X POST http://{{ VPN_IP_ADDRESS }}:81/api/tokens \
+    # -H "Content-Type: application/json" \
+    # -d '{
+    #   "identity": "{{ EMAIL }}",
+    #   "secret": "{{ PASSWORD}}"
+    # }'
+    - name: npm API Token Retrieval
+      ansible.builtin.uri:
+        url: "http://{{ hostvars['KVM-VPN'].ansible_host }}:81/api/tokens"
+        method: POST
+        body_format: json
+        body:
+          identity: "{{ domain_admin_user }}"
+          secret: "{{ domain_admin_password }}"
+      register: npm_api_token
+
+    # Documentation: http://{{ VPN_IP_ADDRESS }}:81/api/schema
+    #
+    # curl -X POST http://192.168.0.133:81/api/nginx/proxy-hosts \
+    #   -H "Authorization: Bearer {{ API_TOKEN }}" \
+    #   -H "Content-Type: application/json" \
+    #   -d '{
+    #     "domain_names": ["{{ DOMAIN_NAME }}"],
+    #     "forward_scheme": "http",
+    #     "forward_host": "{{ VPN_IP_ADDRESS }}",
+    #     "forward_port": {{ FORWARD_PORT }},
+    #     "caching_enabled": false,
+    #     "block_exploits": true,
+    #     "allow_websocket_upgrade": true,
+    #     "access_list_id": 0,
+    #     "certificate_id": 0,
+    #     "ssl_forced": false
+    #   }'
+    - name: npm Proxy Host Setup
+      ansible.builtin.uri:
+        url: "http://{{ hostvars['KVM-VPN'].ansible_host }}:81/api/nginx/proxy-hosts"
+        method: POST
+        headers:
+          Authorization: "Bearer {{ npm_api_token.json.token }}"
+        body_format: json
+        body: |
+          {
+            "domain_names": ["{{ item.name }}.{{ domain_name }}"],
+            "forward_scheme": "http",
+            "forward_host": "{{ item.forward_host }}",
+            "forward_port": {{ item.forward_port }},
+            "caching_enabled": false,
+            "block_exploits": true,
+            "allow_websocket_upgrade": true,
+            "access_list_id": 0,
+            "certificate_id": 0,
+            "ssl_forced": false
+          }
+        status_code: 201
+      loop: "{{ docker_services }}"
+      register: npm_proxy_result
+      failed_when:
+        - npm_proxy_result.status != 201
+        - "'already in use' not in npm_proxy_result.json.error.message"
+
 - name: A-record for Tailscale Creation on Windows DNS Server (KVM-DC01)
   delegate_to: KVM-DC01
   vars: # To run on Windows host
