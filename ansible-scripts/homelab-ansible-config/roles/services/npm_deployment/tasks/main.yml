@@ -101,7 +101,7 @@
     ansible_ssh_retries: 3
     ansible_become_method: runas
   ansible.windows.win_dns_record:
-    name: "{{ item }}"
+    name: "{{ item.name }}"
     zone: "{{ domain_name }}"
     type: "A"
     value: "{{ hostvars['KVM-VPN'].ansible_host }}"
