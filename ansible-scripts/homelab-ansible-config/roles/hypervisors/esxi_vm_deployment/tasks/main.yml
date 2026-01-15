@@ -198,10 +198,10 @@
       else
         startAction="none"
       fi
-      startDelay="30"
+      startDelay="{{ item.start_delay | default('30') }}"
       startOrder="{{ item.start_order }}"
-      stopAction="guestShutdown"
-      stopDelay="0"
+      stopAction="{{ item.stop_action | default('guestShutdown') }}"
+      stopDelay="{{ item.stop_delay | default('120') }}"
       waitForHeartbeat="systemDefault"
 
       # Retrieve the current autostart entry of the VM
