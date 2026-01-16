@@ -40,8 +40,8 @@
     path: /etc/resolv.conf
     create: true
     block: |
-      nameserver {{ hostvars['KVM-DC01'].v_switches[1].ip }}
-      nameserver {{ hostvars['KVM-DC02'].v_switches[1].ip }}
+      nameserver {{ hostvars['KVM-DC01'].ansible_host }}
+      nameserver {{ hostvars['KVM-DC02'].ansible_host }}
       search {{ domain_name }}
     owner: root
     group: root
