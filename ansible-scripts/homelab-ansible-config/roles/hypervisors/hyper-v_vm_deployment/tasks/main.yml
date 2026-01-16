@@ -169,7 +169,14 @@
 
           # Update the vSwitch
           foreach ($switch in $allSwitches) {
-            if ($currentSwitches -notcontains $switch.name) {
+            # If the VM adapter does not exist, create it
+            $vmAdapter = Get-VMNetworkAdapter -VMName $vmName | Where-Object { $_.Name -eq $switch.adapter }
+            if (-not $vmAdapter) {
+              Add-VMNetworkAdapter -VMName $vmName -SwitchName $switch.name -Name $switch.adapter
+              $changed = $true
+            }
+            # Else if the VM adapter exists, but not connected to the correct switch, reconnect it
+            elseif ($currentSwitches -notcontains $switch.name) {
               Connect-VMNetworkAdapter -VMName $vmName -SwitchName $switch.name -Name $switch.adapter
               $changed = $true
             }
