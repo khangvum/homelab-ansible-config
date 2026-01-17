@@ -22,6 +22,10 @@
     - inventory_hostname != "KVM-SRV02"
     - "'container' not in group_names"
 
+- name: ESXi Variables Load
+  ansible.builtin.include_vars:
+    file: ../../../variables/os_var/esxi_var.yml
+  when: inventory_hostname == "KVM-SRV02"
 - name: Gather ESXi Host Information
   delegate_to: localhost
   vars:

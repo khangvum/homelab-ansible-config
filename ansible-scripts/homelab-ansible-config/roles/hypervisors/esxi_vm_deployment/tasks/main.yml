@@ -1,9 +1,10 @@
 ---
+- name: ESXi Variables Load
+  ansible.builtin.include_vars:
+    file: ../../../variables/os_var/esxi_var.yml
+
 - name: VM Subdirectory Creation If Not Exists
   delegate_to: localhost
-  vars:
-    ansible_connection: local
-    ansible_shell_type: sh
   ansible.builtin.shell: |
     sshpass -p {{ ansible_password }} ssh root@{{ ansible_host }} << 'EOF'
       DIR="/vmfs/volumes/{{ datastore }}/{{ item.name }}"
@@ -19,9 +20,6 @@
 
 - name: ISO File Copy
   delegate_to: localhost
-  vars:
-    ansible_connection: local
-    ansible_shell_type: sh
   ansible.builtin.shell: |
     # Check if file exists on ESXi
     sshpass -p {{ ansible_password }} ssh root@{{ ansible_host }} \
@@ -41,9 +39,6 @@
 
 - name: VM Creation
   delegate_to: localhost
-  vars:
-    ansible_connection: local
-    ansible_shell_type: sh
   ansible.builtin.shell: |
     sshpass -p {{ ansible_password }} ssh root@{{ ansible_host }} << 'EOF'
 
@@ -175,9 +170,6 @@
 # - waitForHeartbeat = 'yes' / 'no' / 'systemDefault'
 - name: Autostart and Autostop Configuration
   delegate_to: localhost
-  vars:
-    ansible_connection: local
-    ansible_shell_type: sh
   ansible.builtin.shell: |
     sshpass -p {{ ansible_password }} ssh root@{{ ansible_host }} << 'EOF'
 
@@ -255,9 +247,6 @@
 
 - name: VM Power On
   delegate_to: localhost
-  vars:
-    ansible_connection: local
-    ansible_shell_type: sh
   ansible.builtin.shell: |
     sshpass -p {{ ansible_password }} ssh root@{{ ansible_host }} << 'EOF'
 
