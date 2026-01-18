@@ -1,4 +1,8 @@
 ---
+- name: Windows Variables Load
+  ansible.builtin.include_vars:
+    file: ../../../variables/os_var/windows_var.yml
+    
 - name: Hyper-V Parent Directory Creation If Not Exists
   ansible.windows.win_file:
     path: "{{ hyper_v_parent_dir }}"

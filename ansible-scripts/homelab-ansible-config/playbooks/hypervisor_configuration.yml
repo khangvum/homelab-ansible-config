@@ -43,7 +43,6 @@
   vars_files:
     - ../variables/hypervisor_var/esxi_vm_var.yml
     - ../variables/hypervisor_var/hyper-v_vm_var.yml
-    - ../variables/os_var/windows_var.yml
   vars:
     hyper_v_parent_dir: "{{ srv_hyper_v_parent_dir if 'servers' in group_names else pc_hyper_v_parent_dir }}"
   tasks:
