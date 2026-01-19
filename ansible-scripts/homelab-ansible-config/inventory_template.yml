@@ -11,10 +11,10 @@ all:
           win_license_key: {{ WIN_SERVER_2025_STANDARD_LICENSE_KEY }}
           v_switches:
             - name: "KVM-SRV01-SW01"
-              adapter: "Wi-Fi"
+              adapter: "Ethernet"
               ip: {{ SRV01_SW01_IP }}
             - name: "KVM-SRV01-SW02"
-              adapter: "Ethernet"
+              adapter: "Wi-Fi"
               ip: {{ SRV01_SW02_IP }}
         KVM-SRV02:
           ansible_host: {{ SRV02_IP_ADDRESS }}
@@ -34,10 +34,10 @@ all:
               win_license_key: {{ WIN_SERVER_2025_STANDARD_LICENSE_KEY }}
               v_switches:
                 - name: "KVM-SRV01-SW01"
-                  adapter: "Wi-Fi"
+                  adapter: "Ethernet"
                   ip: {{ DC01_SW01_IP }}
                 - name: "KVM-SRV01-SW02"
-                  adapter: "Ethernet"
+                  adapter: "Wi-Fi"
                   ip: {{ DC01_SW02_IP }}
             KVM-DC02:
               ansible_host: {{ DC02_IP_ADDRESS }}
@@ -47,10 +47,10 @@ all:
               win_license_key: {{ WIN_SERVER_2025_STANDARD_LICENSE_KEY }}
               v_switches:
                 - name: "KVM-SRV01-SW01"
-                  adapter: "Wi-Fi"
+                  adapter: "Ethernet"
                   ip: {{ DC02_SW01_IP }}
                 - name: "KVM-SRV01-SW02"
-                  adapter: "Ethernet"
+                  adapter: "Wi-Fi"
                   ip: {{ DC02_SW02_IP }}
         webs:
           hosts:
@@ -62,10 +62,10 @@ all:
               win_license_key: {{ WIN_SERVER_2025_STANDARD_LICENSE_KEY }}
               v_switches:
                 - name: "KVM-SRV01-SW01"
-                  adapter: "Wi-Fi"
+                  adapter: "Ethernet"
                   ip: {{ WEB01_SW01_IP }}
                 - name: "KVM-SRV01-SW02"
-                  adapter: "Ethernet"
+                  adapter: "Wi-Fi"
                   ip: {{ WEB01_SW02_IP }}
         databases:
           hosts:
@@ -77,10 +77,10 @@ all:
               win_license_key: {{ WIN_SERVER_2025_STANDARD_LICENSE_KEY }}
               v_switches:
                 - name: "KVM-SRV01-SW01"
-                  adapter: "Wi-Fi"
+                  adapter: "Ethernet"
                   ip: {{ DB01_SW01_IP }}
                 - name: "KVM-SRV01-SW02"
-                  adapter: "Ethernet"
+                  adapter: "Wi-Fi"
                   ip: {{ DB01_SW02_IP }}
         workstations:
           hosts:
@@ -92,10 +92,10 @@ all:
               win_license_key: {{ WIN_11_PRO_LICENSE_KEY }}
               v_switches:
                 - name: "KVM-SRV01-SW01"
-                  adapter: "Wi-Fi"
+                  adapter: "Ethernet"
                   ip: {{ WRK01_SW01_IP }}
                 - name: "KVM-SRV01-SW02"
-                  adapter: "Ethernet"
+                  adapter: "Wi-Fi"
                   ip: {{ WRK01_SW02_IP }}
             KVM-WRK02:
               ansible_host: {{ WRK02_IP_ADDRESS }}
@@ -104,12 +104,12 @@ all:
               ansible_password: {{ PASSWORD }}
               win_license_key: {{ WIN_11_PRO_LICENSE_KEY }}
               v_switches:
-                # - name: "KVM-SRV01-SW01"
-                #   adapter: "Wi-Fi"
-                #   ip: {{ WRK02_SW01_IP }}
-                - name: "KVM-SRV01-SW02"
+                - name: "KVM-SRV02-SW01"
                   adapter: "Ethernet"
-                  ip: {{ WRK02_SW02_IP }}
+                  ip: {{ WRK02_SW01_IP }}
+                # - name: "KVM-SRV02-SW02"
+                #   adapter: "Wi-Fi"
+                #   ip: {{ WRK02_SW02_IP }}
             KVM-WRK03:
               ansible_host: {{ WRK03_IP_ADDRESS }}
               computer_name: KVM-WRK03
@@ -118,10 +118,10 @@ all:
               win_license_key: {{ WIN_11_PRO_LICENSE_KEY }}
               v_switches:
                 - name: "KVM-SRV01-SW01"
-                  adapter: "Wi-Fi"
+                  adapter: "Ethernet"
                   ip: {{ WRK03_SW01_IP }}
                 - name: "KVM-SRV01-SW02"
-                  adapter: "Ethernet"
+                  adapter: "Wi-Fi"
                   ip: {{ WRK03_SW02_IP }}
             KVM-WRK04:
               ansible_host: {{ WRK04_IP_ADDRESS }}
@@ -129,13 +129,13 @@ all:
               ansible_user: {{ USERNAME }}
               ansible_password: {{ PASSWORD }}
               win_license_key: {{ WIN_11_PRO_LICENSE_KEY }}
-              # v_switches:
-              #   - name: "KVM-SRV01-SW01"
-              #     adapter: "Wi-Fi"
-              #     ip: {{ WRK04_SW01_IP }}
-                - name: "KVM-SRV01-SW02"
+              v_switches:
+                - name: "KVM-SRV02-SW01"
                   adapter: "Ethernet"
-                  ip: {{ WRK04_SW02_IP }}
+                  ip: {{ WRK04_SW01_IP }}
+              #   - name: "KVM-SRV02-SW02"
+              #     adapter: "Wi-Fi"
+              #     ip: {{ WRK04_SW02_IP }}
         containers:
           hosts:
             KVM-MONITOR:
@@ -145,10 +145,10 @@ all:
               ansible_password: {{ PASSWORD }}
               v_switches:
                 - name: "KVM-SRV01-SW01"
-                  adapter: "Wi-Fi"
+                  adapter: "Ethernet"
                   ip: {{ MONITOR_SW01_IP }}
                 - name: "KVM-SRV01-SW02"
-                  adapter: "Ethernet"
+                  adapter: "Wi-Fi"
                   ip: {{ MONITOR_SW02_IP }}
             KVM-NAS:
               ansible_host: {{ NAS_IP_ADDRESS }}
@@ -157,10 +157,10 @@ all:
               ansible_password: {{ PASSWORD }}
               v_switches:
                 - name: "KVM-SRV01-SW01"
-                  adapter: "Wi-Fi"
+                  adapter: "Ethernet"
                   ip: {{ NAS_SW01_IP }}
                 - name: "KVM-SRV01-SW02"
-                  adapter: "Ethernet"
+                  adapter: "Wi-Fi"
                   ip: {{ NAS_SW02_IP }}
             KVM-VPN:
               ansible_host: {{ VPN_IP_ADDRESS }}
@@ -169,8 +169,8 @@ all:
               ansible_password: {{ PASSWORD }}
               v_switches:
                 - name: "KVM-SRV01-SW01"
-                  adapter: "Wi-Fi"
+                  adapter: "Ethernet"
                   ip: {{ VPN_SW01_IP }}
                 - name: "KVM-SRV01-SW02"
-                  adapter: "Ethernet"
+                  adapter: "Wi-Fi"
                   ip: {{ VPN_SW02_IP }}
