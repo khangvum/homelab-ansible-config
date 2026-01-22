@@ -147,7 +147,7 @@ Role                                                                            
 [`npm_deployment`](ansible-scripts/homelab-ansible-config/roles/services/npm_deployment/tasks/main.yml)                             |Configure **_Nginx Proxy Manager_** as a **_reverse proxy_** for **_host forwarding_**
 [`prometheus_deployment`](ansible-scripts/homelab-ansible-config/roles/services/prometheus_deployment/tasks/main.yml)               |Configure **_Prometheus_** as a **_time-series database_** for **_metrics collection_**
 [`snmp_exporter_deployment`](ansible-scripts/homelab-ansible-config/roles/services/snmp_exporter_deployment/tasks/main.yml)         |Configure **_SNMP Exporter_** as a **_metrics collector_** from **_network devices_** and **_ESXi host_** via **_SNMP_**
-[`tailscale_deployment`](ansible-scripts/homelab-ansible-config/roles/services/tailscale_deployment/tasks/main.yml)                 |Configure **_Tailscale_** as a **_mash VPN service_** for **_secure remote access_**
+[`tailscale_deployment`](ansible-scripts/homelab-ansible-config/roles/services/tailscale_deployment/tasks/main.yml)                 |Configure **_Tailscale_** as a **_mesh VPN service_** for **_secure remote access_**
 [`windows_exporter_deployment`](ansible-scripts/homelab-ansible-config/roles/services/windows_exporter_deployment/tasks/main.yml)   |Configure **_Windows Exporter_** as a **_metrics collector_** for **_Prometheus monitoring_** on **_Windows hosts_**
 
 ## Prerequisites
@@ -210,6 +210,7 @@ Role                                                                            
 
     File                                                                                                    |Description
     :------------------------------------------------------------------------------------------------------:|:----------
+    [`esxi_var.yml`](ansible-scripts/homelab-ansible-config/variables/os_var/esxi_var.yml)                  |Defines **_ESXi-specific variables_**
     [`linux_var.yml`](ansible-scripts/homelab-ansible-config/variables/os_var/linux_var_template.yml)       |Defines **_Linux-specific variables_**
     [`windows_var.yml`](ansible-scripts/homelab-ansible-config/variables/os_var/windows_var_template.yml)   |Defines **_Windows-specific variables_**
 
