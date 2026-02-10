@@ -27,9 +27,9 @@ domain_user_list:
     firstname: Khang
     surname: Vu
     display_name: Khang Vu
-    sam_account_name: Khang.Vu
-    upn: Khang.Vu@khangvum.lab
-    email: Khang.Vu@khangvum.lab
+    sam_account_name: kvu
+    upn: kvu@khangvum.lab
+    email: kvu@khangvum.lab
     path: "CN=Users,DC=khangvum,DC=lab"
     password: {{ PASSWORD }}
     password_never_expires: true
