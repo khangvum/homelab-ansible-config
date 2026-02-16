@@ -1,0 +1,28 @@
+---
+# Reference: https://docs.portainer.io/start/install-ce/server/docker/linux
+- name: Linux Variables Load
+  ansible.builtin.include_vars:
+    file: ../../../variables/os_var/linux_var.yml
+
+- name: portainer Directory Creation
+  ansible.builtin.file:
+    path: "{{ portainer_parent_dir }}"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0755'
+
+- name: Docker Compose File Creation
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: "{{ portainer_parent_dir }}/docker-compose.yml"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0644'
+  register: docker_compose_file
+
+- name: Portainer Deployment
+  ansible.builtin.command:
+    cmd: docker-compose up -d
+    chdir: "{{ portainer_parent_dir }}"
+  when: docker_compose_file.changed
