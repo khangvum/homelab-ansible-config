@@ -73,6 +73,20 @@ hyper_v_vm_list:
     autostop: shutDown
     power: on
     state: present
+  - name: KVM-MGMT
+    host: KVM-SRV01 
+    cpu: 2
+    memory: 4
+    storage: 50
+    generation: 2
+    tpm: false
+    iso_source: /opt/ansible/homelab-ansible-config/installation-files/ubuntu_server_24.04_unattend.iso
+    iso_destination: ubuntu_server_24.04_unattend.iso
+    secure_boot_template: "Microsoft UEFI Certificate Authority"
+    autostart: start
+    autostop: shutDown
+    power: on
+    state: present
   - name: KVM-MONITOR
     host: KVM-SRV01 
     cpu: 2
