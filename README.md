@@ -145,7 +145,7 @@ Role                                                                            
 [`iis_deployment`](ansible-scripts/homelab-ansible-config/roles/services/iis_deployment/tasks/main.yml)                             |Install and configure **_Internet Information Services_** (**_IIS_**)
 [`node_exporter_deployment`](ansible-scripts/homelab-ansible-config/roles/services/node_exporter_deployment/tasks/main.yml)         |Configure **_Node Exporter_** as a **_metrics collector_** for **_Prometheus monitoring_** on **_Linux hosts_**
 [`npm_deployment`](ansible-scripts/homelab-ansible-config/roles/services/npm_deployment/tasks/main.yml)                             |Configure **_Nginx Proxy Manager_** as a **_reverse proxy_** for **_host forwarding_**
-[`portainer_deployment`](ansible-scripts/homelab-ansible-config/roles/services/npm_deployment/tasks/main.yml)                       |Configure **_Portainer_** as a **_container management platform_** for **_Docker environments_**
+[`portainer_deployment`](ansible-scripts/homelab-ansible-config/roles/services/portainer_deployment/tasks/main.yml)                 |Configure **_Portainer_** as a **_container management platform_** for **_Docker environments_**
 [`prometheus_deployment`](ansible-scripts/homelab-ansible-config/roles/services/prometheus_deployment/tasks/main.yml)               |Configure **_Prometheus_** as a **_time-series database_** for **_metrics collection_**
 [`snmp_exporter_deployment`](ansible-scripts/homelab-ansible-config/roles/services/snmp_exporter_deployment/tasks/main.yml)         |Configure **_SNMP Exporter_** as a **_metrics collector_** from **_network devices_** and **_ESXi host_** via **_SNMP_**
 [`tailscale_deployment`](ansible-scripts/homelab-ansible-config/roles/services/tailscale_deployment/tasks/main.yml)                 |Configure **_Tailscale_** as a **_mesh VPN service_** for **_secure remote access_**
@@ -190,6 +190,7 @@ Role                                                                            
     File                                                                                                            |Description
     :--------------------------------------------------------------------------------------------------------------:|:----------
     [`filebrowser_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/filebrowser_var.yml)        |Define **_Filebrowser settings_** for **_self-hosted file manager_**
+    [`management_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/management_var.yml)          |Define **_Portainer settings_** for **_container management platform_** for **_Docker environments_**
     [`monitoring_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/monitoring_var_template.yml) |Define **_Grafana_**, **_Prometheus_**, and **_Node Exporter settings_** for **_monitoring stack_**
     [`vpn_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/vpn_var_template.yml)   |Define **_Tailscale_** and **_Nginx Proxy Manager settings_** for **_Mesh VPN service_**
 
