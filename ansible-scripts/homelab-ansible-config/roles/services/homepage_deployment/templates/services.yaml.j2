@@ -46,6 +46,11 @@
       href: {{ filebrowser.forward_scheme | default('http') }}://{{ filebrowser.forward_host }}:{{ filebrowser.forward_port }}
       description: Self-hosted file manager
       siteMonitor: {{ filebrowser.forward_scheme | default('http') }}://{{ filebrowser.forward_host }}:{{ filebrowser.forward_port }}
+      widget:
+        type: {{ filebrowser.name }}
+        url: {{ filebrowser.forward_scheme | default('http') }}://{{ filebrowser.forward_host }}:{{ filebrowser.forward_port }}
+        username: {{ ansible_user }}
+        password: {{ ansible_password }}
 
 - Monitoring:
   - Grafana:
