@@ -1,0 +1,40 @@
+---
+# Reference: https://gethomepage.dev/installation/docker/
+- name: Linux Variables Load
+  ansible.builtin.include_vars:
+    file: ../../../variables/os_var/linux_var.yml
+
+- name: homepage Directory Creation
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0755'
+  loop:
+    - "{{ homepage_parent_dir }}"
+    - "{{ homepage_parent_dir }}/config"
+
+# - name: Configuration Files Creation
+#   ansible.builtin.template:
+#     src: "{{ item }}.j2"
+#     dest: "{{ homepage_parent_dir }}/config/{{ item }}"
+#     owner: "{{ ansible_user }}"
+#     group: "{{ ansible_user }}"
+#     mode: '0644'
+#   loop: "{{ homepage_config_files }}"
+
+- name: Docker Compose File Creation
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: "{{ homepage_parent_dir }}/docker-compose.yml"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0644'
+  register: docker_compose_file
+
+- name: Homepage Deployment
+  ansible.builtin.command:
+    cmd: docker-compose up -d
+    chdir: "{{ homepage_parent_dir }}"
+  when: docker_compose_file.changed
