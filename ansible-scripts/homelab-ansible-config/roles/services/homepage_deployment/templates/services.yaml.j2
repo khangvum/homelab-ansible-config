@@ -1,0 +1,49 @@
+---
+# Reference:
+# - Icon:
+#   + https://github.com/homarr-labs/dashboard-icons/tree/main/png
+#   + https://simpleicons.org/ (For si- prefix icons)
+
+{% set filebrowser = docker_services | selectattr('name', 'equalto', 'filebrowser') | first %}
+{% set grafana = docker_services | selectattr('name', 'equalto', 'grafana') | first %}
+{% set prometheus = docker_services | selectattr('name', 'equalto', 'prometheus') | first %}
+{% set npm = docker_services | selectattr('name', 'equalto', 'npm') | first %}
+{% set portainer = docker_services | selectattr('name', 'equalto', 'portainer') | first %}
+
+- Networking:
+  - Nginx Proxy Manager:
+      icon: si-nginxproxymanager-#F15833
+      href: {{ npm.forward_scheme | default('http') }}://{{ npm.forward_host }}:{{ npm.forward_port }}
+      description: Reverse proxy for host forwarding
+      siteMonitor: {{ npm.forward_scheme | default('http') }}://{{ npm.forward_host }}:{{ npm.forward_port }}
+  - Tailscale:
+      icon: si-tailscale-#242424
+      href: https://login.tailscale.com/admin/machines
+      description: Mesh VPN service for secure remote access
+      siteMonitor: https://login.tailscale.com/admin/machines
+
+- Management:
+{% for env in [{'id': 4, 'name': 'KVM-MONITOR'}, {'id': 5, 'name': 'KVM-NAS'}, {'id': 21, 'name': 'KVM-VPN'}, {'id': 3, 'name': 'KVM-MGMT'}] %}
+  - Portainer ({{ env.name }}):
+      icon: si-{{ portainer.name }}-#13BEF9
+      href: {{ portainer.forward_scheme | default('http') }}://{{ portainer.forward_host }}:{{ portainer.forward_port }}/#!/{{ env.id }}/docker/dashboard
+      description: "{{ env.name }} environment"
+      siteMonitor: {{ portainer.forward_scheme | default('http') }}://{{ portainer.forward_host }}:{{ portainer.forward_port }}/#!/{{ env.id }}/docker/dashboard
+{% endfor %}
+  - Filebrowser:
+      icon: {{ filebrowser.name }}.png
+      href: {{ filebrowser.forward_scheme | default('http') }}://{{ filebrowser.forward_host }}:{{ filebrowser.forward_port }}
+      description: Self-hosted file manager
+      siteMonitor: {{ filebrowser.forward_scheme | default('http') }}://{{ filebrowser.forward_host }}:{{ filebrowser.forward_port }}
+
+- Monitoring:
+  - Grafana:
+      icon: si-grafana-#F46800
+      href: {{ grafana.forward_scheme | default('http') }}://{{ grafana.forward_host }}:{{ grafana.forward_port }}
+      description: Analytics platform for dashboards
+      siteMonitor: {{ grafana.forward_scheme | default('http') }}://{{ grafana.forward_host }}:{{ grafana.forward_port }}
+  - Prometheus:
+      icon: si-prometheus-#E6522C
+      href: {{ prometheus.forward_scheme | default('http') }}://{{ prometheus.forward_host }}:{{ prometheus.forward_port }}
+      description: Time-series database for metrics collection
+      siteMonitor: {{ prometheus.forward_scheme | default('http') }}://{{ prometheus.forward_host }}:{{ prometheus.forward_port }}
