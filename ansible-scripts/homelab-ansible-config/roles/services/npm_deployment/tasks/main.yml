@@ -48,6 +48,15 @@
           secret: "{{ domain_admin_password }}"
       register: npm_api_token
 
+    - name: Proxy Host Existence Check
+      ansible.builtin.uri:
+        url: "http://{{ hostvars['KVM-VPN'].ansible_host }}:81/api/nginx/proxy-hosts"
+        method: GET
+        headers:
+          Authorization: "Bearer {{ npm_api_token.json.token }}"
+        status_code: 200
+      register: npm_proxy_hosts
+
     # Documentation: http://{{ VPN_IP_ADDRESS }}:81/api/schema
     #
     # curl -X POST http://192.168.0.133:81/api/nginx/proxy-hosts \
@@ -66,16 +75,20 @@
     #     "ssl_forced": false
     #   }'
     - name: npm Proxy Host Setup
+      vars:
+        current_match: "{{ npm_proxy_hosts.json | selectattr('domain_names', 'contains', item.name + '.' + domain_name) | list }}"
       ansible.builtin.uri:
-        url: "http://{{ hostvars['KVM-VPN'].ansible_host }}:81/api/nginx/proxy-hosts"
-        method: POST
+        # url: "http://{{ hostvars['KVM-VPN'].ansible_host }}:81/api/nginx/proxy-hosts"
+        url: http://{{ hostvars['KVM-VPN'].ansible_host }}:81/api/nginx/proxy-hosts{{ '/' + (current_match[0].id | string) if current_match | length > 0 else '' }}
+        # method: POST
+        method: "{{ 'PUT' if current_match | length > 0 else 'POST' }}"
         headers:
           Authorization: "Bearer {{ npm_api_token.json.token }}"
         body_format: json
         body: |
           {
             "domain_names": ["{{ item.name }}.{{ domain_name }}"],
-            "forward_scheme": "http",
+            "forward_scheme": "{{ item.forward_scheme | default('http') }}",
             "forward_host": "{{ item.forward_host }}",
             "forward_port": {{ item.forward_port }},
             "caching_enabled": false,
@@ -85,12 +98,9 @@
             "certificate_id": 0,
             "ssl_forced": false
           }
-        status_code: 201
+        status_code: [200, 201]
       loop: "{{ docker_services }}"
       register: npm_proxy_result
-      failed_when:
-        - npm_proxy_result.status != 201
-        - "'already in use' not in npm_proxy_result.json.error.message"
 
 - name: A-record for Tailscale Creation on Windows DNS Server (KVM-DC01)
   delegate_to: KVM-DC01
