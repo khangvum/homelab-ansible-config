@@ -34,6 +34,12 @@
       href: {{ portainer.forward_scheme | default('http') }}://{{ portainer.forward_host }}:{{ portainer.forward_port }}/#!/{{ env.id }}/docker/dashboard
       description: "{{ env.name }} environment"
       siteMonitor: {{ portainer.forward_scheme | default('http') }}://{{ portainer.forward_host }}:{{ portainer.forward_port }}/#!/{{ env.id }}/docker/dashboard
+      widget:
+        type: {{ portainer.name }}
+        url: {{ portainer.forward_scheme | default('http') }}://{{ portainer.forward_host }}:{{ portainer.forward_port }}
+        env: {{ env.id }}
+        key: {{ portainer_access_token }}
+        ignoreSsl: true
 {% endfor %}
   - Filebrowser:
       icon: {{ filebrowser.name }}.png
