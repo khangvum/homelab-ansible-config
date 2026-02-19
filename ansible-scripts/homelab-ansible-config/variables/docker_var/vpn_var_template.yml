@@ -29,3 +29,6 @@ docker_services:
     forward_scheme: https
     forward_host: "{{ hostvars['KVM-MGMT'].ansible_host }}"
     forward_port: 9443
+  - name: homepage
+    forward_host: "{{ hostvars['KVM-MGMT'].ansible_host }}"
+    forward_port: 3000
