@@ -21,6 +21,17 @@
         url: {{ npm.forward_scheme | default('http') }}://{{ npm.forward_host }}:{{ npm.forward_port }}
         username: "{{ domain_admin_user }}"
         password: "{{ domain_admin_password }}"
+{% for device in tailscale_devices %}
+  - Tailscale ({{ device.name }}):
+      icon: si-tailscale-#242424
+      href: https://login.tailscale.com/admin/machines
+      description: VPN on {{ device.name }}
+      siteMonitor: https://login.tailscale.com/admin/machines
+      widget:
+        type: tailscale
+        deviceid: {{ device.id }}
+        key: {{ tailscale_api_key }}
+{% endfor %}
 
 - Management:
   - Filebrowser:
