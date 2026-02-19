@@ -21,13 +21,18 @@
         url: {{ npm.forward_scheme | default('http') }}://{{ npm.forward_host }}:{{ npm.forward_port }}
         username: "{{ domain_admin_user }}"
         password: "{{ domain_admin_password }}"
-  - Tailscale:
-      icon: si-tailscale-#242424
-      href: https://login.tailscale.com/admin/machines
-      description: Mesh VPN service for secure remote access
-      siteMonitor: https://login.tailscale.com/admin/machines
 
 - Management:
+  - Filebrowser:
+      icon: {{ filebrowser.name }}.png
+      href: {{ filebrowser.forward_scheme | default('http') }}://{{ filebrowser.forward_host }}:{{ filebrowser.forward_port }}
+      description: Self-hosted file manager
+      siteMonitor: {{ filebrowser.forward_scheme | default('http') }}://{{ filebrowser.forward_host }}:{{ filebrowser.forward_port }}
+      widget:
+        type: {{ filebrowser.name }}
+        url: {{ filebrowser.forward_scheme | default('http') }}://{{ filebrowser.forward_host }}:{{ filebrowser.forward_port }}
+        username: {{ ansible_user }}
+        password: {{ ansible_password }}
 {% for env in [{'id': 4, 'name': 'KVM-MONITOR'}, {'id': 5, 'name': 'KVM-NAS'}, {'id': 21, 'name': 'KVM-VPN'}, {'id': 3, 'name': 'KVM-MGMT'}] %}
   - Portainer ({{ env.name }}):
       icon: si-{{ portainer.name }}-#13BEF9
@@ -41,16 +46,6 @@
         key: {{ portainer_access_token }}
         ignoreSsl: true
 {% endfor %}
-  - Filebrowser:
-      icon: {{ filebrowser.name }}.png
-      href: {{ filebrowser.forward_scheme | default('http') }}://{{ filebrowser.forward_host }}:{{ filebrowser.forward_port }}
-      description: Self-hosted file manager
-      siteMonitor: {{ filebrowser.forward_scheme | default('http') }}://{{ filebrowser.forward_host }}:{{ filebrowser.forward_port }}
-      widget:
-        type: {{ filebrowser.name }}
-        url: {{ filebrowser.forward_scheme | default('http') }}://{{ filebrowser.forward_host }}:{{ filebrowser.forward_port }}
-        username: {{ ansible_user }}
-        password: {{ ansible_password }}
 
 - Monitoring:
   - Grafana:
@@ -58,8 +53,44 @@
       href: {{ grafana.forward_scheme | default('http') }}://{{ grafana.forward_host }}:{{ grafana.forward_port }}
       description: Analytics platform for dashboards
       siteMonitor: {{ grafana.forward_scheme | default('http') }}://{{ grafana.forward_host }}:{{ grafana.forward_port }}
-  - Prometheus:
+{% for host in groups['all'] %}
+{% if 'containers' in hostvars[host].group_names or host == 'KVM-SRV01' %}
+  - Prometheus ({{ hostvars[host].computer_name }}):
       icon: si-prometheus-#E6522C
       href: {{ prometheus.forward_scheme | default('http') }}://{{ prometheus.forward_host }}:{{ prometheus.forward_port }}
-      description: Time-series database for metrics collection
+      description: {{ 'Linux' if 'containers' in hostvars[host].group_names else 'Windows' }} Node
       siteMonitor: {{ prometheus.forward_scheme | default('http') }}://{{ prometheus.forward_host }}:{{ prometheus.forward_port }}
+      widget:
+        type: prometheusmetric
+        url: {{ prometheus.forward_scheme | default('http') }}://{{ prometheus.forward_host }}:{{ prometheus.forward_port }}
+        refreshInterval: 10000
+        metrics:
+{% if 'containers' in hostvars[host].group_names %}
+          - label: CPU
+            query: 100 - (avg(irate(node_cpu_seconds_total{instance="{{ hostvars[host].ansible_host }}:9100", mode="idle"}[5m])) * 100)
+            format: 
+              type: percent
+          - label: Memory
+            query: (1 - (node_memory_MemAvailable_bytes{instance="{{ hostvars[host].ansible_host }}:9100"} / node_memory_MemTotal_bytes{instance="{{ hostvars[host].ansible_host }}:9100"})) * 100
+            format: 
+              type: percent
+          - label: Uptime
+            query: node_time_seconds{instance="{{ hostvars[host].ansible_host }}:9100"} - node_boot_time_seconds{instance="{{ hostvars[host].ansible_host }}:9100"}
+            format:
+              type: duration
+{% else %}
+          - label: CPU
+            query: 100 - (avg(irate(windows_cpu_time_total{instance="{{ hostvars[host].ansible_host }}:9182", mode="idle"}[5m])) * 100)
+            format: 
+              type: percent
+          - label: Memory
+            query: 100 * (1 - (windows_memory_physical_free_bytes{instance="{{ hostvars[host].ansible_host }}:9182"} / windows_memory_physical_total_bytes{instance="{{ hostvars[host].ansible_host }}:9182"}))
+            format: 
+              type: percent
+          - label: Uptime
+            query: time() - windows_system_boot_time_timestamp{instance="{{ hostvars[host].ansible_host }}:9182"}
+            format:
+              type: duration
+{% endif %}
+{% endif %}
+{% endfor %}
