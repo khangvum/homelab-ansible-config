@@ -64,6 +64,12 @@
       href: {{ grafana.forward_scheme | default('http') }}://{{ grafana.forward_host }}:{{ grafana.forward_port }}
       description: Analytics platform for dashboards
       siteMonitor: {{ grafana.forward_scheme | default('http') }}://{{ grafana.forward_host }}:{{ grafana.forward_port }}
+      widget:
+        type: {{ grafana.name }}
+        version: 2
+        url: {{ grafana.forward_scheme | default('http') }}://{{ grafana.forward_host }}:{{ grafana.forward_port }}
+        username: {{ ansible_user }}
+        password: {{ ansible_password }}
 {% for host in groups['all'] %}
 {% if 'containers' in hostvars[host].group_names or host == 'KVM-SRV01' %}
   - Prometheus ({{ hostvars[host].computer_name }}):
