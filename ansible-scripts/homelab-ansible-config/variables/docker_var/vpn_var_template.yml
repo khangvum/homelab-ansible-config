@@ -11,6 +11,16 @@ tailscale_oauth_secret: {{ TAILSCALE_OAUTH_SECRET }}
 
 tailscale_api_key: {{ TAILSCALE_API_KEY }}  # Must update every 90 days
 
+tailscale_devices:
+  - name: kvm-pc01
+    id: {{ TAILSCALE_KVM-PC01_ID }}
+  - name: kvm-vpn
+    id: {{ TAILSCALE_KVM-VPN_ID }}
+  - name: iphone-15-pro
+    id: {{ TAILSCALE_IPHONE-15-PRO_ID }}
+  - name: ipad-pro-11-gen-3
+    id: {{ TAILSCALE_IPAD-PRO-11-GEN-3_ID }}
+
 # Nginx Proxy Manager (NPM)
 npm_parent_dir: "/home/{{ ansible_user }}/docker/npm"
 
