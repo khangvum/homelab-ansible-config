@@ -9,6 +9,8 @@ tailscale_advertised_routes: {{ TAILSCALE_ADVERTISED_ROUTES }}
 tailscale_oauth_id: {{ TAILSCALE_OAUTH_ID }}
 tailscale_oauth_secret: {{ TAILSCALE_OAUTH_SECRET }}
 
+tailscale_api_key: {{ TAILSCALE_API_KEY }}  # Must update every 90 days
+
 # Nginx Proxy Manager (NPM)
 npm_parent_dir: "/home/{{ ansible_user }}/docker/npm"
 
