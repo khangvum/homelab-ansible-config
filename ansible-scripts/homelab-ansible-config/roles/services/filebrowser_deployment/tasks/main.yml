@@ -2,10 +2,6 @@
 - name: Linux Variables Load
   ansible.builtin.include_vars:
     file: ../../../variables/os_var/linux_var.yml
-    
-- name: Filebrowser Variables Load
-  ansible.builtin.include_vars:
-    file: ../../../variables/docker_var/filebrowser_var.yml
 
 - name: CIFS (Common Internet File System) Utilities Installation
   ansible.builtin.apt:
@@ -13,7 +9,7 @@
 
 - name: Mount Point Directory Creation
   ansible.builtin.file:
-    name: "{{ mount_dir }}"
+    name: "{{ nas_mount_dir }}"
     state: directory
 
 - name: NAS Credentials File Creation
@@ -27,7 +23,7 @@
 - name: Permanent Mount Configuration
   ansible.posix.mount:
     src: "{{ nas_path }}"
-    path: "{{ mount_dir }}"
+    path: "{{ nas_mount_dir }}"
     fstype: cifs
     opts: "credentials=/etc/cifs_credentials,uid={{ administrator_uid }},gid={{ administrator_gid }},file_mode=0775,dir_mode=0775,iocharset=utf8,vers=3.0,nofail"
     state: mounted
@@ -67,6 +63,6 @@
 # If first time deployment, default password can be found in the filebrowser logs: `docker logs filebrowser`
 - name: Filebrowser Deployment
   ansible.builtin.command:
-    cmd: docker-compose up -d
+    cmd: docker compose up -d
     chdir: "{{ filebrowser_parent_dir }}"
   when: docker_compose_file.changed
