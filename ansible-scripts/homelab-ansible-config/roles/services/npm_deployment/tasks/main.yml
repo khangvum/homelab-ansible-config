@@ -26,7 +26,7 @@
 
 - name: Nginx Proxy Manager (npm) Deployment
   ansible.builtin.command:
-    cmd: docker-compose up -d
+    cmd: docker compose up -d
     chdir: "{{ npm_parent_dir }}"
   when: docker_compose_file.changed
 

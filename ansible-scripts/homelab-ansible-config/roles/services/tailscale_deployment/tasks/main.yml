@@ -36,7 +36,7 @@
 
 - name: Tailscale Deployment
   ansible.builtin.command:
-    cmd: docker-compose up -d
+    cmd: docker compose up -d
     chdir: "{{ tailscale_parent_dir }}"
   when: docker_compose_file.changed
 

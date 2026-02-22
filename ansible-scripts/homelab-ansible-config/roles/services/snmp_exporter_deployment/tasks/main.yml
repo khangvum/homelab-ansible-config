@@ -80,6 +80,6 @@
 
 - name: SNMP Exporter Deployment
   ansible.builtin.command:
-    cmd: docker-compose up -d
+    cmd: docker compose up -d
     chdir: "{{ snmp_exporter_parent_dir }}"
   when: docker_compose_file.changed or snmp_exporter_config_file.changed
