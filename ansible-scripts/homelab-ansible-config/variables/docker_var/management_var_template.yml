@@ -1,0 +1,13 @@
+---
+# Portainer
+portainer_parent_dir: "/home/{{ ansible_user }}/docker/portainer"
+
+portainer_access_token: {{ PORTAINER_ACCESS_TOKEN }}
+
+# Homepage
+homepage_parent_dir: "/home/{{ ansible_user }}/docker/homepage"
+homepage_config_files:
+  - bookmarks.yaml
+  - services.yaml
+  - settings.yaml
+  - widgets.yaml

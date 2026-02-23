@@ -6,6 +6,7 @@ domain_var.yml
 linux_var.yml
 user_var.yml
 windows_var.yml
+management_var.yml
 monitoring_var.yml
 vpn_var.yml
 
