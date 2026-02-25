@@ -15,14 +15,14 @@
     - "{{ homepage_parent_dir }}"
     - "{{ homepage_parent_dir }}/config"
 
-# - name: Configuration Files Creation
-#   ansible.builtin.template:
-#     src: "{{ item }}.j2"
-#     dest: "{{ homepage_parent_dir }}/config/{{ item }}"
-#     owner: "{{ ansible_user }}"
-#     group: "{{ ansible_user }}"
-#     mode: '0644'
-#   loop: "{{ homepage_config_files }}"
+- name: Configuration Files Creation
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "{{ homepage_parent_dir }}/config/{{ item }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0644'
+  loop: "{{ homepage_config_files }}"
 
 - name: Docker Compose File Creation
   ansible.builtin.template:
