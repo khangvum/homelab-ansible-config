@@ -98,16 +98,16 @@
         url: {{ filebrowser.forward_scheme | default('http') }}://{{ filebrowser.forward_host }}:{{ filebrowser.forward_port }}
         username: {{ ansible_user }}
         password: {{ ansible_password }}
-{% for env in [{'id': 4, 'name': 'KVM-MONITOR'}, {'id': 5, 'name': 'KVM-NAS'}, {'id': 21, 'name': 'KVM-VPN'}, {'id': 3, 'name': 'KVM-MGMT'}] %}
+{% for env in portainer_environments %}
   - Portainer ({{ env.name }}):
       icon: si-{{ portainer.name }}-#13BEF9
-      href: {{ portainer.forward_scheme | default('http') }}://{{ portainer.forward_host }}:{{ portainer.forward_port }}/#!/{{ env.id }}/docker/dashboard
+      href: "{{ portainer.forward_scheme | default('http') }}://{{ portainer.forward_host }}:{{ portainer.forward_port }}/#!/{{ env.id }}/docker/dashboard"
       description: "{{ env.name }} environment"
-      siteMonitor: {{ portainer.forward_scheme | default('http') }}://{{ portainer.forward_host }}:{{ portainer.forward_port }}/#!/{{ env.id }}/docker/dashboard
+      siteMonitor: "{{ portainer.forward_scheme | default('http') }}://{{ portainer.forward_host }}:{{ portainer.forward_port }}/#!/{{ env.id }}/docker/dashboard"
       widget:
         type: {{ portainer.name }}
-        url: {{ portainer.forward_scheme | default('http') }}://{{ portainer.forward_host }}:{{ portainer.forward_port }}
+        url: "{{ portainer.forward_scheme | default('http') }}://{{ portainer.forward_host }}:{{ portainer.forward_port }}"
         env: {{ env.id }}
-        key: {{ portainer_access_token }}
+        key: "{{ portainer_access_token }}"
         ignoreSsl: true
 {% endfor %}
