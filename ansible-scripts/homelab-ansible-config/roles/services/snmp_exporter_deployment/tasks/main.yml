@@ -78,8 +78,17 @@
     chdir: "{{ snmp_exporter_parent_dir }}"
   when: snmp_exporter_config_file.changed
 
+- name: SNMP Exporter Latest Image Pull If Available
+  community.docker.docker_image:
+    name: prom/snmp-exporter
+    source: pull
+  register: snmp_exporter_image_pull
+
 - name: SNMP Exporter Deployment
   ansible.builtin.command:
-    cmd: docker compose up -d
+    cmd: docker compose up -d --remove-orphans
     chdir: "{{ snmp_exporter_parent_dir }}"
-  when: docker_compose_file.changed or snmp_exporter_config_file.changed
+  when: >
+    docker_compose_file.changed or 
+    snmp_exporter_config_file.changed or 
+    snmp_exporter_image_pull.changed

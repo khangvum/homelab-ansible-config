@@ -60,9 +60,17 @@
     mode: '0644'
   register: docker_compose_file
 
+- name: Filebrowser Latest Image Pull If Available
+  community.docker.docker_image:
+    name: filebrowser/filebrowser
+    source: pull
+  register: filebrowser_image_pull
+
 # If first time deployment, default password can be found in the filebrowser logs: `docker logs filebrowser`
 - name: Filebrowser Deployment
   ansible.builtin.command:
-    cmd: docker compose up -d
+    cmd: docker compose up -d --remove-orphans
     chdir: "{{ filebrowser_parent_dir }}"
-  when: docker_compose_file.changed
+  when: >
+    docker_compose_file.changed or
+    filebrowser_image_pull.changed

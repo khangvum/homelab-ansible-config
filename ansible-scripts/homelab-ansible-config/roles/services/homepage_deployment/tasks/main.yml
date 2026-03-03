@@ -33,8 +33,16 @@
     mode: '0644'
   register: docker_compose_file
 
+- name: Homepage Latest Image Pull If Available
+  community.docker.docker_image:
+    name: ghcr.io/gethomepage/homepage
+    source: pull
+  register: homepage_image_pull
+
 - name: Homepage Deployment
   ansible.builtin.command:
-    cmd: docker-compose up -d
+    cmd: docker-compose up -d --remove-orphans
     chdir: "{{ homepage_parent_dir }}"
-  when: docker_compose_file.changed
+  when: >
+    docker_compose_file.changed or 
+    homepage_image_pull.changed

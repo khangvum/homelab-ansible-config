@@ -21,8 +21,16 @@
     mode: '0644'
   register: docker_compose_file
 
+- name: Grafana Latest Image Pull If Available
+  community.docker.docker_image:
+    name: grafana/grafana
+    source: pull
+  register: grafana_image_pull
+
 - name: Grafana Deployment
   ansible.builtin.command:
-    cmd: docker compose up -d
+    cmd: docker compose up -d --remove-orphans
     chdir: "{{ grafana_parent_dir }}"
-  when: docker_compose_file.changed
+  when: >
+    docker_compose_file.changed or 
+    grafana_image_pull.changed

@@ -24,11 +24,19 @@
     mode: '0644'
   register: docker_compose_file
 
+- name: Nginx Proxy Manager (npm) Latest Image Pull If Available
+  community.docker.docker_image:
+    name: jc21/nginx-proxy-manager
+    source: pull
+  register: npm_image_pull
+
 - name: Nginx Proxy Manager (npm) Deployment
   ansible.builtin.command:
-    cmd: docker compose up -d
+    cmd: docker compose up -d --remove-orphans
     chdir: "{{ npm_parent_dir }}"
-  when: docker_compose_file.changed
+  when: >
+    docker_compose_file.changed or 
+    npm_image_pull.changed
 
 - name: Nginx Proxy Host Configuration
   block:

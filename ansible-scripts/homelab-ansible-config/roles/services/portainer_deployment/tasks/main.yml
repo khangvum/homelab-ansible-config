@@ -21,8 +21,20 @@
     mode: '0644'
   register: docker_compose_file
 
+- name: Portainer Image Name Definition Based on the Host
+  ansible.builtin.set_fact:
+    portainer_image_name: "{{ 'portainer/portainer-ce' if inventory_hostname == 'KVM-MGMT' else 'portainer/agent' }}"
+  
+- name: Portainer Latest Image Pull If Available
+  community.docker.docker_image:
+    name: "{{ portainer_image_name }}"
+    source: pull
+  register: portainer_image_pull
+
 - name: Portainer Deployment
   ansible.builtin.command:
-    cmd: docker compose up -d
+    cmd: docker compose up -d --remove-orphans
     chdir: "{{ portainer_parent_dir }}"
-  when: docker_compose_file.changed
+  when: >
+    docker_compose_file.changed or 
+    portainer_image_pull.changed
