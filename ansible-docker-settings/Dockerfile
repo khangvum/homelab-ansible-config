@@ -33,6 +33,7 @@ RUN ansible-galaxy collection install --upgrade \
     community.windows \
     microsoft.ad \
     microsoft.iis \
+    community.docker \
     community.vmware
 
 # Set locale
