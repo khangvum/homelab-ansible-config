@@ -20,8 +20,7 @@ flowchart LR
         **RAM:** 256GB (8 x 32GB ECC 2666MHz)
         **Storage:**
         • 2 x 1TB NVMe SSD (1 OS & 1 VMs)
-        • 1 x 1TB SATA SSD
-        • 2 × 4TB HDD (RSTe RAID 1)
+        • 8TB HDD (3x 4TB - RSTe RAID 5)
         **OS:** Windows Server 2025`")] -- specs --- SRV01[KVM-SRV01]
     
     %% - VMs
