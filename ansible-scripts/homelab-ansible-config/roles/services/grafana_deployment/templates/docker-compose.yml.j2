@@ -2,7 +2,7 @@
 services:
   grafana:
     restart: unless-stopped
-    image: grafana/grafana
+    image: grafana/grafana:latest
     container_name: grafana
     volumes:
       - grafana-storage:/var/lib/grafana
