@@ -4,6 +4,18 @@ portainer_parent_dir: "/home/{{ ansible_user }}/docker/portainer"
 
 portainer_access_token: {{ PORTAINER_ACCESS_TOKEN }}
 
+portainer_environments:
+  - name: KVM-MGMT
+    id: 3
+  - name: KVM-MONITOR
+    id: 4
+  - name: KVM-NAS
+    id: 5
+  - name: KVM-VPN
+    id: 6
+  - name: KVM-MEDIA
+    id: 7
+
 # Homepage
 homepage_parent_dir: "/home/{{ ansible_user }}/docker/homepage"
 homepage_config_files:
