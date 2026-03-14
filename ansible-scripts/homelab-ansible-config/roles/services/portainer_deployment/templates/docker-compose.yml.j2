@@ -13,6 +13,8 @@ services:
     ports:
       - 9443:9443
       - 8000:8000
+    environment:
+      - TRUSTED_ORIGINS=portainer.{{ domain_name }}
 {% else %}
   # --- PORTAINER AGENT ---
   portainer-agent:
