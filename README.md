@@ -20,7 +20,7 @@ flowchart LR
         **RAM:** 256GB (8 x 32GB ECC 2666MHz)
         **Storage:**
         • 2 x 1TB NVMe SSD (1 OS & 1 VMs)
-        • 8TB HDD (3x 4TB - RSTe RAID 5)
+        • 8TB HDD (3 x 4TB - RSTe RAID 5)
         **OS:** Windows Server 2025`")] -- specs --- SRV01[KVM-SRV01]
     
     %% - VMs
@@ -34,6 +34,11 @@ flowchart LR
                                                         **Storage:** 100GB
                                                         **OS:** Windows Server 2025
                                                         **Role:** Domain Controller`")]
+    SRV01 --> MEDIA[KVM-MEDIA] -- specs --- MEDIA_SPECS[("`**CPU:** 4 vCPU
+                                                        **RAM:** 8GB
+                                                        **Storage:** 100GB 
+                                                        **OS:** Ubuntu Server 24.04
+                                                        **Role:** Media Server`")]
     SRV01 --> MGMT[KVM-MGMT] -- specs --- MGMT_SPECS[("`**CPU:** 2 vCPU
                                                         **RAM:** 4GB
                                                         **Storage:** 50GB
@@ -98,9 +103,9 @@ flowchart LR
     %% Styling
     class SRV01,SRV02 hosts
     classDef hosts fill:#f1c232,stroke:#000,color:#000
-    class DB01,DC01,DC02,MGMT,MONITOR,NAS,VPN,WEB01,WRK01,WRK02,WRK03,WRK04 vms
+    class DB01,DC01,DC02,MEDIA,MGMT,MONITOR,NAS,VPN,WEB01,WRK01,WRK02,WRK03,WRK04 vms
     classDef vms fill:#7ea6e0,stroke:#000,color:#000
-    class SRV01_SPECS,SRV02_SPECS,DB01_SPECS,DC01_SPECS,DC02_SPECS,MGMT_SPECS,MONITOR_SPECS,NAS_SPECS,VPN_SPECS,WEB01_SPECS,WRK01_SPECS,WRK02_SPECS,WRK03_SPECS,WRK04_SPECS specs
+    class SRV01_SPECS,SRV02_SPECS,DB01_SPECS,DC01_SPECS,DC02_SPECS,MEDIA_SPECS,MGMT_SPECS,MONITOR_SPECS,NAS_SPECS,VPN_SPECS,WEB01_SPECS,WRK01_SPECS,WRK02_SPECS,WRK03_SPECS,WRK04_SPECS specs
     classDef specs fill:#d3d3d3,stroke:#000,color:#000
 ```
 
