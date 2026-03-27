@@ -174,3 +174,15 @@ all:
                 - name: "KVM-SRV01-SW02"
                   adapter: "Wi-Fi"
                   ip: {{ VPN_SW02_IP }}
+            KVM-MGMT:
+              ansible_host: {{ MGMT_IP_ADDRESS }}
+              computer_name: KVM-MGMT
+              ansible_user: {{ USERNAME }}
+              ansible_password: {{ PASSWORD }}
+              v_switches:
+                - name: "KVM-SRV01-SW01"
+                  adapter: "Ethernet"
+                  ip: {{ MGMT_SW01_IP }}
+                - name: "KVM-SRV01-SW02"
+                  adapter: "Wi-Fi"
+                  ip: {{ MGMT_SW02_IP }}
