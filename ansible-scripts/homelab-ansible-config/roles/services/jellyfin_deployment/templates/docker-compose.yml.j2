@@ -1,0 +1,20 @@
+---
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:latest
+    container_name: jellyfin
+    restart: unless-stopped
+    network_mode: host
+    user: "{{ administrator_uid }}:{{ administrator_gid }}"
+    ports:
+      - 8096:8096 # HTTP
+      - 8920:8920 # HTTPS
+    volumes:
+      - ./config:/config
+      - ./cache:/cache
+      - {{ media_mount_dir }}:/media:ro
+    deploy:
+      resources:
+        limits:
+          cpus: '3.5'
+          memory: 6G
