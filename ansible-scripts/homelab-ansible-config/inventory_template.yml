@@ -186,3 +186,27 @@ all:
                 - name: "KVM-SRV01-SW02"
                   adapter: "Wi-Fi"
                   ip: {{ MGMT_SW02_IP }}
+            KVM-MEDIA:
+              ansible_host: {{ MEDIA_IP_ADDRESS }}
+              computer_name: KVM-MEDIA
+              ansible_user: {{ USERNAME }}
+              ansible_password: {{ PASSWORD }}
+              v_switches:
+                - name: "KVM-SRV01-SW01"
+                  adapter: "Ethernet"
+                  ip: {{ MEDIA_SW01_IP }}
+                - name: "KVM-SRV01-SW02"
+                  adapter: "Wi-Fi"
+                  ip: {{ MEDIA_SW02_IP }}
+            KVM-SECURITY:
+              ansible_host: {{ SECURITY_IP_ADDRESS }}
+              computer_name: KVM-SECURITY
+              ansible_user: {{ USERNAME }}
+              ansible_password: {{ PASSWORD }}
+              v_switches:
+                - name: "KVM-SRV01-SW01"
+                  adapter: "Ethernet"
+                  ip: {{ SECURITY_SW01_IP }}
+                - name: "KVM-SRV01-SW02"
+                  adapter: "Wi-Fi"
+                  ip: {{ SECURITY_SW02_IP }}
