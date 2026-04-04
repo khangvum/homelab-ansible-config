@@ -17,8 +17,9 @@
   tags: container_deployment
   vars_files:
     - ../variables/domain_var/domain_var.yml
-    - ../variables/docker_var/filebrowser_var.yml
+    - ../variables/docker_var/nas_var.yml
     - ../variables/docker_var/management_var.yml
+    - ../variables/docker_var/media_var.yml
     - ../variables/docker_var/monitoring_var.yml
     - ../variables/docker_var/vpn_var.yml
   tasks:
@@ -59,3 +60,7 @@
     - include_role:
         name: homepage_deployment
       when: inventory_hostname == "KVM-MGMT"
+    # KVM-MEDIA
+    - include_role:
+        name: jellyfin_deployment
+      when: inventory_hostname == "KVM-MEDIA"
