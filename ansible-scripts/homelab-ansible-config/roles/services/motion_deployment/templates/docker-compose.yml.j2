@@ -1,0 +1,14 @@
+services:
+  motioneye:
+    image: ccrisan/motioneye:master-amd64
+    container_name: motioneye
+    hostname: {{ hostvars[inventory_hostname].computer_name }}
+    restart: always
+    ports:
+      - 8765:8765
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - {{ motion_parent_dir }}/config:/etc/motioneye
+      - {{ security_mount_dir }}:/var/lib/motioneye
+    environment:
+      - TZ=America/Toronto

@@ -21,6 +21,7 @@
     - ../variables/docker_var/management_var.yml
     - ../variables/docker_var/media_var.yml
     - ../variables/docker_var/monitoring_var.yml
+    - ../variables/docker_var/security_var.yml
     - ../variables/docker_var/vpn_var.yml
   tasks:
     - include_role:
@@ -64,3 +65,7 @@
     - include_role:
         name: jellyfin_deployment
       when: inventory_hostname == "KVM-MEDIA"
+    # KVM-SECURITY
+    - include_role:
+        name: motion_deployment
+      when: inventory_hostname == "KVM-SECURITY"
