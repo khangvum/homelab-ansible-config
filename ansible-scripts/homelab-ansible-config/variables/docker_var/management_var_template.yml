@@ -15,6 +15,8 @@ portainer_environments:
     id: 6
   - name: KVM-MEDIA
     id: 7
+  - name: KVM-SECURITY
+    id: 8
 
 # Homepage
 homepage_parent_dir: "/home/{{ ansible_user }}/docker/homepage"
