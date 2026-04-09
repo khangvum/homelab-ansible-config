@@ -48,7 +48,7 @@
     # }'
     - name: npm API Token Retrieval
       ansible.builtin.uri:
-        url: "http://{{ hostvars['KVM-VPN'].ansible_host }}:81/api/tokens"
+        url: "http://{{ hostvars['KVM-VPN01'].ansible_host }}:81/api/tokens"
         method: POST
         body_format: json
         body:
@@ -58,7 +58,7 @@
 
     - name: Proxy Host Existence Check
       ansible.builtin.uri:
-        url: "http://{{ hostvars['KVM-VPN'].ansible_host }}:81/api/nginx/proxy-hosts"
+        url: "http://{{ hostvars['KVM-VPN01'].ansible_host }}:81/api/nginx/proxy-hosts"
         method: GET
         headers:
           Authorization: "Bearer {{ npm_api_token.json.token }}"
@@ -86,8 +86,8 @@
       vars:
         current_match: "{{ npm_proxy_hosts.json | selectattr('domain_names', 'contains', item.name + '.' + domain_name) | list }}"
       ansible.builtin.uri:
-        # url: "http://{{ hostvars['KVM-VPN'].ansible_host }}:81/api/nginx/proxy-hosts"
-        url: http://{{ hostvars['KVM-VPN'].ansible_host }}:81/api/nginx/proxy-hosts{{ '/' + (current_match[0].id | string) if current_match | length > 0 else '' }}
+        # url: "http://{{ hostvars['KVM-VPN01'].ansible_host }}:81/api/nginx/proxy-hosts"
+        url: http://{{ hostvars['KVM-VPN01'].ansible_host }}:81/api/nginx/proxy-hosts{{ '/' + (current_match[0].id | string) if current_match | length > 0 else '' }}
         # method: POST
         method: "{{ 'PUT' if current_match | length > 0 else 'POST' }}"
         headers:
@@ -122,6 +122,6 @@
     name: "{{ item.name }}"
     zone: "{{ domain_name }}"
     type: "A"
-    value: "{{ hostvars['KVM-VPN'].ansible_host }}"
+    value: "{{ hostvars['KVM-VPN01'].ansible_host }}"
     state: present
   loop: "{{ docker_services }}"

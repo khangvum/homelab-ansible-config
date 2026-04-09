@@ -34,27 +34,27 @@ flowchart LR
                                                         **Storage:** 100GB
                                                         **OS:** Windows Server 2025
                                                         **Role:** Domain Controller`")]
-    SRV01 --> MEDIA[KVM-MEDIA] -- specs --- MEDIA_SPECS[("`**CPU:** 4 vCPU
+    SRV01 --> MEDIA[KVM-MEDIA01] -- specs --- MEDIA_SPECS[("`**CPU:** 4 vCPU
                                                         **RAM:** 8GB
                                                         **Storage:** 100GB 
                                                         **OS:** Ubuntu Server 24.04
                                                         **Role:** Media Server`")]
-    SRV01 --> MGMT[KVM-MGMT] -- specs --- MGMT_SPECS[("`**CPU:** 2 vCPU
+    SRV01 --> MGMT[KVM-MGMT01] -- specs --- MGMT_SPECS[("`**CPU:** 2 vCPU
                                                         **RAM:** 4GB
                                                         **Storage:** 50GB
                                                         **OS:** Ubuntu Server 24.04
                                                         **Role:** Container Management Server`")]
-    SRV01 --> MONITOR[KVM-MONITOR] -- specs --- MONITOR_SPECS[("`**CPU:** 2 vCPU
+    SRV01 --> MONITOR[KVM-MONITOR01] -- specs --- MONITOR_SPECS[("`**CPU:** 2 vCPU
                                                                 **RAM:** 4GB
                                                                 **Storage:** 100GB
                                                                 **OS:** Ubuntu Server 24.04
                                                                 **Role:** Monitoring Server`")]
-    SRV01 --> NAS[KVM-NAS] -- specs --- NAS_SPECS[("`**CPU:** 2 vCPU
+    SRV01 --> NAS[KVM-NAS01] -- specs --- NAS_SPECS[("`**CPU:** 2 vCPU
                                                     **RAM:** 4GB
                                                     **Storage:** 50GB
                                                     **OS:** Ubuntu Server 24.04
                                                     **Role:** NAS`")]        
-    SRV01 --> VPN[KVM-VPN] -- specs --- VPN_SPECS[("`**CPU:** 2 vCPU
+    SRV01 --> VPN[KVM-VPN01] -- specs --- VPN_SPECS[("`**CPU:** 2 vCPU
                                                     **RAM:** 2GB
                                                     **Storage:** 20GB
                                                     **OS:** Ubuntu Server 24.04

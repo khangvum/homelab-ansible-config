@@ -23,7 +23,7 @@
 
 - name: Portainer Image Name Definition Based on the Host
   ansible.builtin.set_fact:
-    portainer_image_name: "{{ 'portainer/portainer-ce' if inventory_hostname == 'KVM-MGMT' else 'portainer/agent' }}"
+    portainer_image_name: "{{ 'portainer/portainer-ce' if inventory_hostname == 'KVM-MGMT01' else 'portainer/agent' }}"
   
 - name: Portainer Latest Image Pull If Available
   community.docker.docker_image:

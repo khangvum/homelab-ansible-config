@@ -1,6 +1,6 @@
 ---
 services:
-{% if inventory_hostname == 'KVM-MGMT' %}
+{% if inventory_hostname == 'KVM-MGMT01' %}
   # --- PORTAINER SERVER (UI) ---
   portainer:
     image: portainer/portainer-ce:latest
@@ -28,7 +28,7 @@ services:
       - /var/snap/docker/common/var-lib-docker/volumes:/var/lib/docker/volumes
 {% endif %}
 
-{% if inventory_hostname == 'KVM-MGMT' %}
+{% if inventory_hostname == 'KVM-MGMT01' %}
 volumes:
   portainer_data:
     name: portainer_data

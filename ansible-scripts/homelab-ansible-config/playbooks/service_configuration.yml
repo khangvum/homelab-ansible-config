@@ -33,39 +33,39 @@
     - include_role:
         name: windows_exporter_deployment
       when: "'containers' not in group_names"
-    # KVM-NAS
+    # KVM-NAS01
     - include_role:
         name: filebrowser_deployment
-      when: inventory_hostname == "KVM-NAS"
-    # KVM-MONITOR
+      when: inventory_hostname == "KVM-NAS01"
+    # KVM-MONITOR01
     - include_role:
         name: grafana_deployment
-      when: inventory_hostname == "KVM-MONITOR"
+      when: inventory_hostname == "KVM-MONITOR01"
     - include_role:
         name: prometheus_deployment
-      when: inventory_hostname == "KVM-MONITOR"
+      when: inventory_hostname == "KVM-MONITOR01"
     - include_role:
         name: snmp_exporter_deployment
-      when: inventory_hostname == "KVM-MONITOR"
-    # KVM-VPN
+      when: inventory_hostname == "KVM-MONITOR01"
+    # KVM-VPN01
     - include_role:
         name: tailscale_deployment
-      when: inventory_hostname == "KVM-VPN"
+      when: inventory_hostname == "KVM-VPN01"
     - include_role:
         name: npm_deployment
-      when: inventory_hostname == "KVM-VPN"
-    # KVM-MGMT
+      when: inventory_hostname == "KVM-VPN01"
+    # KVM-MGMT01
     - include_role:
         name: portainer_deployment
-      when: "'containers' in group_names" # Portainer Server on KVM-MGMT, Portainer Agent on other containers
+      when: "'containers' in group_names" # Portainer Server on KVM-MGMT01, Portainer Agent on other containers
     - include_role:
         name: homepage_deployment
-      when: inventory_hostname == "KVM-MGMT"
-    # KVM-MEDIA
+      when: inventory_hostname == "KVM-MGMT01"
+    # KVM-MEDIA01
     - include_role:
         name: jellyfin_deployment
-      when: inventory_hostname == "KVM-MEDIA"
-    # KVM-SECURITY
+      when: inventory_hostname == "KVM-MEDIA01"
+    # KVM-SECURITY01
     - include_role:
         name: motion_deployment
-      when: inventory_hostname == "KVM-SECURITY"
+      when: inventory_hostname == "KVM-SECURITY01"
