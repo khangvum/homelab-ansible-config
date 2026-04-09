@@ -5,17 +5,17 @@ portainer_parent_dir: "/home/{{ ansible_user }}/docker/portainer"
 portainer_access_token: {{ PORTAINER_ACCESS_TOKEN }}
 
 portainer_environments:
-  - name: KVM-MGMT
+  - name: KVM-MGMT01
     id: 3
-  - name: KVM-MONITOR
+  - name: KVM-MONITOR01
     id: 4
-  - name: KVM-NAS
+  - name: KVM-NAS01
     id: 5
-  - name: KVM-VPN
+  - name: KVM-VPN01
     id: 6
-  - name: KVM-MEDIA
+  - name: KVM-MEDIA01
     id: 7
-  - name: KVM-SECURITY
+  - name: KVM-SECURITY01
     id: 8
 
 # Homepage
