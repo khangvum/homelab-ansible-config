@@ -203,6 +203,7 @@ Role                                                                            
     [`media_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/media_var.yml)                    |Define **_Jellyfin settings_** for **_self-hosted media server_**
     [`monitoring_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/monitoring_var_template.yml) |Define **_Grafana_**, **_Prometheus_**, and **_Node Exporter settings_** for **_monitoring stack_**
     [`nas_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/nas_var.yml)                        |Define **_Filebrowser settings_** for **_self-hosted file manager_**
+    [`security_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/security_var.yml)              |Define **_Motion settings_** for **_self-hosted security camera system_**
     [`vpn_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/vpn_var_template.yml)               |Define **_Tailscale_** and **_Nginx Proxy Manager settings_** for **_Mesh VPN service_**
 
 -   **Domain variables:**
