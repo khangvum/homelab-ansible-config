@@ -153,6 +153,7 @@ Role                                                                            
 [`grafana_deployment`](ansible-scripts/homelab-ansible-config/roles/services/grafana_deployment/tasks/main.yml)                     |Configure **_Grafana_** as a **_analytics platform_** for **_dashboards_** and **_data virtualization_**
 [`homepage_deployment`](ansible-scripts/homelab-ansible-config/roles/services/homepage_deployment/tasks/main.yml)                   |Configure **_Homepage_** as a **_centralized service dashboard_** for **_infrastructure monitoring_** and **_service discovery_**
 [`iis_deployment`](ansible-scripts/homelab-ansible-config/roles/services/iis_deployment/tasks/main.yml)                             |Install and configure **_Internet Information Services_** (**_IIS_**)
+[`jellyfin_deployment`](ansible-scripts/homelab-ansible-config/roles/services/jellyfin_deployment/tasks/main.yml)                   |Configure **_Jellyfin_** as a **_self-hosted media server_**
 [`node_exporter_deployment`](ansible-scripts/homelab-ansible-config/roles/services/node_exporter_deployment/tasks/main.yml)         |Configure **_Node Exporter_** as a **_metrics collector_** for **_Prometheus monitoring_** on **_Linux hosts_**
 [`npm_deployment`](ansible-scripts/homelab-ansible-config/roles/services/npm_deployment/tasks/main.yml)                             |Configure **_Nginx Proxy Manager_** as a **_reverse proxy_** for **_host forwarding_**
 [`portainer_deployment`](ansible-scripts/homelab-ansible-config/roles/services/portainer_deployment/tasks/main.yml)                 |Configure **_Portainer_** as a **_container management platform_** for **_Docker environments_**
@@ -199,8 +200,8 @@ Role                                                                            
 
     File                                                                                                            |Description
     :--------------------------------------------------------------------------------------------------------------:|:----------
-    [`management_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/management_var_template.yml) |Define **_Portainer_** and **_Homepage settings_** for **_centralized service dashboard_**
     [`media_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/media_var.yml)                    |Define **_Jellyfin settings_** for **_self-hosted media server_**
+    [`management_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/management_var_template.yml) |Define **_Portainer_** and **_Homepage settings_** for **_centralized service dashboard_**
     [`monitoring_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/monitoring_var_template.yml) |Define **_Grafana_**, **_Prometheus_**, and **_Node Exporter settings_** for **_monitoring stack_**
     [`nas_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/nas_var.yml)                        |Define **_Filebrowser settings_** for **_self-hosted file manager_**
     [`security_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/security_var.yml)              |Define **_Motion settings_** for **_self-hosted security camera system_**
