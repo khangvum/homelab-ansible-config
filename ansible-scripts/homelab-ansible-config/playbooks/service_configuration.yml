@@ -47,13 +47,13 @@
     - include_role:
         name: snmp_exporter_deployment
       when: inventory_hostname == "KVM-MONITOR01"
-    # KVM-VPN01
+    # KVM-VPN
     - include_role:
         name: tailscale_deployment
-      when: inventory_hostname == "KVM-VPN01"
+      when: inventory_hostname.startswith("KVM-VPN")
     - include_role:
         name: npm_deployment
-      when: inventory_hostname == "KVM-VPN01"
+      when: inventory_hostname.startswith("KVM-VPN")
     # KVM-MGMT01
     - include_role:
         name: portainer_deployment

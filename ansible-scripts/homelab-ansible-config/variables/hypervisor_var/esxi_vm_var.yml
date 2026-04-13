@@ -42,3 +42,17 @@ esxi_vm_var:
     start_order: 3
     power: on
     state: present
+  - name: KVM-VPN02
+    host: KVM-SRV02
+    cpu: 2
+    memory: 2
+    storage: 20
+    generation: 2
+    tpm: false
+    iso_source: /opt/ansible/homelab-ansible-config/installation-files/ubuntu_server_24.04_unattend.iso
+    iso_destination: ubuntu_server_24.04_unattend.iso
+    guest_os: ubuntu-64 # https://knowledge.broadcom.com/external/article/321876/determine-the-guest-os-from-a-vm-configu.html
+    autostart: true
+    start_order: 4
+    power: on
+    state: present
