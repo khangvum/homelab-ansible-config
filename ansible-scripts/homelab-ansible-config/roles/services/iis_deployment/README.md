@@ -17,21 +17,21 @@ An **_Ansible role_** facilitates the **_web page deployment_** process for **_W
 - **Documentation**: [Node.js Deployment Documentation](./NODEJS_DEPLOYMENT.md)
 
 > [!TIP]
-> To simulate **_production domains_**, a new **_Forward Lookup Zone_** can be created on the **_DNS server_** (_e.g.,_ **_`KVM-DC01`_**)and linked via **_IIS Bindings_**:
+> To simulate **_production domains_**, a new **_Forward Lookup Zone_** can be created on the **_DNS server_** (_e.g.,_ **_`KVM-DC01`_**) and linked via **_IIS Bindings_**:
 >
-> 1. DNS Configuration:
+> **1. DNS Configuration**
 >
 > - On the **_DNS server_** (_e.g.,_ **_`KVM-DC01`_**), open **_DNS Manager_** (`dnsmgmt.msc`).
 > - Right click on **Forward Lookup Zone** > **New Zone...**.
 > - Follow the wizard to create a **_Primary Zone_** for a domain (_e.g.,_ `itinder.com`, `itinder.ca`).
 > - Within the new zone, add a new **_A record_** by right-clicking > **New Host (A or AAAA)...**:
-
+>
 >   |    Property    | Value                                |
 >   | :------------: | ------------------------------------ |
 >   |    **Name**    | (Blank)                              |
 >   | **IP address** | The IP of the IIS Server `KVM-WEB01` |
 >
-> 2. IIS Binding Update:
+> **2. IIS Binding Update**
 > 
 > - On **_`KVM-WEB01`_**, open **_Internet Information Services (IIS) Manager_** (`inetmgr`).
 > - Select the appropriate site (_e.g._ `ITinder`) and click **Bindings...** in the **_Actions_** pane.
