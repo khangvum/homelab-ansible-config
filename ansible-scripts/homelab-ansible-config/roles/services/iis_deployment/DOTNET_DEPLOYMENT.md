@@ -51,7 +51,7 @@ A **_web application deployment_** process for Windows, leveraging **_Internet I
 
 ## 4. IIS Deployment
 
-- Copy the **_content_** of **_`publish` folder_** into **_`C:\inetpub\wwwroot\info3181casestudy.khangvum.lab`_** on **_`KVM-WEB01`_**.
+- **_Copy_** the content of **_`publish` folder_** into **_`C:\inetpub\wwwroot\info3181casestudy.khangvum.lab`_** on **_`KVM-WEB01`_**.
 - Open **_Internet Information Services (IIS) Manager_** (`inetmgr`), right-click **Sites** > **Add Website...**:
 
   |     Property      | Value                                                                                                     |
