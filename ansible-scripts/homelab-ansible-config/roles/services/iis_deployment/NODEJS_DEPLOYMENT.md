@@ -59,3 +59,32 @@ On `KVM-WEB01`:
   |   **Site name**   | `ITinder`                                                                                       |
   | **Physical path** | `C:\inetpub\wwwroot\itinder.khangvum.lab`                                                       |
   |    **Binding**    | Type: `http`<br>IP address: `All Unassigned`<br>Port: `80`<br>Host name: `itinder.khangvum.lab` |
+
+## 4. IIS Reverse Proxy Configuration
+
+To allow IIS to server as the **_gateway_** for the Node.js application, a **_`web.config`_** file must be configured within the site's **_physical path_** (_e.g.,_ `C:\inetpub\wwwroot\itinder.khangvum.lab`) to direct IIS to handle **_client-side routing_** for the React front end while proxying backend requests to the Node.js process:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <system.webServer>
+        <webSocket enabled="false" />
+        <rewrite>
+            <rules>
+                <rule name="SocketIO" stopProcessing="true">
+                    <match url="^socket.io/(.*)" />
+                    <action type="Rewrite" url="http://localhost:5000/socket.io/{R:1}" />
+                </rule>
+
+                <rule name="NodeProxy" stopProcessing="true">
+                    <match url="(.*)" />
+                    <conditions>
+                        <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />
+                    </conditions>
+                    <action type="Rewrite" url="http://localhost:5000/{R:1}" />
+                </rule>
+            </rules>
+        </rewrite>
+    </system.webServer>
+</configuration>
+```
