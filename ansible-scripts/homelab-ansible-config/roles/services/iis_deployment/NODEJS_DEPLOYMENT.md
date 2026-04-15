@@ -10,9 +10,8 @@ On `KVM-WEB01`:
 - Install **_[URL Rewrite Module](https://www.iis.net/downloads/microsoft/url-rewrite)_**.
 - Install **_[Application Request Routing (ARR)](https://www.iis.net/downloads/microsoft/application-request-routing)_**.
 - **_Configure ARR_**:
-
-  + Open **_Internet Information Services (IIS) Manager_** (`inetmgr`) > **KVM-WEB01** > **Application Request Routing Cache** > **Server Proxy Settings...**.
-  + Check **_Enable proxy_** and click **_Apply_**.
+  - Open **_Internet Information Services (IIS) Manager_** (`inetmgr`) > **KVM-WEB01** > **Application Request Routing Cache** > **Server Proxy Settings...**.
+  - Check **_Enable proxy_** and click **_Apply_**.
 
 ## 2. Process Management (PM2) Installation & Configuration
 
@@ -37,5 +36,26 @@ On `KVM-WEB01`:
   ```
 
 > [!TIP]
+>
 > - When running `pm2-service-install`, set `PM2_HOME` to **_`C:\pm2`_** (or a similar root-level directory).
 > - This allows for **_system-wide access_**, ensuring the service can manage the processes **_regardless_** of **_which user_** is **_logged into the server_**.
+
+## 3. Front End Build (React)
+
+- **_Compile_** the **_React front end_** inside the `/client` directory (this project uses **_Vite_**):
+
+  ```powershell
+  npx vite build & xcopy /hiev dist\* ..\server\public\ /Y
+  ```
+
+> [!NOTE]
+> This command **_compiles the React assets_** and **_synchronizes_** the `/client/dist` contents with the `/server/public` directory.
+
+- **_Copy_** the content of the **_`/server` folder_** into **_`C:\inetpub\wwwroot\itinder.khangvum.lab`_** on **_`KVM-WEB01`_**.
+- Open **_Internet Information Services (IIS) Manager_** (`inetmgr`), right-click **Sites** > **Add Website...**:
+
+  |     Property      | Value                                                                                           |
+  | :---------------: | ----------------------------------------------------------------------------------------------- |
+  |   **Site name**   | `ITinder`                                                                                       |
+  | **Physical path** | `C:\inetpub\wwwroot\itinder.khangvum.lab`                                                       |
+  |    **Binding**    | Type: `http`<br>IP address: `All Unassigned`<br>Port: `80`<br>Host name: `itinder.khangvum.lab` |
