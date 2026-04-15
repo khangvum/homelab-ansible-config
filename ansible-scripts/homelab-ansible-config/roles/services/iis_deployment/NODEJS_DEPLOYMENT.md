@@ -88,3 +88,19 @@ To allow IIS to server as the **_gateway_** for the Node.js application, a **_`w
     </system.webServer>
 </configuration>
 ```
+
+## 5. DNS Setup
+
+- On the **_DNS server_** (_e.g.,_ **_`KVM-DC01`_**), open **_DNS Manager_** (`dnsmgmt.msc`).
+- Add a new **_A record_**:
+  - Navigate to **Forward Lookup Zone** > the domain (_e.g.,_ `khangvum.lab`).
+  - Right click > **New Host (A or AAAA)...**:
+
+    |    Property    | Value                                |
+    | :------------: | ------------------------------------ |
+    |    **Name**    | `itinder`                            |
+    | **IP address** | The IP of the IIS Server `KVM-WEB01` |
+
+## 6. Site Access Test
+
+Once everything is configured, browse to `http://itinder.khangvum.lab`.
