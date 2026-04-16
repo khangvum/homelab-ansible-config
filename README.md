@@ -34,31 +34,31 @@ flowchart LR
                                                         **Storage:** 100GB
                                                         **OS:** Windows Server 2025
                                                         **Role:** Domain Controller`")]
-    SRV01 --> MEDIA[KVM-MEDIA01] -- specs --- MEDIA_SPECS[("`**CPU:** 4 vCPU
-                                                        **RAM:** 8GB
-                                                        **Storage:** 100GB 
-                                                        **OS:** Ubuntu Server 24.04
-                                                        **Role:** Media Server`")]
-    SRV01 --> MGMT[KVM-MGMT01] -- specs --- MGMT_SPECS[("`**CPU:** 2 vCPU
+    SRV01 --> MEDIA01[KVM-MEDIA01] -- specs --- MEDIA01_SPECS[("`**CPU:** 4 vCPU
+                                                            **RAM:** 8GB
+                                                            **Storage:** 100GB 
+                                                            **OS:** Ubuntu Server 24.04
+                                                            **Role:** Media Server`")]
+    SRV01 --> MGMT01[KVM-MGMT01] -- specs --- MGMT01_SPECS[("`**CPU:** 2 vCPU
+                                                            **RAM:** 4GB
+                                                            **Storage:** 50GB
+                                                            **OS:** Ubuntu Server 24.04
+                                                            **Role:** Container Management Server`")]
+    SRV01 --> MONITOR01[KVM-MONITOR01] -- specs --- MONITOR01_SPECS[("`**CPU:** 2 vCPU
+                                                                    **RAM:** 4GB
+                                                                    **Storage:** 100GB
+                                                                    **OS:** Ubuntu Server 24.04
+                                                                    **Role:** Monitoring Server`")]
+    SRV01 --> NAS01[KVM-NAS01] -- specs --- NAS01_SPECS[("`**CPU:** 2 vCPU
                                                         **RAM:** 4GB
                                                         **Storage:** 50GB
                                                         **OS:** Ubuntu Server 24.04
-                                                        **Role:** Container Management Server`")]
-    SRV01 --> MONITOR[KVM-MONITOR01] -- specs --- MONITOR_SPECS[("`**CPU:** 2 vCPU
-                                                                **RAM:** 4GB
-                                                                **Storage:** 100GB
-                                                                **OS:** Ubuntu Server 24.04
-                                                                **Role:** Monitoring Server`")]
-    SRV01 --> NAS[KVM-NAS01] -- specs --- NAS_SPECS[("`**CPU:** 2 vCPU
-                                                    **RAM:** 4GB
-                                                    **Storage:** 50GB
-                                                    **OS:** Ubuntu Server 24.04
-                                                    **Role:** NAS`")]        
-    SRV01 --> VPN[KVM-VPN01] -- specs --- VPN_SPECS[("`**CPU:** 2 vCPU
-                                                    **RAM:** 2GB
-                                                    **Storage:** 20GB
-                                                    **OS:** Ubuntu Server 24.04
-                                                    **Role:** VPN`")]
+                                                        **Role:** NAS`")]        
+    SRV01 --> VPN01[KVM-VPN01] -- specs --- VPN01_SPECS[("`**CPU:** 2 vCPU
+                                                        **RAM:** 2GB
+                                                        **Storage:** 20GB
+                                                        **OS:** Ubuntu Server 24.04
+                                                        **Role:** Primary VPN`")]
     SRV01 --> WEB01[KVM-WEB01] -- specs --- WEB01_SPECS[("`**CPU:** 2 vCPU
                                                             **RAM:** 8GB
                                                             **Storage:** 100GB
@@ -103,9 +103,9 @@ flowchart LR
     %% Styling
     class SRV01,SRV02 hosts
     classDef hosts fill:#f1c232,stroke:#000,color:#000
-    class DB01,DC01,DC02,MEDIA,MGMT,MONITOR,NAS,VPN,WEB01,WRK01,WRK02,WRK03,WRK04 vms
+    class DB01,DC01,DC02,MEDIA01,MGMT01,MONITOR01,NAS01,VPN01,VPN02,WEB01,WRK01,WRK02,WRK03,WRK04 vms
     classDef vms fill:#7ea6e0,stroke:#000,color:#000
-    class SRV01_SPECS,SRV02_SPECS,DB01_SPECS,DC01_SPECS,DC02_SPECS,MEDIA_SPECS,MGMT_SPECS,MONITOR_SPECS,NAS_SPECS,VPN_SPECS,WEB01_SPECS,WRK01_SPECS,WRK02_SPECS,WRK03_SPECS,WRK04_SPECS specs
+    class SRV01_SPECS,SRV02_SPECS,DB01_SPECS,DC01_SPECS,DC02_SPECS,MEDIA01_SPECS,MGMT01_SPECS,MONITOR01_SPECS,NAS01_SPECS,VPN01_SPECS,VPN02_SPECS,WEB01_SPECS,WRK01_SPECS,WRK02_SPECS,WRK03_SPECS,WRK04_SPECS specs
     classDef specs fill:#d3d3d3,stroke:#000,color:#000
 ```
 
@@ -154,6 +154,7 @@ Role                                                                            
 [`homepage_deployment`](ansible-scripts/homelab-ansible-config/roles/services/homepage_deployment/tasks/main.yml)                   |Configure **_Homepage_** as a **_centralized service dashboard_** for **_infrastructure monitoring_** and **_service discovery_**
 [`iis_deployment`](ansible-scripts/homelab-ansible-config/roles/services/iis_deployment/tasks/main.yml)                             |Install and configure **_Internet Information Services_** (**_IIS_**)
 [`jellyfin_deployment`](ansible-scripts/homelab-ansible-config/roles/services/jellyfin_deployment/tasks/main.yml)                   |Configure **_Jellyfin_** as a **_self-hosted media server_**
+[`motion_deployment`](ansible-scripts/homelab-ansible-config/roles/services/motion_deployment/tasks/main.yml)                       |Configure **_Motion_** as a **_self-hosted security camera system_**
 [`node_exporter_deployment`](ansible-scripts/homelab-ansible-config/roles/services/node_exporter_deployment/tasks/main.yml)         |Configure **_Node Exporter_** as a **_metrics collector_** for **_Prometheus monitoring_** on **_Linux hosts_**
 [`npm_deployment`](ansible-scripts/homelab-ansible-config/roles/services/npm_deployment/tasks/main.yml)                             |Configure **_Nginx Proxy Manager_** as a **_reverse proxy_** for **_host forwarding_**
 [`portainer_deployment`](ansible-scripts/homelab-ansible-config/roles/services/portainer_deployment/tasks/main.yml)                 |Configure **_Portainer_** as a **_container management platform_** for **_Docker environments_**
