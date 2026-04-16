@@ -99,6 +99,11 @@ flowchart LR
                                                             **RAM:** 8GB
                                                             **Storage:** 100GB
                                                             **OS:** Windows 10 Pro`")]
+    SRV02 --> VPN02[KVM-VPN02] -- specs --- VPN02_SPECS[("`**CPU:** 2 vCPU
+                                                        **RAM:** 2GB
+                                                        **Storage:** 20GB
+                                                        **OS:** Ubuntu Server 24.04
+                                                        **Role:** Secondary VPN`")]
 
     %% Styling
     class SRV01,SRV02 hosts
