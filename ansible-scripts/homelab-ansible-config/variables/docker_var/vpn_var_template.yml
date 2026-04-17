@@ -3,7 +3,7 @@
 tailscale_parent_dir: "/home/{{ ansible_user }}/docker/tailscale"
 tailnet_id: {{ TAILNET_ID }}
 
-tailscale_authentication_key: {{ TAILSCALE_AUTHENTICATION_KEY }}  # Must update every 90 days
+tailscale_authentication_key: {{ TAILSCALE_AUTHENTICATION_KEY }}  # Must update every 90 days, Reuseable ON
 tailscale_advertised_routes: {{ TAILSCALE_ADVERTISED_ROUTES }}
 
 tailscale_oauth_id: {{ TAILSCALE_OAUTH_ID }}
@@ -44,3 +44,6 @@ docker_services:
   - name: homepage
     forward_host: "{{ hostvars['KVM-MGMT01'].ansible_host }}"
     forward_port: 3000
+  - name: itinder
+    forward_host: "{{ hostvars['KVM-WEB01'].ansible_host }}"
+    forward_port: 80
