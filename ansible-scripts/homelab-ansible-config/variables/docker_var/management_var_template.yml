@@ -7,16 +7,18 @@ portainer_access_token: {{ PORTAINER_ACCESS_TOKEN }}
 portainer_environments:
   - name: KVM-MGMT01
     id: 3
-  - name: KVM-MONITOR01
-    id: 4
-  - name: KVM-NAS01
-    id: 5
-  - name: KVM-VPN01
-    id: 6
   - name: KVM-MEDIA01
-    id: 7
+    id: 4
+  - name: KVM-MONITOR01
+    id: 5
+  - name: KVM-NAS01
+    id: 6
   - name: KVM-SECURITY01
+    id: 7
+  - name: KVM-VPN01
     id: 8
+  - name: KVM-VPN02
+    id: 9
 
 # Homepage
 homepage_parent_dir: "/home/{{ ansible_user }}/docker/homepage"
