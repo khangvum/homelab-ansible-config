@@ -125,3 +125,4 @@
     value: "{{ hostvars['KVM-VPN01'].ansible_host }}"
     state: present
   loop: "{{ docker_services }}"
+  run_once: true
