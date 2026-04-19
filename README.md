@@ -187,6 +187,13 @@ flowchart LR
     New-NetFirewallRule -Name 'OpenSSH-Server-In-TCP' -DisplayName 'OpenSSH Server (sshd)' -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22 -Profile Any
     ```
 
+> [!NOTE]
+> - The steps above apply strictly to **_Windows_**/**_Windows Server_** targets. 
+> - **_Linux_** and **_ESXi_** distributions typically include **_pre-installed SSH_** services.
+
+> [!TIP]
+> If the automated **_[khangvum/answer-files](https://github.com/khangvum/answer-files)_** are utilized for OS deployment, **_SSH_** is **_already provisioned_** and **_configured_** during the initial installation.
+
 4.  **_SSH connection_** verified **_once_** from the controller to each host:
 
     ```bash
