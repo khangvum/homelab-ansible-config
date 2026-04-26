@@ -9,5 +9,5 @@ services:
       - 81:81   # Admin Web UI Port
       - 443:443 # Public HTTPS Port
     volumes:
-      - ./npm/data:/data
-      - ./npm/letsencrypt:/etc/letsencrypt
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
