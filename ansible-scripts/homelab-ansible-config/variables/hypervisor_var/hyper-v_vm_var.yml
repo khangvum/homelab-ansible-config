@@ -17,6 +17,20 @@ hyper_v_vm_list:
     autostop: shutDown
     power: on
     state: present
+  - name: KVM-DC02
+    host: KVM-SRV01
+    cpu: 2
+    memory: 8
+    storage: 100
+    generation: 2
+    tpm: false
+    iso_source: /opt/ansible/homelab-ansible-config/installation-files/windows_server_2025_standard_x64_unattend.iso
+    iso_destination: windows_server_2025_standard_x64_unattend.iso
+    secure_boot_template: "Microsoft Windows"
+    autostart: start
+    autostop: shutDown
+    power: on
+    state: present
   - name: KVM-WEB01
     host: KVM-SRV01
     cpu: 2
@@ -59,6 +73,20 @@ hyper_v_vm_list:
     autostop: shutDown
     power: on
     state: present
+  - name: KVM-WRK02
+    host: KVM-SRV01
+    cpu: 4
+    memory: 8
+    storage: 100
+    generation: 2
+    tpm: true
+    iso_source: /opt/ansible/homelab-ansible-config/installation-files/windows_11_pro_x64_unattend.iso
+    iso_destination: windows_11_pro_x64_unattend.iso
+    secure_boot_template: "Microsoft Windows"
+    autostart: start
+    autostop: shutDown
+    power: on
+    state: present
   - name: KVM-WRK03
     host: KVM-SRV01
     cpu: 4
@@ -73,7 +101,21 @@ hyper_v_vm_list:
     autostop: shutDown
     power: on
     state: present
-  - name: KVM-MEDIA
+  - name: KVM-WRK04
+    host: KVM-SRV01
+    cpu: 4
+    memory: 8
+    storage: 100
+    generation: 2
+    tpm: false
+    iso_source: /opt/ansible/homelab-ansible-config/installation-files/windows_10_pro_x64_unattend.iso
+    iso_destination: windows_10_pro_x64_unattend.iso
+    secure_boot_template: "Microsoft Windows"
+    autostart: start
+    autostop: shutDown
+    power: on
+    state: present
+  - name: KVM-MEDIA01
     host: KVM-SRV01 
     cpu: 4
     memory: 8
@@ -87,7 +129,7 @@ hyper_v_vm_list:
     autostop: shutDown
     power: on
     state: present
-  - name: KVM-MGMT
+  - name: KVM-MGMT01
     host: KVM-SRV01 
     cpu: 2
     memory: 4
@@ -101,7 +143,7 @@ hyper_v_vm_list:
     autostop: shutDown
     power: on
     state: present
-  - name: KVM-MONITOR
+  - name: KVM-MONITOR01
     host: KVM-SRV01 
     cpu: 2
     memory: 4
@@ -115,7 +157,7 @@ hyper_v_vm_list:
     autostop: shutDown
     power: on
     state: present
-  - name: KVM-NAS
+  - name: KVM-NAS01
     host: KVM-SRV01
     cpu: 2
     memory: 4
@@ -129,7 +171,7 @@ hyper_v_vm_list:
     autostop: shutDown
     power: on
     state: present
-  - name: KVM-SECURITY
+  - name: KVM-SECURITY01
     host: KVM-SRV01
     cpu: 4
     memory: 4
@@ -143,7 +185,21 @@ hyper_v_vm_list:
     autostop: shutDown
     power: on
     state: present
-  - name: KVM-VPN
+  - name: KVM-VPN01
+    host: KVM-SRV01
+    cpu: 2
+    memory: 2
+    storage: 20
+    generation: 2
+    tpm: false
+    iso_source: /opt/ansible/homelab-ansible-config/installation-files/ubuntu_server_24.04_unattend.iso
+    iso_destination: ubuntu_server_24.04_unattend.iso
+    secure_boot_template: "Microsoft UEFI Certificate Authority"
+    autostart: start
+    autostop: shutDown
+    power: on
+    state: present
+  - name: KVM-VPN02
     host: KVM-SRV01
     cpu: 2
     memory: 2

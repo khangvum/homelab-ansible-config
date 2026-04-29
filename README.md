@@ -34,6 +34,11 @@ flowchart LR
                                                       **Storage:** 100GB
                                                       **OS:** Windows Server 2025
                                                       **Role:** Domain Controller`")]
+  SRV01 --> DC02[KVM-DC02] -- specs --- DC02_SPECS[("`**CPU:** 2 vCPU
+                                                      **RAM:** 8GB
+                                                      **Storage:** 100GB
+                                                      **OS:** Windows Server 2025
+                                                      **Role:** Domain Controller`")]
   SRV01 --> MEDIA01[KVM-MEDIA01] -- specs --- MEDIA01_SPECS[("`**CPU:** 4 vCPU
                                                             **RAM:** 8GB
                                                             **Storage:** 100GB
@@ -59,6 +64,11 @@ flowchart LR
                                                         **Storage:** 20GB
                                                         **OS:** Ubuntu Server 24.04
                                                         **Role:** Primary VPN`")]
+  SRV01 --> VPN02[KVM-VPN02] -- specs --- VPN02_SPECS[("`**CPU:** 2 vCPU
+                                                        **RAM:** 2GB
+                                                        **Storage:** 20GB
+                                                        **OS:** Ubuntu Server 24.04
+                                                        **Role:** Secondary VPN`")]
   SRV01 --> WEB01[KVM-WEB01] -- specs --- WEB01_SPECS[("`**CPU:** 2 vCPU
                                                         **RAM:** 8GB
                                                         **Storage:** 100GB
@@ -72,43 +82,14 @@ flowchart LR
                                                         **RAM:** 8GB
                                                         **Storage:** 100GB
                                                         **OS:** Windows 10 Pro`")]
-
-  %% 2. KVM-SRV02
-  %% - Host
-  SRV02_SPECS[("`**Model:** Precision 5820 Tower
-                **CPU:** Intel Xeon W-2123 (4 cores - 8 threads)
-                **RAM:** 32GB (2 x 16GB ECC 2666MHz)
-                **Storage:**
-                • 1 x 512GB NVMe SSD (OS)
-                • 1 x 1TB SATA SSD (VMs)
-                **OS:** VMware ESXi 8.0 Update 3e`")] -- specs --- SRV02[KVM-SRV02]
-
-  %% - VMs
-  SRV02 --> DC02[KVM-DC02] -- specs --- DC02_SPECS[("`**CPU:** 2 vCPU
-                                                      **RAM:** 8GB
-                                                      **Storage:** 100GB
-                                                      **OS:** Windows Server 2025
-                                                      **Role:** Domain Controller`")]
-  SRV02 --> WRK02[KVM-WRK02] -- specs --- WRK02_SPECS[("`**CPU:** 4 vCPU
-                                                        **RAM:** 8GB
-                                                        **Storage:** 100GB
-                                                        **OS:** Windows 11 Pro`")]
-  SRV02 --> WRK04[KVM-WRK04] -- specs --- WRK04_SPECS[("`**CPU:** 4 vCPU
-                                                        **RAM:** 8GB
-                                                        **Storage:** 100GB
-                                                        **OS:** Windows 10 Pro`")]
-  SRV02 --> VPN02[KVM-VPN02] -- specs --- VPN02_SPECS[("`**CPU:** 2 vCPU
-                                                        **RAM:** 2GB
-                                                        **Storage:** 20GB
-                                                        **OS:** Ubuntu Server 24.04
-                                                        **Role:** Secondary VPN`")]
+  
 
   %% Styling
-  class SRV01,SRV02 hosts
+  class SRV01 hosts
   classDef hosts fill:#f1c232,stroke:#000,color:#000
   class DB01,DC01,DC02,MEDIA01,MGMT01,MONITOR01,NAS01,VPN01,VPN02,WEB01,WRK01,WRK02,WRK03,WRK04 vms
   classDef vms fill:#7ea6e0,stroke:#000,color:#000
-  class SRV01_SPECS,SRV02_SPECS,DB01_SPECS,DC01_SPECS,DC02_SPECS,MEDIA01_SPECS,MGMT01_SPECS,MONITOR01_SPECS,NAS01_SPECS,VPN01_SPECS,VPN02_SPECS,WEB01_SPECS,WRK01_SPECS,WRK02_SPECS,WRK03_SPECS,WRK04_SPECS specs
+  class SRV01_SPECS,DB01_SPECS,DC01_SPECS,DC02_SPECS,MEDIA01_SPECS,MGMT01_SPECS,MONITOR01_SPECS,NAS01_SPECS,VPN01_SPECS,VPN02_SPECS,WEB01_SPECS,WRK01_SPECS,WRK02_SPECS,WRK03_SPECS,WRK04_SPECS specs
   classDef specs fill:#d3d3d3,stroke:#000,color:#000
 ```
 
