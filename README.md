@@ -74,14 +74,6 @@ flowchart LR
                                                         **Storage:** 100GB
                                                         **OS:** Windows Server 2025
                                                         **Role:** IIS Web Server`")]
-  SRV01 --> WRK01[KVM-WRK01] -- specs --- WRK01_SPECS[("`**CPU:** 4 vCPU
-                                                        **RAM:** 8GB
-                                                        **Storage:** 100GB
-                                                        **OS:** Windows 11 Pro`")]
-  SRV01 --> WRK03[KVM-WRK03] -- specs --- WRK03_SPECS[("`**CPU:** 4 vCPU
-                                                        **RAM:** 8GB
-                                                        **Storage:** 100GB
-                                                        **OS:** Windows 10 Pro`")]
   
 
   %% Styling
