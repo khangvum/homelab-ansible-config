@@ -33,12 +33,12 @@ flowchart LR
                                                       **RAM:** 8GB
                                                       **Storage:** 100GB
                                                       **OS:** Windows Server 2025
-                                                      **Role:** Domain Controller`")]
+                                                      **Role:** Primary Domain Controller`")]
   SRV01 --> DC02[KVM-DC02] -- specs --- DC02_SPECS[("`**CPU:** 2 vCPU
                                                       **RAM:** 8GB
                                                       **Storage:** 100GB
                                                       **OS:** Windows Server 2025
-                                                      **Role:** Domain Controller`")]
+                                                      **Role:** Secondary Domain Controller`")]
   SRV01 --> MEDIA01[KVM-MEDIA01] -- specs --- MEDIA01_SPECS[("`**CPU:** 4 vCPU
                                                             **RAM:** 8GB
                                                             **Storage:** 100GB
