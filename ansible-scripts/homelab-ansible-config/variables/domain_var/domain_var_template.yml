@@ -22,7 +22,8 @@ ntp_servers: "0.pool.ntp.org,0x1 1.pool.ntp.org,0x1"
 #     └── OU=Servers
 #         ├── OU=Containers
 #         ├── OU=Databases
-#         └── OU=IIS
+#         ├── OU=IIS
+#         └── OU=Infrastructure
 
 ous:
   # OU=Accounts
@@ -65,9 +66,13 @@ ous:
   - name: "Databases"
     description: "Organizational Unit for Database Servers"
     path: "OU=Servers,OU=Devices,DC=khangvum,DC=lab"
-  #     └── OU=IIS
+  #     ├── OU=IIS
   - name: "IIS"
     description: "Organizational Unit for IIS Servers"
+    path: "OU=Servers,OU=Devices,DC=khangvum,DC=lab"
+  #     └── OU=Infrastructure
+  - name: "Infrastructure"
+    description: "Organizational Unit for Infrastructure Servers"
     path: "OU=Servers,OU=Devices,DC=khangvum,DC=lab"
 
 device_ou_dict:
@@ -75,3 +80,4 @@ device_ou_dict:
   containers: 'OU=Containers,OU=Servers,OU=Devices,DC=khangvum,DC=lab'
   databases: 'OU=Databases,OU=Servers,OU=Devices,DC=khangvum,DC=lab'
   webs: 'OU=IIS,OU=Servers,OU=Devices,DC=khangvum,DC=lab'
+  infrastructure: 'OU=Infrastructure,OU=Servers,OU=Devices,DC=khangvum,DC=lab'
