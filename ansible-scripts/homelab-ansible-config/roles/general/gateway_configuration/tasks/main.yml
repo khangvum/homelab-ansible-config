@@ -1,0 +1,74 @@
+---
+- name: Window Server Routing and Remote Access Installation
+  ansible.windows.win_feature:
+    name:
+      - RemoteAccess
+      - Routing
+      - DirectAccess-VPN
+    include_sub_features: yes
+    include_management_tools: yes
+    state: present
+  register: win_server_routing_and_remote_access_installation
+  when: inventory_hostname == "KVM-ROUTER01"
+
+- name: Reboot to Apply Routing and Remote Access Installation
+  ansible.windows.win_reboot:
+  when: 
+    - inventory_hostname == "KVM-ROUTER01"
+    - win_server_routing_and_remote_access_installation.reboot_required
+
+- name: Routing Initialization
+  ansible.windows.win_powershell:
+    script: |
+      # Check the RoutingStatus property
+      $remoteAccess = Get-RemoteAccess -ErrorAction SilentlyContinue
+
+      if ($null -eq $remoteAccess -or $remoteAccess.RoutingStatus -eq "Uninstalled") {
+        # Initialize the routing configuration
+        Install-RemoteAccess -VpnType RoutingOnly
+        $Ansible.Changed = $true
+      } else {
+        $Ansible.Changed = $false
+      }
+  when: inventory_hostname == "KVM-ROUTER01"
+
+- name: NAT Gateway Configuration
+  ansible.windows.win_powershell:
+    script: |
+      # Check if the NAT is already configured
+      $nat = Get-NetNat -Name "KVM-ROUTER01-NAT" -ErrorAction SilentlyContinue
+
+      if ($null -eq $nat) {
+        # Configure NAT for the internal network
+        New-NetNat -Name "KVM-ROUTER01-NAT" -InternalIPInterfaceAddressPrefix "192.168.0.0/24"
+        $Ansible.Changed = $true
+      } else {
+        $Ansible.Changed = $false
+      }
+  when: inventory_hostname == "KVM-ROUTER01"
+
+- name: Default Gateway Configuration for VMs' Ethernet Adapters to Point to KVM-ROUTER01
+  ansible.windows.win_powershell:
+    script: |
+      $adapter = "{{ v_switches[0].adapter }}"
+      $gateway = "{{ hostvars['KVM-ROUTER01'].ansible_host }}"
+
+      # Get the current default gateway for the specific adapter
+      $currentRoute = Get-NetRoute -DestinationPrefix "0.0.0.0/0" -InterfaceAlias $adapter -ErrorAction SilentlyContinue
+
+      if ($null -eq $currentRoute -or $currentRoute.NextHop -ne $gateway) {
+        # Remove any existing 0.0.0.0 routes to prevent conflicts
+        Get-NetRoute -DestinationPrefix "0.0.0.0/0" | Remove-NetRoute -Confirm:$false -ErrorAction SilentlyContinue
+
+        if ($null -ne $currentRoute) {
+          Get-NetRoute -DestinationPrefix "0.0.0.0/0" | Remove-NetRoute -Confirm:$false -ErrorAction SilentlyContinue
+        }
+
+        # Add the new default gateway route
+        New-NetRoute -InterfaceAlias $adapter -DestinationPrefix "0.0.0.0/0" -NextHop $gateway -RouteMetric 1
+
+        $Ansible.Changed = $true
+      } else {
+        $Ansible.Changed = $false
+      }
+  when: inventory_hostname != "KVM-ROUTER01"

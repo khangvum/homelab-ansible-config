@@ -13,6 +13,8 @@
     - import_role:
         name: firewall_configuration
     - import_role:
+        name: gateway_configuration
+    - import_role:
         name: windows_ntp_configuration
     - import_role:
         name: region_configuration
@@ -36,6 +38,6 @@
     - import_role:
         name: linux_hostname_configuration
     - import_role:
-        name: linux_ntp_configuration
-    - import_role:
         name: linux_updates
+    - import_role:
+        name: linux_ntp_configuration
