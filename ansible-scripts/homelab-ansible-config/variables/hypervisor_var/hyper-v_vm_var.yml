@@ -1,6 +1,6 @@
 ---
 srv_hyper_v_parent_dir: "V:"
-pc_hyper_v_parent_dir: "C:\\Hyper-V Virtual Machines"
+pc_hyper_v_parent_dir: "C:\\VMs\\Hyper-V"
 
 hyper_v_vm_list:
   - name: KVM-DC01
@@ -162,6 +162,20 @@ hyper_v_vm_list:
     cpu: 2
     memory: 2
     storage: 20
+    generation: 2
+    tpm: false
+    iso_source: /opt/ansible/homelab-ansible-config/installation-files/ubuntu_server_24.04_unattend.iso
+    iso_destination: ubuntu_server_24.04_unattend.iso
+    secure_boot_template: "Microsoft UEFI Certificate Authority"
+    autostart: start
+    autostop: shutDown
+    power: on
+    state: present
+  - name: KVM-IAM01
+    host: KVM-SRV01
+    cpu: 2
+    memory: 4
+    storage: 40
     generation: 2
     tpm: false
     iso_source: /opt/ansible/homelab-ansible-config/installation-files/ubuntu_server_24.04_unattend.iso
