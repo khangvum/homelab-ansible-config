@@ -198,3 +198,15 @@ all:
                 - name: "KVM-SRV01-SW02"
                   adapter: "Wi-Fi"
                   ip: {{ VPN02_SW02_IP }}
+            KVM-IAM01:
+              ansible_host: {{ IAM01_IP_ADDRESS }}
+              computer_name: KVM-IAM01
+              ansible_user: {{ USERNAME }}
+              ansible_password: {{ PASSWORD }}
+              v_switches:
+                - name: "KVM-SRV01-SW01"
+                  adapter: "Ethernet"
+                  ip: {{ IAM01_SW01_IP }}
+                - name: "KVM-SRV01-SW02"
+                  adapter: "Wi-Fi"
+                  ip: {{ IAM01_SW02_IP }}

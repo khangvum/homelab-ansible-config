@@ -39,6 +39,11 @@ flowchart LR
                                                       **Storage:** 100GB
                                                       **OS:** Windows Server 2025
                                                       **Role:** Secondary Domain Controller`")]
+  SRV01 --> IAM01[KVM-IAM01] -- specs --- IAM01_SPECS[("`**CPU:** 2 vCPU
+                                                        **RAM:** 4GB
+                                                        **Storage:** 40GB
+                                                        **OS:** Ubuntu Server 24.04
+                                                        **Role:** Identity & Access Management`")]
   SRV01 --> MEDIA01[KVM-MEDIA01] -- specs --- MEDIA01_SPECS[("`**CPU:** 4 vCPU
                                                             **RAM:** 8GB
                                                             **Storage:** 100GB
@@ -84,9 +89,9 @@ flowchart LR
   %% Styling
   class SRV01 hosts
   classDef hosts fill:#f1c232,stroke:#000,color:#000
-  class DB01,DC01,DC02,MEDIA01,MGMT01,MONITOR01,NAS01,ROUTER01,VPN01,VPN02,WEB01 vms
+  class DB01,DC01,DC02,IAM01,MEDIA01,MGMT01,MONITOR01,NAS01,ROUTER01,VPN01,VPN02,WEB01 vms
   classDef vms fill:#7ea6e0,stroke:#000,color:#000
-  class SRV01_SPECS,DB01_SPECS,DC01_SPECS,DC02_SPECS,MEDIA01_SPECS,MGMT01_SPECS,MONITOR01_SPECS,NAS01_SPECS,ROUTER01_SPECS,VPN01_SPECS,VPN02_SPECS,WEB01_SPECS,WRK01_SPECS,WRK02_SPECS,WRK03_SPECS,WRK04_SPECS specs
+  class SRV01_SPECS,DB01_SPECS,DC01_SPECS,DC02_SPECS,IAM01_SPECS,MEDIA01_SPECS,MGMT01_SPECS,MONITOR01_SPECS,NAS01_SPECS,ROUTER01_SPECS,VPN01_SPECS,VPN02_SPECS,WEB01_SPECS,WRK01_SPECS,WRK02_SPECS,WRK03_SPECS,WRK04_SPECS specs
   classDef specs fill:#d3d3d3,stroke:#000,color:#000
 ```
 
