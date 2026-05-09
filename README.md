@@ -189,24 +189,24 @@ flowchart LR
 
 1. **Update the inventory and variable files:**
 
-- [`inventory.yml`](ansible-scripts/homelab-ansible-config/inventory_template.yml): Defines the **_target hosts_**.
+- [`inventory.yml`](ansible-scripts/homelab-ansible-config/inventory.template.yml): Defines the **_target hosts_**.
 - **Docker variables:**
 
   |                                                      File                                                       | Description                                                                                         |
   | :-------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------- |
   |          [`media_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/media_var.yml)           | Define **_Jellyfin settings_** for **_self-hosted media server_**                                   |
-  | [`management_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/management_var_template.yml) | Define **_Portainer_** and **_Homepage settings_** for **_centralized service dashboard_**          |
-  | [`monitoring_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/monitoring_var_template.yml) | Define **_Grafana_**, **_Prometheus_**, and **_Node Exporter settings_** for **_monitoring stack_** |
+  | [`management_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/management_var.template.yml) | Define **_Portainer_** and **_Homepage settings_** for **_centralized service dashboard_**          |
+  | [`monitoring_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/monitoring_var.template.yml) | Define **_Grafana_**, **_Prometheus_**, and **_Node Exporter settings_** for **_monitoring stack_** |
   |            [`nas_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/nas_var.yml)             | Define **_Filebrowser settings_** for **_self-hosted file manager_**                                |
   |       [`security_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/security_var.yml)        | Define **_Motion settings_** for **_self-hosted security camera system_**                           |
-  |        [`vpn_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/vpn_var_template.yml)        | Define **_Tailscale_** and **_Nginx Proxy Manager settings_** for **_Mesh VPN service_**            |
+  |        [`vpn_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/vpn_var.template.yml)        | Define **_Tailscale_** and **_Nginx Proxy Manager settings_** for **_Mesh VPN service_**            |
 
 - **Domain variables:**
 
   |                                                  File                                                   | Description                            |
   | :-----------------------------------------------------------------------------------------------------: | :------------------------------------- |
-  | [`domain_var.yml`](ansible-scripts/homelab-ansible-config/variables/domain_var/domain_var_template.yml) | Defines the **_domain configuration_** |
-  |   [`user_var.yml`](ansible-scripts/homelab-ansible-config/variables/domain_var/user_var_template.yml)   | Defines all **_domain users_**         |
+  | [`domain_var.yml`](ansible-scripts/homelab-ansible-config/variables/domain_var/domain_var.template.yml) | Defines the **_domain configuration_** |
+  |   [`user_var.yml`](ansible-scripts/homelab-ansible-config/variables/domain_var/user_var.template.yml)   | Defines all **_domain users_**         |
 
 - **Hypervisor variables:**
 
@@ -220,8 +220,8 @@ flowchart LR
   |                                                 File                                                  | Description                              |
   | :---------------------------------------------------------------------------------------------------: | :--------------------------------------- |
   |        [`esxi_var.yml`](ansible-scripts/homelab-ansible-config/variables/os_var/esxi_var.yml)         | Defines **_ESXi-specific variables_**    |
-  |   [`linux_var.yml`](ansible-scripts/homelab-ansible-config/variables/os_var/linux_var_template.yml)   | Defines **_Linux-specific variables_**   |
-  | [`windows_var.yml`](ansible-scripts/homelab-ansible-config/variables/os_var/windows_var_template.yml) | Defines **_Windows-specific variables_** |
+  |   [`linux_var.yml`](ansible-scripts/homelab-ansible-config/variables/os_var/linux_var.template.yml)   | Defines **_Linux-specific variables_**   |
+  | [`windows_var.yml`](ansible-scripts/homelab-ansible-config/variables/os_var/windows_var.template.yml) | Defines **_Windows-specific variables_** |
 
 2.  **Start the Ansible environment:**
 
