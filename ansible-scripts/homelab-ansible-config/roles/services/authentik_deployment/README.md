@@ -56,7 +56,7 @@ An **_Ansible role_** facilitates the **_identity provider deployment_** process
   | :--------------------------: | --------------------------------------------------------------------- |
   |             Name             | `khangvum.lab`                                                        |
   |          Server URI          | `ldaps://kvm-dc01.khangvum.lab:636,ldaps://kvm-dc02.khangvum.lab:636` |
-  | TLS Verification Certificate | Select AD-`SelfSigned-Root`                                           |
+  | TLS Verification Certificate | Select `AD-SelfSigned-Root`                                           |
   |           Bind CN            | `CN=Administrator,CN=Users,DC=khangvum,DC=lab`                        |
   |        Bind Password         | The password of the account specified in **_Bind CN_**                |
   |           Base DN            | `DC=khangvum,DC=lab`                                                  |
