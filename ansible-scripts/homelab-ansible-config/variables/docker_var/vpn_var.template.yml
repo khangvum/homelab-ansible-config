@@ -25,9 +25,9 @@ tailscale_devices:
 npm_parent_dir: "/home/{{ ansible_user }}/docker/npm"
 
 docker_services:
-  - name: filebrowser
-    forward_host: "{{ hostvars['KVM-NAS01'].ansible_host }}"
-    forward_port: 8095
+  - name: authentik
+    forward_host: "{{ hostvars['KVM-IAM01'].ansible_host }}"
+    forward_port: 9000
   - name: grafana
     forward_host: "{{ hostvars['KVM-MONITOR01'].ansible_host }}"
     forward_port: 3000
