@@ -30,6 +30,7 @@
 - name: Authentik Latest Image Pull If Available
   community.docker.docker_image:
     name: "ghcr.io/goauthentik/server"
+    tag: "{{ authentik_version }}"
     source: pull
   register: authentik_image_pull
 
