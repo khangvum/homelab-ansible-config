@@ -4,9 +4,9 @@ An **_Ansible role_** facilitates the **_identity provider deployment_** process
 
 ## 1. Domain Controller LDAP Certificate Setup
 
-1. Generate **_self-signed certificates_**:
+1. Generate **_self-signed certificates_** on `KVM-DC01`:
 
-- On `KVM-DC01` and `KVM-DC02`, open **_PowerShell as Administrator_** and execute:
+- Open **_PowerShell as Administrator_** and execute:
 
   ```powershell
   New-SelfSignedCertificate -DnsName "kvm-dc01.khangvum.lab", "kvm-dc02.khangvum.lab" -CertStoreLocation "cert:\LocalMachine\My" -NotAfter (Get-Date).AddYears(5)
@@ -14,10 +14,22 @@ An **_Ansible role_** facilitates the **_identity provider deployment_** process
 
 - Open **_Certificate Manager_** (`certlm.msc`):
   - Navigate to **Personal** > **Certificates**.
-  - Copy the newly created certificate.
-  - Navigate to **Trusted Root Certification Authorities** > **Certificates** and paste the certificate.
+  - Right click the certificate > **All Tasks** > **Export...**
+  - Select **Yes, export the private key** and choose **Personal Information Exchange (.PFX)**.
+  - Set a password and save the file.
 
-2. Export the **_root certificate_**:
+2. **_Deploy_** the certificate to `KVM-DC02`:
+
+- **_Copy_** the `.pfx` file to `KVM-DC02`.
+- Open `certlm.msc` on `KVM-DC02`, navigate to **Personal** > **Certificates**.
+- Right-click > **All Tasks** > **Import...** and follow the wizard to install the `.pfx` file.
+
+3. **_Trust_** the **_certificate_**:
+
+- On **_both DCs_**, navigate to **Personal** > **Certificates** in `certlm.msc`.
+- **_Copy_** the certificate and **_paste_** it **into Trusted Root Certification Authorities** > **Certificates**.
+
+4. **_Export_** the **_root certificate_** for **_Authentik_**:
 
 - In **_Certificate Manager_** (`certlm.msc`), under **_Trusted Root Certification Authorities_**, locate the certificate.
 - Right click > **All Tasks** > **Export...**
