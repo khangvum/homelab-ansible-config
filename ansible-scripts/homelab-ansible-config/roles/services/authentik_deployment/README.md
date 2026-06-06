@@ -48,3 +48,20 @@ An **_Ansible role_** facilitates the **_identity provider deployment_** process
   | Certificate Name | `AD-SelfSigned-Root`                                                    |
   |   Certificate    | Paste the text content of `dc_root.cer` (including `BEGIN`/`END` lines) |
   |   Private Key    | Leave empty                                                             |
+
+- Click **Import Certificate-Key Pair**.
+- Navigate to **Directory** > **Federation and Social login** and click **New Source**.
+
+  |           Property           | Value                                                                 |
+  | :--------------------------: | --------------------------------------------------------------------- |
+  |             Name             | `khangvum.lab`                                                        |
+  |          Server URI          | `ldaps://kvm-dc01.khangvum.lab:636,ldaps://kvm-dc02.khangvum.lab:636` |
+  | TLS Verification Certificate | Select AD-`SelfSigned-Root`                                           |
+  |           Bind CN            | `CN=Administrator,CN=Users,DC=khangvum,DC=lab`                        |
+  |        Bind Password         | The password of the account specified in **_Bind CN_**                |
+  |           Base DN            | `DC=khangvum,DC=lab`                                                  |
+
+## 3. Synchronization & Verification
+
+- Within the **_LDAP Source_** details page, click **_Sync LDAP source_**.
+- Navigate to **Directory** > **Users** to confirm that **_domain users_** are **_imported_**.
