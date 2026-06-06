@@ -27,7 +27,7 @@ An **_Ansible role_** facilitates the **_identity provider deployment_** process
 3. **_Trust_** the **_certificate_**:
 
 - On **_both DCs_**, navigate to **Personal** > **Certificates** in `certlm.msc`.
-- **_Copy_** the certificate and **_paste_** it **into Trusted Root Certification Authorities** > **Certificates**.
+- **_Copy_** the certificate and **_paste_** it into **Trusted Root Certification Authorities** > **Certificates**.
 
 4. **_Export_** the **_root certificate_** for **_Authentik_**:
 
