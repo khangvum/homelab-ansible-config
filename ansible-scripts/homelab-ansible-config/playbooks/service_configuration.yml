@@ -17,43 +17,44 @@
   tags: container_deployment
   vars_files:
     - ../variables/domain_var/domain_var.yml
-    - ../variables/docker_var/nas_var.yml
+    - ../variables/docker_var/iam_var.yml
     - ../variables/docker_var/management_var.yml
     - ../variables/docker_var/media_var.yml
     - ../variables/docker_var/monitoring_var.yml
+    - ../variables/docker_var/nas_var.yml
     - ../variables/docker_var/security_var.yml
     - ../variables/docker_var/vpn_var.yml
   tasks:
     - include_role:
         name: docker_configuration
       when: "'containers' in group_names"
-    - include_role:
-        name: node_exporter_deployment
-      when: "'containers' in group_names"
-    - include_role:
-        name: windows_exporter_deployment
-      when: "'containers' not in group_names"
-    # KVM-NAS01
-    - include_role:
-        name: filebrowser_deployment
-      when: inventory_hostname == "KVM-NAS01"
-    # KVM-MONITOR01
-    - include_role:
-        name: grafana_deployment
-      when: inventory_hostname == "KVM-MONITOR01"
-    - include_role:
-        name: prometheus_deployment
-      when: inventory_hostname == "KVM-MONITOR01"
-    - include_role:
-        name: snmp_exporter_deployment
-      when: inventory_hostname == "KVM-MONITOR01"
+    # - include_role:
+    #     name: node_exporter_deployment
+    #   when: "'containers' in group_names"
+    # - include_role:
+    #     name: windows_exporter_deployment
+    #   when: "'containers' not in group_names"
+    # # KVM-NAS01
+    # - include_role:
+    #     name: filebrowser_deployment
+    #   when: inventory_hostname == "KVM-NAS01"
+    # # KVM-MONITOR01
+    # - include_role:
+    #     name: grafana_deployment
+    #   when: inventory_hostname == "KVM-MONITOR01"
+    # - include_role:
+    #     name: prometheus_deployment
+    #   when: inventory_hostname == "KVM-MONITOR01"
+    # - include_role:
+    #     name: snmp_exporter_deployment
+    #   when: inventory_hostname == "KVM-MONITOR01"
     # KVM-VPN
-    - include_role:
-        name: tailscale_deployment
-      when: inventory_hostname.startswith("KVM-VPN")
-    - include_role:
-        name: npm_deployment
-      when: inventory_hostname.startswith("KVM-VPN")
+    # - include_role:
+    #     name: tailscale_deployment
+    #   when: inventory_hostname.startswith("KVM-VPN")
+    # - include_role:
+    #     name: npm_deployment
+    #   when: inventory_hostname.startswith("KVM-VPN")
     # KVM-MGMT01
     - include_role:
         name: portainer_deployment
@@ -61,11 +62,15 @@
     - include_role:
         name: homepage_deployment
       when: inventory_hostname == "KVM-MGMT01"
-    # KVM-MEDIA01
+    # # KVM-MEDIA01
+    # - include_role:
+    #     name: jellyfin_deployment
+    #   when: inventory_hostname == "KVM-MEDIA01"
+    # # KVM-SECURITY01
+    # - include_role:
+    #     name: motion_deployment
+    #   when: inventory_hostname == "KVM-SECURITY01"
+    # KVM-IAM01
     - include_role:
-        name: jellyfin_deployment
-      when: inventory_hostname == "KVM-MEDIA01"
-    # KVM-SECURITY01
-    - include_role:
-        name: motion_deployment
-      when: inventory_hostname == "KVM-SECURITY01"
+        name: authentik_deployment
+      when: inventory_hostname == "KVM-IAM01"
