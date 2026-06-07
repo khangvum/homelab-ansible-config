@@ -17,8 +17,8 @@ portainer_environments:
     id: 7
   - name: KVM-VPN01
     id: 8
-  - name: KVM-VPN02
-    id: 9
+  - name: KVM-IAM01
+    id: 10
 
 # Homepage
 homepage_parent_dir: "/home/{{ ansible_user }}/docker/homepage"
