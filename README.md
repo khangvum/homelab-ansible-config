@@ -84,7 +84,7 @@ flowchart LR
                                                         **Storage:** 100GB
                                                         **OS:** Windows Server 2025
                                                         **Role:** IIS Web Server`")]
-  
+
 
   %% Styling
   class SRV01 hosts
@@ -132,22 +132,23 @@ flowchart LR
 
 ### Services
 
-|                                                               Role                                                                | Description                                                                                                                       |
-| :-------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------- |
-|        [`docker_configuration`](ansible-scripts/homelab-ansible-config/roles/services/docker_configuration/tasks/main.yml)        | Configure **_Docker_** settings                                                                                                   |
-|      [`filebrowser_deployment`](ansible-scripts/homelab-ansible-config/roles/services/filebrowser_deployment/tasks/main.yml)      | Configure **_Filebrowser_** as a **_self-hosted file manager_**                                                                   |
-|          [`grafana_deployment`](ansible-scripts/homelab-ansible-config/roles/services/grafana_deployment/tasks/main.yml)          | Configure **_Grafana_** as a **_analytics platform_** for **_dashboards_** and **_data virtualization_**                          |
-|         [`homepage_deployment`](ansible-scripts/homelab-ansible-config/roles/services/homepage_deployment/tasks/main.yml)         | Configure **_Homepage_** as a **_centralized service dashboard_** for **_infrastructure monitoring_** and **_service discovery_** |
-|              [`iis_deployment`](ansible-scripts/homelab-ansible-config/roles/services/iis_deployment/tasks/main.yml)              | Install and configure **_Internet Information Services_** (**_IIS_**)                                                             |
-|         [`jellyfin_deployment`](ansible-scripts/homelab-ansible-config/roles/services/jellyfin_deployment/tasks/main.yml)         | Configure **_Jellyfin_** as a **_self-hosted media server_**                                                                      |
-|           [`motion_deployment`](ansible-scripts/homelab-ansible-config/roles/services/motion_deployment/tasks/main.yml)           | Configure **_Motion_** as a **_self-hosted security camera system_**                                                              |
-|    [`node_exporter_deployment`](ansible-scripts/homelab-ansible-config/roles/services/node_exporter_deployment/tasks/main.yml)    | Configure **_Node Exporter_** as a **_metrics collector_** for **_Prometheus monitoring_** on **_Linux hosts_**                   |
-|              [`npm_deployment`](ansible-scripts/homelab-ansible-config/roles/services/npm_deployment/tasks/main.yml)              | Configure **_Nginx Proxy Manager_** as a **_reverse proxy_** for **_host forwarding_**                                            |
-|        [`portainer_deployment`](ansible-scripts/homelab-ansible-config/roles/services/portainer_deployment/tasks/main.yml)        | Configure **_Portainer_** as a **_container management platform_** for **_Docker environments_**                                  |
-|       [`prometheus_deployment`](ansible-scripts/homelab-ansible-config/roles/services/prometheus_deployment/tasks/main.yml)       | Configure **_Prometheus_** as a **_time-series database_** for **_metrics collection_**                                           |
-|    [`snmp_exporter_deployment`](ansible-scripts/homelab-ansible-config/roles/services/snmp_exporter_deployment/tasks/main.yml)    | Configure **_SNMP Exporter_** as a **_metrics collector_** from **_network devices_** and **_ESXi host_** via **_SNMP_**          |
-|        [`tailscale_deployment`](ansible-scripts/homelab-ansible-config/roles/services/tailscale_deployment/tasks/main.yml)        | Configure **_Tailscale_** as a **_mesh VPN service_** for **_secure remote access_**                                              |
-| [`windows_exporter_deployment`](ansible-scripts/homelab-ansible-config/roles/services/windows_exporter_deployment/tasks/main.yml) | Configure **_Windows Exporter_** as a **_metrics collector_** for **_Prometheus monitoring_** on **_Windows hosts_**              |
+|                                                               Role                                                                | Description                                                                                                                               |
+| :-------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------- |
+|        [`authentik_deployment`](ansible-scripts/homelab-ansible-config/roles/services/authentik_deployment/tasks/main.yml)        | Configure **_Authentik_** as a **_centralized identity provider_** and **_SSO gateway_** for **_authentication_** and **_authorization_** |
+|        [`docker_configuration`](ansible-scripts/homelab-ansible-config/roles/services/docker_configuration/tasks/main.yml)        | Configure **_Docker_** settings                                                                                                           |
+|      [`filebrowser_deployment`](ansible-scripts/homelab-ansible-config/roles/services/filebrowser_deployment/tasks/main.yml)      | Configure **_Filebrowser_** as a **_self-hosted file manager_**                                                                           |
+|          [`grafana_deployment`](ansible-scripts/homelab-ansible-config/roles/services/grafana_deployment/tasks/main.yml)          | Configure **_Grafana_** as a **_analytics platform_** for **_dashboards_** and **_data virtualization_**                                  |
+|         [`homepage_deployment`](ansible-scripts/homelab-ansible-config/roles/services/homepage_deployment/tasks/main.yml)         | Configure **_Homepage_** as a **_centralized service dashboard_** for **_infrastructure monitoring_** and **_service discovery_**         |
+|              [`iis_deployment`](ansible-scripts/homelab-ansible-config/roles/services/iis_deployment/tasks/main.yml)              | Install and configure **_Internet Information Services_** (**_IIS_**)                                                                     |
+|         [`jellyfin_deployment`](ansible-scripts/homelab-ansible-config/roles/services/jellyfin_deployment/tasks/main.yml)         | Configure **_Jellyfin_** as a **_self-hosted media server_**                                                                              |
+|           [`motion_deployment`](ansible-scripts/homelab-ansible-config/roles/services/motion_deployment/tasks/main.yml)           | Configure **_Motion_** as a **_self-hosted security camera system_**                                                                      |
+|    [`node_exporter_deployment`](ansible-scripts/homelab-ansible-config/roles/services/node_exporter_deployment/tasks/main.yml)    | Configure **_Node Exporter_** as a **_metrics collector_** for **_Prometheus monitoring_** on **_Linux hosts_**                           |
+|              [`npm_deployment`](ansible-scripts/homelab-ansible-config/roles/services/npm_deployment/tasks/main.yml)              | Configure **_Nginx Proxy Manager_** as a **_reverse proxy_** for **_host forwarding_**                                                    |
+|        [`portainer_deployment`](ansible-scripts/homelab-ansible-config/roles/services/portainer_deployment/tasks/main.yml)        | Configure **_Portainer_** as a **_container management platform_** for **_Docker environments_**                                          |
+|       [`prometheus_deployment`](ansible-scripts/homelab-ansible-config/roles/services/prometheus_deployment/tasks/main.yml)       | Configure **_Prometheus_** as a **_time-series database_** for **_metrics collection_**                                                   |
+|    [`snmp_exporter_deployment`](ansible-scripts/homelab-ansible-config/roles/services/snmp_exporter_deployment/tasks/main.yml)    | Configure **_SNMP Exporter_** as a **_metrics collector_** from **_network devices_** and **_ESXi host_** via **_SNMP_**                  |
+|        [`tailscale_deployment`](ansible-scripts/homelab-ansible-config/roles/services/tailscale_deployment/tasks/main.yml)        | Configure **_Tailscale_** as a **_mesh VPN service_** for **_secure remote access_**                                                      |
+| [`windows_exporter_deployment`](ansible-scripts/homelab-ansible-config/roles/services/windows_exporter_deployment/tasks/main.yml) | Configure **_Windows Exporter_** as a **_metrics collector_** for **_Prometheus monitoring_** on **_Windows hosts_**                      |
 
 ## Prerequisites
 
@@ -171,7 +172,8 @@ flowchart LR
     ```
 
 > [!NOTE]
-> - The steps above apply strictly to **_Windows_**/**_Windows Server_** targets. 
+>
+> - The steps above apply strictly to **_Windows_**/**_Windows Server_** targets.
 > - **_Linux_** and **_ESXi_** distributions typically include **_pre-installed SSH_** services.
 
 > [!TIP]
