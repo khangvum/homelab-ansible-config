@@ -1,0 +1,76 @@
+---
+services:
+  postgresql:
+    image: docker.io/library/postgres:16-alpine
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 5s
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: "{{ postgres_user }}"
+      POSTGRES_PASSWORD: "{{ postgres_password }}"
+      POSTGRES_DB: "{{ postgres_db }}"
+
+  redis:
+    image: docker.io/library/redis:7-alpine
+    command: --save 60 1 --loglevel warning
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 5s
+    volumes:
+      - ./redis_data:/data
+
+  server:
+    image: ghcr.io/goauthentik/server:{{ authentik_version }}
+    restart: unless-stopped
+    command: server
+    shm_size: 512mb
+    environment:
+      AUTHENTIK_REDIS__HOST: redis
+      AUTHENTIK_POSTGRESQL__HOST: postgresql
+      AUTHENTIK_POSTGRESQL__USER: "{{ postgres_user }}"
+      AUTHENTIK_POSTGRESQL__PASSWORD: "{{ postgres_password }}"
+      AUTHENTIK_POSTGRESQL__NAME: "{{ postgres_db }}"
+      AUTHENTIK_SECRET_KEY: "{{ authentik_secret_key }}"
+    volumes:
+      - ./media:/media
+      - ./templates:/templates
+    ports:
+      - "9000:9000"
+      - "9443:9443"
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  worker:
+    image: ghcr.io/goauthentik/server:{{ authentik_version }}
+    restart: unless-stopped
+    command: worker
+    shm_size: 512mb
+    environment:
+      AUTHENTIK_REDIS__HOST: redis
+      AUTHENTIK_POSTGRESQL__HOST: postgresql
+      AUTHENTIK_POSTGRESQL__USER: "{{ postgres_user }}"
+      AUTHENTIK_POSTGRESQL__PASSWORD: "{{ postgres_password }}"
+      AUTHENTIK_POSTGRESQL__NAME: "{{ postgres_db }}"
+      AUTHENTIK_SECRET_KEY: "{{ authentik_secret_key }}"
+    volumes:
+      - ./media:/media
+      - ./templates:/templates
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy

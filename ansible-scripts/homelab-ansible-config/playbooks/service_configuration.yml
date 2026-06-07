@@ -17,10 +17,11 @@
   tags: container_deployment
   vars_files:
     - ../variables/domain_var/domain_var.yml
-    - ../variables/docker_var/nas_var.yml
+    - ../variables/docker_var/iam_var.yml
     - ../variables/docker_var/management_var.yml
     - ../variables/docker_var/media_var.yml
     - ../variables/docker_var/monitoring_var.yml
+    - ../variables/docker_var/nas_var.yml
     - ../variables/docker_var/security_var.yml
     - ../variables/docker_var/vpn_var.yml
   tasks:
@@ -69,3 +70,7 @@
     - include_role:
         name: motion_deployment
       when: inventory_hostname == "KVM-SECURITY01"
+    # KVM-IAM01
+    - include_role:
+        name: authentik_deployment
+      when: inventory_hostname == "KVM-IAM01"
