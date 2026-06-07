@@ -76,3 +76,7 @@ To display the **_"Sign in with SSO"_** button, inject this HTML into the **_Log
   </button>
 </form>
 ```
+
+### References
+
+[Integrate with Jellyfin](https://integrations.goauthentik.io/media/jellyfin/)
