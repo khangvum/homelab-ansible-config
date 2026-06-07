@@ -16,8 +16,6 @@ tailscale_devices:
     id: {{ TAILSCALE_KVM-PC01_ID }}
   - name: kvm-vpn01
     id: {{ TAILSCALE_KVM-VPN01_ID }}
-  - name: kvm-vpn02
-    id: {{ TAILSCALE_KVM-VPN02_ID }}
   - name: iphone-15-pro
     id: {{ TAILSCALE_IPHONE-15-PRO_ID }}
   - name: ipad-pro-11-gen-3
