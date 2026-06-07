@@ -64,3 +64,15 @@ Once restarted, click on the **_SSO-Auth_** plugin icon in the installed plugins
 
 > [!IMPORTANT]
 > **_Restart Jellyfin_** again after saving these settings for the changes to **_take effect_**.
+
+## 3. Login Branding
+
+To display the **_"Sign in with SSO"_** button, inject this HTML into the **_Login disclaimer_** (found in **Dashboard** > **Branding**):
+
+```html
+<form action="http://jellyfin.khangvum.lab/sso/OID/start/authentik">
+  <button class="raised block emby-button button-submit">
+    Sign in with SSO
+  </button>
+</form>
+```
