@@ -74,11 +74,6 @@ flowchart LR
                                                         **Storage:** 20GB
                                                         **OS:** Ubuntu Server 24.04
                                                         **Role:** Primary VPN`")]
-  SRV01 --> VPN02[KVM-VPN02] -- specs --- VPN02_SPECS[("`**CPU:** 2 vCPU
-                                                        **RAM:** 2GB
-                                                        **Storage:** 20GB
-                                                        **OS:** Ubuntu Server 24.04
-                                                        **Role:** Secondary VPN`")]
   SRV01 --> WEB01[KVM-WEB01] -- specs --- WEB01_SPECS[("`**CPU:** 2 vCPU
                                                         **RAM:** 8GB
                                                         **Storage:** 100GB
