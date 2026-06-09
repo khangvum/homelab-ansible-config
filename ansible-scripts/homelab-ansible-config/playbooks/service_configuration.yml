@@ -45,9 +45,9 @@
     - include_role:
         name: prometheus_deployment
       when: inventory_hostname == "KVM-MONITOR01"
-    - include_role:
-        name: snmp_exporter_deployment
-      when: inventory_hostname == "KVM-MONITOR01"
+    # - include_role:
+    #     name: snmp_exporter_deployment
+    #   when: inventory_hostname == "KVM-MONITOR01"
     # KVM-VPN
     - include_role:
         name: tailscale_deployment

@@ -8,5 +8,22 @@ services:
       - grafana-storage:/var/lib/grafana
     ports:
       - 3000:3000
+    environment:
+      GF_AUTH_GENERIC_OAUTH_ENABLED: "true"
+      GF_AUTH_GENERIC_OAUTH_NAME: "authentik"
+      GF_AUTH_GENERIC_OAUTH_AUTO_SIGNUP: "true"
+      GF_AUTH_GENERIC_OAUTH_EMAIL_ATTRIBUTE_NAME: "email"
+      GF_AUTH_GENERIC_OAUTH_LOGIN_ATTRIBUTE_PATH: "preferred_username"
+      GF_AUTH_GENERIC_OAUTH_CLIENT_ID: {{ grafana_authentik_client_id }}
+      GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET: {{ grafana_authentik_client_secret }}
+      GF_AUTH_GENERIC_OAUTH_SCOPES: "openid profile email entitlements"
+      GF_AUTH_GENERIC_OAUTH_AUTH_URL: "http://authentik.{{ domain_name }}/application/o/authorize/"
+      GF_AUTH_GENERIC_OAUTH_TOKEN_URL: "http://authentik.{{ domain_name }}/application/o/token/"
+      GF_AUTH_GENERIC_OAUTH_API_URL: "http://authentik.{{ domain_name }}/application/o/userinfo/"
+      GF_AUTH_SIGNOUT_REDIRECT_URL: "http://authentik.{{ domain_name }}/application/o/grafana/end-session/"
+      # Optionally enable auto-login (Bypasses Grafana login screen)
+      GF_AUTH_OAUTH_AUTO_LOGIN: "true"
+      # Required if Grafana is running behind a reverse proxy
+      GF_SERVER_ROOT_URL: "http://grafana.{{ domain_name }}"
 volumes:
   grafana-storage: {}

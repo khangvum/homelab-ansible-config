@@ -111,6 +111,7 @@
       register: npm_proxy_result
 
 - name: A-record for Tailscale Creation on Windows DNS Server (KVM-DC01)
+  run_once: true
   delegate_to: KVM-DC01
   vars: # To run on Windows host
     host_key_checking: False
