@@ -52,3 +52,14 @@
 - name: Time Zone Configuration
   ansible.windows.win_timezone:
     timezone: "{{ time_zone }}"
+
+- name: Server Manager Auto-Start Disablement
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Microsoft\ServerManager
+    name: DoNotOpenServerManagerAtLogOn
+    data: 1
+    type: dword
+    state: present
+  when:
+    - "'workstations' not in group_names" # Exclude Windows client hosts
+    - "'containers' not in group_names"   # Exclude Linux hosts
