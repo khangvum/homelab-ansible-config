@@ -28,6 +28,9 @@ docker_services:
   - name: authentik
     forward_host: "{{ hostvars['KVM-IAM01'].ansible_host }}"
     forward_port: 9000
+  - name: filebrowser
+    forward_host: "{{ hostvars['KVM-NAS01'].ansible_host }}"
+    forward_port: 8095
   - name: grafana
     forward_host: "{{ hostvars['KVM-MONITOR01'].ansible_host }}"
     forward_port: 3000
@@ -44,6 +47,12 @@ docker_services:
   - name: homepage
     forward_host: "{{ hostvars['KVM-MGMT01'].ansible_host }}"
     forward_port: 3000
+  - name: motion
+    forward_host: "{{ hostvars['KVM-SECURITY01'].ansible_host }}"
+    forward_port: 8765
+  - name: jellyfin
+    forward_host: "{{ hostvars['KVM-MEDIA01'].ansible_host }}"
+    forward_port: 8096
   - name: itinder
     forward_host: "{{ hostvars['KVM-WEB01'].ansible_host }}"
     forward_port: 80
