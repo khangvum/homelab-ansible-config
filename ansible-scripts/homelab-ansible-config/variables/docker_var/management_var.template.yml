@@ -27,3 +27,6 @@ homepage_config_files:
   - services.yaml
   - settings.yaml
   - widgets.yaml
+
+# Home Assistant
+home_assistant_parent_dir: "/home/{{ ansible_user }}/docker/home_assistant"
