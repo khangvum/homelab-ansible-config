@@ -1,0 +1,80 @@
+---
+# Reference: https://www.home-assistant.io/installation/linux#install-home-assistant-container
+- name: Linux Variables Load
+  ansible.builtin.include_vars:
+    file: ../../../variables/os_var/linux_var.yml
+
+- name: Home Assistant Directory Creation
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0755'
+  loop:
+    - "{{ home_assistant_parent_dir }}"
+    - "{{ home_assistant_parent_dir }}/config"
+    - "{{ home_assistant_parent_dir }}/config/custom_components/hacs"
+
+- name: HACS (Home Assistant Community Store) File Check
+  ansible.builtin.stat:
+    path: "{{ home_assistant_parent_dir }}/config/custom_components/hacs/hacs.py"
+  register: hacs_file_check
+
+- name: Unzip Package Installation
+  ansible.builtin.package:
+    name: unzip
+
+- name: HACS Integration Download and Extraction
+  ansible.builtin.unarchive:
+    src: https://github.com/hacs/integration/releases/latest/download/hacs.zip
+    dest: "{{ home_assistant_parent_dir }}/config/custom_components/hacs"
+    remote_src: true
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+  register: hacs_download
+  when: not hacs_file_check.stat.exists
+
+- name: Docker Compose File Creation
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: "{{ home_assistant_parent_dir }}/docker-compose.yml"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0644'
+  register: docker_compose_file
+
+- name: Home Assistant Configuration File Creation
+  ansible.builtin.template:
+    src: configuration.yaml.j2
+    dest: "{{ home_assistant_parent_dir }}/config/configuration.yaml"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0644'
+  register: home_assistant_config_file
+
+- name: Home Assistant Latest Image Pull If Available
+  community.docker.docker_image:
+    name: "ghcr.io/home-assistant/home-assistant:stable"
+    source: pull
+  register: home_assistant_image_pull
+
+- name: Home Assistant Deployment
+  ansible.builtin.command:
+    cmd: docker-compose up -d --remove-orphans
+    chdir: "{{ home_assistant_parent_dir }}"
+  when: >
+    docker_compose_file.changed or 
+    home_assistant_config_file.changed or
+    home_assistant_image_pull.changed or 
+    hacs_download.changed
+
+- name: Home Assistant Restart If Needed
+  community.docker.docker_container:
+    name: homeassistant
+    restart: true
+  when: >
+    docker_compose_file.changed or 
+    home_assistant_config_file.changed or
+    home_assistant_image_pull.changed or 
+    hacs_download.changed
