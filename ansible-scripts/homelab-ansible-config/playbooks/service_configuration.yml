@@ -48,19 +48,15 @@
     # - include_role:
     #     name: snmp_exporter_deployment
     #   when: inventory_hostname == "KVM-MONITOR01"
-    # KVM-VPN
-    - include_role:
-        name: tailscale_deployment
-      when: inventory_hostname.startswith("KVM-VPN")
-    - include_role:
-        name: npm_deployment
-      when: inventory_hostname.startswith("KVM-VPN")
     # KVM-MGMT01
     - include_role:
         name: portainer_deployment
       when: "'containers' in group_names" # Portainer Server on KVM-MGMT01, Portainer Agent on other containers
     - include_role:
         name: homepage_deployment
+      when: inventory_hostname == "KVM-MGMT01"
+    - include_role:
+        name: home_assistant_deployment
       when: inventory_hostname == "KVM-MGMT01"
     # KVM-MEDIA01
     - include_role:
@@ -74,3 +70,10 @@
     - include_role:
         name: authentik_deployment
       when: inventory_hostname == "KVM-IAM01"
+    # KVM-VPN
+    - include_role:
+        name: npm_deployment
+      when: inventory_hostname.startswith("KVM-VPN")
+    - include_role:
+        name: tailscale_deployment
+      when: inventory_hostname.startswith("KVM-VPN")
