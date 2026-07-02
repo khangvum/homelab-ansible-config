@@ -133,6 +133,7 @@ flowchart LR
 |        [`docker_configuration`](ansible-scripts/homelab-ansible-config/roles/services/docker_configuration/tasks/main.yml)        | Configure **_Docker_** settings                                                                                                           |
 |      [`filebrowser_deployment`](ansible-scripts/homelab-ansible-config/roles/services/filebrowser_deployment/tasks/main.yml)      | Configure **_Filebrowser_** as a **_self-hosted file manager_**                                                                           |
 |          [`grafana_deployment`](ansible-scripts/homelab-ansible-config/roles/services/grafana_deployment/tasks/main.yml)          | Configure **_Grafana_** as a **_analytics platform_** for **_dashboards_** and **_data virtualization_**                                  |
+|   [`home_assistant_deployment`](ansible-scripts/homelab-ansible-config/roles/services/home_assistant_deployment/tasks/main.yml)   | Configure **_Home Assistant_** as a **_centralized home automation platform_** for **_smart device integration_**                         |
 |         [`homepage_deployment`](ansible-scripts/homelab-ansible-config/roles/services/homepage_deployment/tasks/main.yml)         | Configure **_Homepage_** as a **_centralized service dashboard_** for **_infrastructure monitoring_** and **_service discovery_**         |
 |              [`iis_deployment`](ansible-scripts/homelab-ansible-config/roles/services/iis_deployment/tasks/main.yml)              | Install and configure **_Internet Information Services_** (**_IIS_**)                                                                     |
 |         [`jellyfin_deployment`](ansible-scripts/homelab-ansible-config/roles/services/jellyfin_deployment/tasks/main.yml)         | Configure **_Jellyfin_** as a **_self-hosted media server_**                                                                              |
@@ -189,15 +190,15 @@ flowchart LR
 - [`inventory.yml`](ansible-scripts/homelab-ansible-config/inventory.template.yml): Defines the **_target hosts_**.
 - **Docker variables:**
 
-  |                                                      File                                                       | Description                                                                                         |
-  | :-------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------- |
-  |        [`iam_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/iam_var.template.yml)        | Define **_Authentik settings_** for **_centralized identity provider_** and **_SSO gateway_**       |
-  |          [`media_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/media_var.yml)           | Define **_Jellyfin settings_** for **_self-hosted media server_**                                   |
-  | [`management_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/management_var.template.yml) | Define **_Portainer_** and **_Homepage settings_** for **_centralized service dashboard_**          |
-  | [`monitoring_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/monitoring_var.template.yml) | Define **_Grafana_**, **_Prometheus_**, and **_Node Exporter settings_** for **_monitoring stack_** |
-  |            [`nas_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/nas_var.yml)             | Define **_Filebrowser settings_** for **_self-hosted file manager_**                                |
-  |       [`security_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/security_var.yml)        | Define **_Motion settings_** for **_self-hosted security camera system_**                           |
-  |        [`vpn_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/vpn_var.template.yml)        | Define **_Tailscale_** and **_Nginx Proxy Manager settings_** for **_Mesh VPN service_**            |
+  |                                                      File                                                       | Description                                                                                                       |
+  | :-------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------- |
+  |        [`iam_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/iam_var.template.yml)        | Define **_Authentik settings_** for **_centralized identity provider_** and **_SSO gateway_**                     |
+  |          [`media_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/media_var.yml)           | Define **_Jellyfin settings_** for **_self-hosted media server_**                                                 |
+  | [`management_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/management_var.template.yml) | Define **_Portainer_**, **_Home Assistant_**, and **_Homepage settings_** for **_centralized service dashboard_** |
+  | [`monitoring_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/monitoring_var.template.yml) | Define **_Grafana_**, **_Prometheus_**, and **_Node Exporter settings_** for **_monitoring stack_**               |
+  |            [`nas_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/nas_var.yml)             | Define **_Filebrowser settings_** for **_self-hosted file manager_**                                              |
+  |       [`security_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/security_var.yml)        | Define **_Motion settings_** for **_self-hosted security camera system_**                                         |
+  |        [`vpn_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/vpn_var.template.yml)        | Define **_Tailscale_** and **_Nginx Proxy Manager settings_** for **_Mesh VPN service_**                          |
 
 - **Domain variables:**
 
