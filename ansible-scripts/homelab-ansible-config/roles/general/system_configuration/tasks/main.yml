@@ -51,7 +51,7 @@
 
 - name: Time Zone Configuration
   ansible.windows.win_timezone:
-    timezone: "{{ time_zone }}"
+    timezone: "{{ windows_time_zone }}"
 
 - name: Server Manager Auto-Start Disablement
   ansible.windows.win_regedit:

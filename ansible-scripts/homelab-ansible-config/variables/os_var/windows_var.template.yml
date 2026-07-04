@@ -5,7 +5,7 @@ ansible_connection: ssh
 ansible_ssh_retries: 3
 ansible_become_method: runas
 
-time_zone: "Eastern Standard Time"
+windows_time_zone: "Eastern Standard Time"
 
 # Local administrator configuration
 local_admin_list:
