@@ -46,7 +46,7 @@
 
           # Attach all switches from the list
           $allSwitches = @(
-            {% for sw in hostvars[item.host].v_switches %}
+            {% for sw in hostvars[item.name].v_switches %}
               @{ name = '{{ sw.name }}'; adapter = '{{ sw.adapter }}' }
             {% endfor %}
           )
@@ -121,7 +121,7 @@
           
           $currentSwitches = (Get-VMNetworkAdapter -VMName $vmName).SwitchName
           $allSwitches = @(
-            {% for sw in hostvars[item.host].v_switches %}
+            {% for sw in hostvars[item.name].v_switches %}
               @{ name = '{{ sw.name }}'; adapter = '{{ sw.adapter }}' }
             {% endfor %}
           )
