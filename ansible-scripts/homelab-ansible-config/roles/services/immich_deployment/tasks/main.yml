@@ -1,0 +1,73 @@
+---
+# Reference: https://docs.immich.app/install/docker-compose/
+- name: Linux Variables Load
+  ansible.builtin.include_vars:
+    file: ../../../variables/os_var/linux_var.yml
+
+- name: CIFS (Common Internet File System) Utilities Installation
+  ansible.builtin.apt:
+    name: cifs-utils
+
+- name: Mount Point Directory Creation
+  ansible.builtin.file:
+    name: "{{ item }}"
+    state: directory
+  loop:
+    - "{{ media_mount_dir }}"
+    - "{{ media_mount_dir }}/archive"
+    - "{{ media_mount_dir }}/photos"
+
+- name: Mount Credentials File Creation
+  ansible.builtin.template:
+    src: cifs_credentials.j2
+    dest: /etc/cifs_credentials
+    owner: root
+    group: root
+    mode: '0600'
+
+- name: Permanent Mount Configuration
+  ansible.posix.mount:
+    src: "{{ media_path }}"
+    path: "{{ media_mount_dir }}"
+    fstype: cifs
+    opts: "credentials=/etc/cifs_credentials,uid={{ administrator_uid }},gid={{ administrator_gid }},file_mode=0775,dir_mode=0775,iocharset=utf8,vers=3.0,nofail,soft"
+    state: mounted
+  register: permanent_mount
+
+- name: Reload to Apply Changes
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+  when: permanent_mount.changed
+
+- name: Mount Execution
+  ansible.builtin.command:
+    cmd: mount -a
+  when: permanent_mount.changed
+
+- name: Immich Directory Creation
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0755'
+  loop:
+    - "{{ immich_parent_dir }}"
+    - "{{ immich_parent_dir }}/config"
+    - "{{ immich_parent_dir }}/model-cache"
+    - "{{ immich_parent_dir }}/database"
+
+- name: Docker Compose File Creation
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: "{{ immich_parent_dir }}/docker-compose.yml"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0644'
+  register: docker_compose_file
+
+- name: Immich Deployment
+  community.docker.docker_compose_v2:
+    project_src: "{{ immich_parent_dir }}"
+    pull: missing
+    state: present
