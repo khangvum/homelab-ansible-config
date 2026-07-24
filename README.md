@@ -19,7 +19,8 @@ flowchart LR
                 **CPU:** Intel Xeon W-2155 (10 cores - 20 threads)
                 **RAM:** 256GB (8 x 32GB ECC 2666MHz)
                 **Storage:**
-                • 2 x 1TB NVMe SSD (1 OS & 1 VMs)
+                • 2 x 1TB NVMe SSD (OS)
+                • 4TB SATA SSD (VMs)
                 • 8TB HDD (3 x 4TB - RSTe RAID 5)
                 **OS:** Windows Server 2025`")] -- specs --- SRV01[KVM-SRV01]
 
@@ -136,6 +137,7 @@ flowchart LR
 |   [`home_assistant_deployment`](ansible-scripts/homelab-ansible-config/roles/services/home_assistant_deployment/tasks/main.yml)   | Configure **_Home Assistant_** as a **_centralized home automation platform_** for **_smart device integration_**                         |
 |         [`homepage_deployment`](ansible-scripts/homelab-ansible-config/roles/services/homepage_deployment/tasks/main.yml)         | Configure **_Homepage_** as a **_centralized service dashboard_** for **_infrastructure monitoring_** and **_service discovery_**         |
 |              [`iis_deployment`](ansible-scripts/homelab-ansible-config/roles/services/iis_deployment/tasks/main.yml)              | Install and configure **_Internet Information Services_** (**_IIS_**)                                                                     |
+|           [`immich_deployment`](ansible-scripts/homelab-ansible-config/roles/services/immich_deployment/tasks/main.yml)           | Configure **_Immich_** as a **_self-hosted photo_** and **_video management solution_** for **_media backup_**                            |
 |         [`jellyfin_deployment`](ansible-scripts/homelab-ansible-config/roles/services/jellyfin_deployment/tasks/main.yml)         | Configure **_Jellyfin_** as a **_self-hosted media server_**                                                                              |
 |           [`motion_deployment`](ansible-scripts/homelab-ansible-config/roles/services/motion_deployment/tasks/main.yml)           | Configure **_Motion_** as a **_self-hosted security camera system_**                                                                      |
 |    [`node_exporter_deployment`](ansible-scripts/homelab-ansible-config/roles/services/node_exporter_deployment/tasks/main.yml)    | Configure **_Node Exporter_** as a **_metrics collector_** for **_Prometheus monitoring_** on **_Linux hosts_**                           |
@@ -193,7 +195,7 @@ flowchart LR
   |                                                      File                                                       | Description                                                                                                       |
   | :-------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------- |
   |        [`iam_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/iam_var.template.yml)        | Define **_Authentik settings_** for **_centralized identity provider_** and **_SSO gateway_**                     |
-  |          [`media_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/media_var.yml)           | Define **_Jellyfin settings_** for **_self-hosted media server_**                                                 |
+  |          [`media_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/media_var.yml)           | Define **_Immich_** and **_Jellyfin settings_** for **_self-hosted media server_**                                |
   | [`management_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/management_var.template.yml) | Define **_Portainer_**, **_Home Assistant_**, and **_Homepage settings_** for **_centralized service dashboard_** |
   | [`monitoring_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/monitoring_var.template.yml) | Define **_Grafana_**, **_Prometheus_**, and **_Node Exporter settings_** for **_monitoring stack_**               |
   |            [`nas_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/nas_var.yml)             | Define **_Filebrowser settings_** for **_self-hosted file manager_**                                              |

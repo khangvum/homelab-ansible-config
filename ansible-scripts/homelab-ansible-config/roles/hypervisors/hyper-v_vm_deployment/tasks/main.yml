@@ -46,7 +46,7 @@
 
           # Attach all switches from the list
           $allSwitches = @(
-            {% for sw in hostvars[item.host].v_switches %}
+            {% for sw in hostvars[item.name].v_switches %}
               @{ name = '{{ sw.name }}'; adapter = '{{ sw.adapter }}' }
             {% endfor %}
           )
@@ -67,6 +67,18 @@
           # Use an existing VHD if available
           if (Test-Path $vmDisk) {
             Add-VMHardDiskDrive -VMName $vmName -Path $vmDisk
+
+            # Get the current firmware and filter out all "File" type boot entries
+            $firmware = Get-VMFirmware -VMName $vmName
+            $bootEntries = $firmware.BootOrder | Where-Object { $_.BootType -ne "File" }
+            if ($bootEntries) {
+              # Set the boot order to the filtered list
+              Set-VMFirmware -VMName $vmName -BootOrder $bootEntries
+            }
+
+            # Set the first boot device to the VHD
+            $vhdDrive = Get-VMHardDiskDrive -VMName $vmName
+            Set-VMFirmware -VMName $vmName -FirstBootDevice $vhdDrive
           } 
           # Otherwise, create a new VHD
           else {
@@ -109,7 +121,7 @@
           
           $currentSwitches = (Get-VMNetworkAdapter -VMName $vmName).SwitchName
           $allSwitches = @(
-            {% for sw in hostvars[item.host].v_switches %}
+            {% for sw in hostvars[item.name].v_switches %}
               @{ name = '{{ sw.name }}'; adapter = '{{ sw.adapter }}' }
             {% endfor %}
           )

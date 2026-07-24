@@ -62,6 +62,9 @@
     - include_role:
         name: jellyfin_deployment
       when: inventory_hostname == "KVM-MEDIA01"
+    - include_role:
+        name: immich_deployment
+      when: inventory_hostname == "KVM-MEDIA01"
     # KVM-SECURITY01
     - include_role:
         name: motion_deployment
