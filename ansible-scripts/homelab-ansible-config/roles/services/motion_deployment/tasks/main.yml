@@ -62,6 +62,6 @@
 - name: Motion Deployment
   community.docker.docker_compose_v2:
     project_src: "{{ motion_parent_dir }}"
-    pull: always
+    pull: "{{ docker_image_pull_action }}"
     state: present
     remove_orphans: true

@@ -37,7 +37,7 @@
 - name: Tailscale Deployment
   community.docker.docker_compose_v2:
     project_src: "{{ tailscale_parent_dir }}"
-    pull: always
+    pull: "{{ docker_image_pull_action }}"
     state: present
     remove_orphans: true
 

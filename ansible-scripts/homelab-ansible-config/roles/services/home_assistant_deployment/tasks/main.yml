@@ -56,8 +56,8 @@
 - name: Home Assistant Deployment
   community.docker.docker_compose_v2:
     project_src: "{{ home_assistant_parent_dir }}"
+    pull: "{{ docker_image_pull_action }}"
     state: present
-    pull: missing
     remove_orphans: true
 
 - name: Home Assistant Restart If Needed
