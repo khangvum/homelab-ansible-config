@@ -17,6 +17,7 @@
   tags: container_deployment
   vars_files:
     - ../variables/domain_var/domain_var.yml
+    - ../variables/docker_var/docker_var.yml
     - ../variables/docker_var/iam_var.yml
     - ../variables/docker_var/management_var.yml
     - ../variables/docker_var/media_var.yml

@@ -1,0 +1,4 @@
+---
+# Normal circumstances, use "missing" to ensure idempotency
+# When need to pull the latest image, switch to "always"
+docker_image_pull_action: "always"
