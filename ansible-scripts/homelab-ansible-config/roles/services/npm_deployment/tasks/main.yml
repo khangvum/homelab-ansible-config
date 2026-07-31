@@ -29,6 +29,7 @@
     project_src: "{{ npm_parent_dir }}"
     state: present
     pull: always
+    remove_orphans: true
   register: npm_deployment
 
 - name: Nginx Proxy Host Configuration
