@@ -59,14 +59,9 @@
     mode: '0644'
   register: docker_compose_file
 
-- name: Motion Latest Image Pull If Available
-  community.docker.docker_image:
-    name: ccrisan/motioneye:master-amd64
-    source: pull
-  register: motion_image_pull
-
 - name: Motion Deployment
-  ansible.builtin.command:
-    cmd: docker compose up -d --remove-orphans
-    chdir: "{{ motion_parent_dir }}"
-  when: docker_compose_file.changed or motion_image_pull.changed
+  community.docker.docker_compose_v2:
+    project_src: "{{ motion_parent_dir }}"
+    pull: always
+    state: present
+    remove_orphans: true
