@@ -34,19 +34,12 @@
     mode: '0644'
   register: docker_compose_file
 
-- name: Tailscale Latest Image Pull If Available
-  community.docker.docker_image:
-    name: tailscale/tailscale
-    source: pull
-  register: tailscale_image_pull
-
 - name: Tailscale Deployment
-  ansible.builtin.command:
-    cmd: docker compose up -d --remove-orphans
-    chdir: "{{ tailscale_parent_dir }}"
-  when: >
-    docker_compose_file.changed or
-    tailscale_image_pull.changed
+  community.docker.docker_compose_v2:
+    project_src: "{{ tailscale_parent_dir }}"
+    pull: "{{ docker_image_pull_action }}"
+    state: present
+    remove_orphans: true
 
 - name: Tailscale Split DNS Configuration
   block:
