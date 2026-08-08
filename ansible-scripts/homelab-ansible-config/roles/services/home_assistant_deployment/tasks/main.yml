@@ -53,21 +53,12 @@
     mode: '0644'
   register: home_assistant_config_file
 
-- name: Home Assistant Latest Image Pull If Available
-  community.docker.docker_image:
-    name: "ghcr.io/home-assistant/home-assistant:stable"
-    source: pull
-  register: home_assistant_image_pull
-
 - name: Home Assistant Deployment
-  ansible.builtin.command:
-    cmd: docker-compose up -d --remove-orphans
-    chdir: "{{ home_assistant_parent_dir }}"
-  when: >
-    docker_compose_file.changed or 
-    home_assistant_config_file.changed or
-    home_assistant_image_pull.changed or 
-    hacs_download.changed
+  community.docker.docker_compose_v2:
+    project_src: "{{ home_assistant_parent_dir }}"
+    state: present
+    pull: missing
+    remove_orphans: true
 
 - name: Home Assistant Restart If Needed
   community.docker.docker_container:
@@ -76,5 +67,4 @@
   when: >
     docker_compose_file.changed or 
     home_assistant_config_file.changed or
-    home_assistant_image_pull.changed or 
     hacs_download.changed

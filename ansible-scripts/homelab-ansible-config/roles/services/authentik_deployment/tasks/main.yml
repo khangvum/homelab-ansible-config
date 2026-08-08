@@ -32,3 +32,4 @@
     project_src: "{{ authentik_parent_dir }}"
     pull: always
     state: present
+    remove_orphans: true

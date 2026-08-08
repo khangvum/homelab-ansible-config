@@ -66,3 +66,4 @@
     project_src: "{{ filebrowser_parent_dir }}"
     pull: always
     state: present
+    remove_orphans: true
