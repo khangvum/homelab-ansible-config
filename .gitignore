@@ -1,16 +1,3 @@
-inventory.yml
-ansible.log
-
-# Variable files
-domain_var.yml
-linux_var.yml
-user_var.yml
-windows_var.yml
-iam_var.yml
-management_var.yml
-monitoring_var.yml
-vpn_var.yml
-
 # Installation files
 ubuntu_server_24.04_unattend.iso
 windows_10_pro_x64_unattend.iso
@@ -20,4 +7,5 @@ windows_server_2025_standard_x64_unattend.iso
 
 # Others
 command.txt
+ansible.log
 .vscode
