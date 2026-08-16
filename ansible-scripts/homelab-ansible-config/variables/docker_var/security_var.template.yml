@@ -1,0 +1,4 @@
+---
+motion_parent_dir: "/home/{{ ansible_user }}/docker/motion"
+security_mount_dir: /mnt/nas/security
+security_path: "//{{ hostvars['KVM-SRV01'].ansible_host }}/NAS/security"

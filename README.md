@@ -185,7 +185,7 @@ flowchart LR
 
     **_Accept the host key_** on first connection by typing `yes` when prompted.
 
-## Applying Configuration
+## Configuration Setup
 
 1. **Update the inventory and variable files:**
 
@@ -195,11 +195,11 @@ flowchart LR
   |                                                      File                                                       | Description                                                                                                       |
   | :-------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------- |
   |        [`iam_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/iam_var.template.yml)        | Define **_Authentik settings_** for **_centralized identity provider_** and **_SSO gateway_**                     |
-  |          [`media_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/media_var.yml)           | Define **_Immich_** and **_Jellyfin settings_** for **_self-hosted media server_**                                |
+  |      [`media_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/media_var.template.yml)      | Define **_Immich_** and **_Jellyfin settings_** for **_self-hosted media server_**                                |
   | [`management_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/management_var.template.yml) | Define **_Portainer_**, **_Home Assistant_**, and **_Homepage settings_** for **_centralized service dashboard_** |
   | [`monitoring_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/monitoring_var.template.yml) | Define **_Grafana_**, **_Prometheus_**, and **_Node Exporter settings_** for **_monitoring stack_**               |
-  |            [`nas_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/nas_var.yml)             | Define **_Filebrowser settings_** for **_self-hosted file manager_**                                              |
-  |       [`security_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/security_var.yml)        | Define **_Motion settings_** for **_self-hosted security camera system_**                                         |
+  |        [`nas_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/nas_var.template.yml)        | Define **_Filebrowser settings_** for **_self-hosted file manager_**                                              |
+  |   [`security_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/security_var.template.yml)   | Define **_Motion settings_** for **_self-hosted security camera system_**                                         |
   |        [`vpn_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/vpn_var.template.yml)        | Define **_Tailscale_** and **_Nginx Proxy Manager settings_** for **_Mesh VPN service_**                          |
 
 - **Domain variables:**
@@ -220,7 +220,7 @@ flowchart LR
 
   |                                                 File                                                  | Description                              |
   | :---------------------------------------------------------------------------------------------------: | :--------------------------------------- |
-  |        [`esxi_var.yml`](ansible-scripts/homelab-ansible-config/variables/os_var/esxi_var.yml)         | Defines **_ESXi-specific variables_**    |
+  |    [`esxi_var.yml`](ansible-scripts/homelab-ansible-config/variables/os_var/esxi_var.template.yml)    | Defines **_ESXi-specific variables_**    |
   |   [`linux_var.yml`](ansible-scripts/homelab-ansible-config/variables/os_var/linux_var.template.yml)   | Defines **_Linux-specific variables_**   |
   | [`windows_var.yml`](ansible-scripts/homelab-ansible-config/variables/os_var/windows_var.template.yml) | Defines **_Windows-specific variables_** |
 
@@ -248,3 +248,67 @@ flowchart LR
 > ```bash
 > ansible-playbook site.yml -i inventory.yml -t system_information
 > ```
+
+## Ansible Vault Commands
+
+When managing **_sensitive credentials_** or **_variables_** in the homelab configuration, consider using `ansible-vault`.
+
+### 1. Create an Encrypted File
+
+To create a new encrypted file:
+
+```bash
+ansible-vault create "<VAULT_FILE_PATH>"
+```
+
+### 2. View an Encrypted File
+
+To view the contents of an encrypted file without modifying it:
+
+```bash
+ansible-vault view "<VAULT_FILE_PATH>"
+```
+
+### 3. Edit an Encrypted File Interactively
+
+To edit an encrypted file directly without manually decrypting, modifying, and re-encrypting it:
+
+```bash
+ansible-vault edit "<VAULT_FILE_PATH>"
+```
+
+### 4. Encrypt an Existing Plaintext File
+
+To secure an unencrypted file:
+
+```bash
+ansible-vault encrypt "<VAULT_FILE_PATH>"
+```
+
+### 5. Decrypt an Existing Encrypted File
+
+To permanently return an encrypted file to plaintext:
+
+```bash
+ansible-vault decrypt "<VAULT_FILE_PATH>"
+```
+
+## Playbook Execution with Ansible Vault
+
+When the inventory or variable files are **_encrypted_**, Ansible requires a **_vault password_** to parse and run them successfully. Execution can be handled using one of the following methods:
+
+### Option 1: Manual Password Prompt
+
+To **_prompt interactively_** for the **_vault password_** at runtime, the `--ask-vault-pass` flag is appended to the execution command:
+
+```bash
+ansible-playbook site.yml -i inventory.yml --ask-vault-pass
+```
+
+### Option 2: Automated Password File
+
+To **_bypass interactive prompts_** during automated runs or continuous deployment pipelines, a **_local password file_** can be referenced directly:
+
+```bash
+ansible-playbook site.yml -i inventory.yml --vault-password-file "<PASSWORD_FILE_PATH>"
+```

@@ -1,0 +1,9 @@
+---
+media_mount_dir: /mnt/nas/media
+media_path: "//{{ hostvars['KVM-SRV01'].ansible_host }}/NAS/media"
+
+# Jellyfin
+jellyfin_parent_dir: "/home/{{ ansible_user }}/docker/jellyfin"
+
+# Immich
+immich_parent_dir: "/home/{{ ansible_user }}/docker/immich"
