@@ -195,11 +195,11 @@ flowchart LR
   |                                                      File                                                       | Description                                                                                                       |
   | :-------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------- |
   |        [`iam_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/iam_var.template.yml)        | Define **_Authentik settings_** for **_centralized identity provider_** and **_SSO gateway_**                     |
-  |          [`media_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/media_var.yml)           | Define **_Immich_** and **_Jellyfin settings_** for **_self-hosted media server_**                                |
+  |      [`media_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/media_var.template.yml)      | Define **_Immich_** and **_Jellyfin settings_** for **_self-hosted media server_**                                |
   | [`management_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/management_var.template.yml) | Define **_Portainer_**, **_Home Assistant_**, and **_Homepage settings_** for **_centralized service dashboard_** |
   | [`monitoring_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/monitoring_var.template.yml) | Define **_Grafana_**, **_Prometheus_**, and **_Node Exporter settings_** for **_monitoring stack_**               |
-  |            [`nas_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/nas_var.yml)             | Define **_Filebrowser settings_** for **_self-hosted file manager_**                                              |
-  |       [`security_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/security_var.yml)        | Define **_Motion settings_** for **_self-hosted security camera system_**                                         |
+  |        [`nas_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/nas_var.template.yml)        | Define **_Filebrowser settings_** for **_self-hosted file manager_**                                              |
+  |   [`security_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/security_var.template.yml)   | Define **_Motion settings_** for **_self-hosted security camera system_**                                         |
   |        [`vpn_var.yml`](ansible-scripts/homelab-ansible-config/variables/docker_var/vpn_var.template.yml)        | Define **_Tailscale_** and **_Nginx Proxy Manager settings_** for **_Mesh VPN service_**                          |
 
 - **Domain variables:**
@@ -220,7 +220,7 @@ flowchart LR
 
   |                                                 File                                                  | Description                              |
   | :---------------------------------------------------------------------------------------------------: | :--------------------------------------- |
-  |        [`esxi_var.yml`](ansible-scripts/homelab-ansible-config/variables/os_var/esxi_var.yml)         | Defines **_ESXi-specific variables_**    |
+  |    [`esxi_var.yml`](ansible-scripts/homelab-ansible-config/variables/os_var/esxi_var.template.yml)    | Defines **_ESXi-specific variables_**    |
   |   [`linux_var.yml`](ansible-scripts/homelab-ansible-config/variables/os_var/linux_var.template.yml)   | Defines **_Linux-specific variables_**   |
   | [`windows_var.yml`](ansible-scripts/homelab-ansible-config/variables/os_var/windows_var.template.yml) | Defines **_Windows-specific variables_** |
 
