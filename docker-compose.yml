@@ -3,9 +3,9 @@ services:
     restart: always
     container_name: ansible_service
     build:
-      context: ./ansible-docker-settings
+      context: ./docker-settings
       dockerfile: Dockerfile
     volumes:
-      - ./ansible-scripts:/opt/ansible
+      - ./ansible:/opt/ansible
     environment:
       - ANSIBLE_CONFIG=/opt/ansible/ansible.cfg
