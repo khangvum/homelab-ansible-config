@@ -185,7 +185,7 @@ flowchart LR
 
     **_Accept the host key_** on first connection by typing `yes` when prompted.
 
-## Applying Configuration
+## Configuration Setup
 
 1. **Update the inventory and variable files:**
 
@@ -248,3 +248,47 @@ flowchart LR
 > ```bash
 > ansible-playbook site.yml -i inventory.yml -t system_information
 > ```
+
+## Ansible Vault Commands
+
+When managing **_sensitive credentials_** or **_variables_** in the homelab configuration, consider using `ansible-vault`.
+
+### 1. Create an Encrypted File
+
+To create a new encrypted file:
+
+```bash
+ansible-vault create "<VAULT_FILE_PATH>"
+```
+
+### 2. View an Encrypted File
+
+To view the contents of an encrypted file without modifying it:
+
+```bash
+ansible-vault view "<VAULT_FILE_PATH>"
+```
+
+### 3. Edit an Encrypted File Interactively
+
+To edit an encrypted file directly without manually decrypting, modifying, and re-encrypting it:
+
+```bash
+ansible-vault edit "<VAULT_FILE_PATH>"
+```
+
+### 4. Encrypt an Existing Plaintext File
+
+To secure an unencrypted file:
+
+```bash
+ansible-vault encrypt "<VAULT_FILE_PATH>"
+```
+
+### 5. Decrypt an Existing Encrypted File
+
+To permanently return an encrypted file to plaintext:
+
+```bash
+ansible-vault decrypt "<VAULT_FILE_PATH>"
+```
