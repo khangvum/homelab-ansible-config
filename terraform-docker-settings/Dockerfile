@@ -37,5 +37,5 @@ ENV LC_ALL=en_US.UTF-8
 
 WORKDIR /opt/terraform
 
-# Keep the container running interactively
-CMD ["bash"]
+# Keep the container running indefinitely in the background
+CMD ["tail", "-f", "/dev/null"]
