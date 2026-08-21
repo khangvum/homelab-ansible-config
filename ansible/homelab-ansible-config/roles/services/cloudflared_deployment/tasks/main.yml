@@ -1,0 +1,28 @@
+---
+- name: Linux Variables Load
+  ansible.builtin.include_vars:
+    file: ../../../variables/os_var/linux_var.yml
+
+- name: cloudflared Directory Creation
+  ansible.builtin.file:
+    path: "{{ cloudflared_parent_dir }}"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0755'
+
+- name: Docker Compose File Creation
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: "{{ cloudflared_parent_dir }}/docker-compose.yml"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0644'
+  register: docker_compose_file
+
+- name: cloudflared Deployment
+  community.docker.docker_compose_v2:
+    project_src: "{{ cloudflared_parent_dir }}"
+    pull: "{{ docker_image_pull_action }}"
+    state: present
+    remove_orphans: true

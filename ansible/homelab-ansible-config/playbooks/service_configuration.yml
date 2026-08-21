@@ -54,6 +54,9 @@
         name: portainer_deployment
       when: "'containers' in group_names" # Portainer Server on KVM-MGMT01, Portainer Agent on other containers
     - include_role:
+        name: cloudflared_deployment
+      when: inventory_hostname == "KVM-MGMT01"
+    - include_role:
         name: homepage_deployment
       when: inventory_hostname == "KVM-MGMT01"
     - include_role:
