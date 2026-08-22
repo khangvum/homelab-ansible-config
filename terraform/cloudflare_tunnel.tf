@@ -18,6 +18,9 @@ resource "cloudflare_zero_trust_tunnel_cloudflared_config" "homelab_ingress" {
         for service in var.services : {
           hostname = "${service.subdomain}.${var.domain}"
           service  = "${service.scheme}://${service.ip}:${service.port}"
+          origin_request = service.scheme == "https" ? {
+            no_tls_verify = true
+          } : null
         }
       ],
       [
