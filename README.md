@@ -1,13 +1,13 @@
-# Homelab Configuration Automation with Ansible
+# Homelab Provisioning & Configuration Automation with Terraform & Ansible
 
-A **_homelab configuration automation_** solution powered by **_Ansible_**, containerized with **_Docker_**. This setup simplifies **_Windows_** and **_standalone ESXi_** systems management by leveraging Ansible's **_idempotent_** and **_declarative configuration_** approach, streamlining **_Infrastructure as Code_** (**_IaC_**) principles for **_Windows_** and **_VMware_** environments.
+A **_homelab provisioning and configuration automation_** solution powered by **_Terraform_** and **_Ansible_**, containerized with **_Docker_**. This setup simplifies **_Windows_**, **_Linux_**, and **_standalone ESXi_** management by leveraging **_declarative provisioning_** and **_idempotent configuration_**, streamlining **_Infrastructure as Code_** (**_IaC_**) principles across hypervisors and service nodes.
 
 ## Features
 
-- **_Agentless_** architecture powered by **_Ansible_**, utilizing **_SSH_**.
+- **_Declarative infrastructure provisioning_** using **_Terraform_** across hypervisors and cloud platforms.
+- **_Agentless configuration management_** powered by **_Ansible_** over **_SSH_**.
 - **_Docker-based controller_** for environment consistency across platforms.
-- **_Modular role-based_** configuration and **_tag-based_** execution for targeted provisioning.
-- **_Centralized variable management_** using external YAML files.
+- **_Modular architecture_** leveraging reusable **_Terraform modules_** and **_Ansible roles_** with external variable configuration.
 
 ## Infrastructure Overview
 
