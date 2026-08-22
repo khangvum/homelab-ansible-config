@@ -1,7 +1,7 @@
 FROM ubuntu:24.04
 
 LABEL org.opencontainers.image.authors="manhkhang0305@gmail.com"
-LABEL org.opencontainers.image.version="1.0.0"
+LABEL org.opencontainers.image.version="1.1.0"
 
 RUN apt update
 
@@ -11,14 +11,14 @@ RUN DEBIAN_FRONTEND=noninteractive \
     apt-get install tzdata -y
 
 # Install packages
-RUN apt install \
-    ansible -y \
-    openssh-server -y \
-    supervisor -y \
-    locales -y \
-    python3 -y \
-    python3-pip -y \
-    sshpass -y
+RUN apt install -y \
+    ansible \
+    openssh-server \
+    supervisor \
+    locales \
+    python3 \
+    python3-pip \
+    sshpass
 
 # Install pyVmomi for VMware ESXi automation
 RUN pip install --break-system-packages pyvmomi
