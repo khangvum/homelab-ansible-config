@@ -38,6 +38,10 @@ ous:
   - name: "Users"
     description: "Organizational Unit for Users Accounts"
     path: "OU=Accounts,DC=khangvum,DC=lab"
+  #     ├── OU=AUS
+  - name: "AUS"
+    description: "Organizational Unit for Australia Office Users"
+    path: "OU=Users,OU=Accounts,DC=khangvum,DC=lab"
   #     ├── OU=CAN
   - name: "CAN"
     description: "Organizational Unit for Canada Office Users"
