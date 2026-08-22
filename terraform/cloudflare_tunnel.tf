@@ -11,9 +11,9 @@ resource "cloudflare_zero_trust_tunnel_cloudflared_config" "homelab_ingress" {
   config = {
     ingress = concat(
       [
-        for svc in var.services : {
-          hostname = "${svc.subdomain}.${var.domain}"
-          service  = "${svc.scheme}://${svc.ip}:${svc.port}"
+        for service in var.services : {
+          hostname = "${service.subdomain}.${var.domain}"
+          service  = "${service.scheme}://${service.ip}:${service.port}"
         }
       ],
       [
