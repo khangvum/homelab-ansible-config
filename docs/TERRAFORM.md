@@ -4,11 +4,11 @@ Terraform manages **_cloud networking_**, **_edge ingress rules_**, **_DNS routi
 
 ## Modules
 
-|                        Module                         | Description                                                                                                                                   |
-| :---------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`cloudflare_access`](terraform/cloudflare_access.tf) | Configures **_Cloudflare Zero Trust Access policies_**, **_application rules_**, and **_authentication requirements_** for secure edge access |
-|    [`cloudflare_dns`](terraform/cloudflare_dns.tf)    | Provisions **_DNS CNAME_** and **_A records_** to route traffic across homelab services and external endpoints                                |
-| [`cloudflare_tunnel`](terraform/cloudflare_tunnel.tf) | Creates and manages **_Cloudflared tunnels_** and **_ingress rules_** for secure, outbound-only network exposure                              |
+|                          Module                          | Description                                                                                                                                   |
+| :------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`cloudflare_access`](../terraform/cloudflare_access.tf) | Configures **_Cloudflare Zero Trust Access policies_**, **_application rules_**, and **_authentication requirements_** for secure edge access |
+|    [`cloudflare_dns`](../terraform/cloudflare_dns.tf)    | Provisions **_DNS CNAME_** and **_A records_** to route traffic across homelab services and external endpoints                                |
+| [`cloudflare_tunnel`](../terraform/cloudflare_tunnel.tf) | Creates and manages **_Cloudflared tunnels_** and **_ingress rules_** for secure, outbound-only network exposure                              |
 
 ## Configuration Setup
 
