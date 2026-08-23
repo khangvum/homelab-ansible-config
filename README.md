@@ -9,6 +9,15 @@ A **_homelab provisioning and configuration automation_** solution powered by **
 - **_Docker-based controller_** for environment consistency across platforms.
 - **_Modular architecture_** leveraging reusable **_Terraform modules_** and **_Ansible roles_** with external variable configuration.
 
+## Architecture & Responsibilities
+
+This repository separates **_Infrastructure as Code (IaC)_** responsibilities into **_two_** dedicated layers:
+
+|              Layer              |     Tool      | Responsibilities                                                                                                                                          |
+| :-----------------------------: | :-----------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Infrastructure Provisioning** | **Terraform** | Declarative management of **_Cloudflare Zero Trust_** resources, including **_access policies_**, **_Cloudflared tunnels_**, and **_DNS CNAME records_**. |
+|  **Configuration Management**   |  **Ansible**  | Agentless **_post-provisioning state_** enforcement, **_package management_**, and **_service configuration_**                                            |
+
 ## Infrastructure Overview
 
 ```mermaid
@@ -95,8 +104,8 @@ flowchart LR
 
 ### General
 
-|                                                                  Role                                                                  | Description                                                                  |
-| :------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------- |
+|                                                              Role                                                              | Description                                                                  |
+| :----------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------- |
 |         [`firewall_configuration`](ansible/homelab-ansible-config/roles/general/firewall_configuration/tasks/main.yml)         | Configure **_firewall rules_**                                               |
 |   [`linux_hostname_configuration`](ansible/homelab-ansible-config/roles/general/linux_hostname_configuration/tasks/main.yml)   | Set **_hostname_** of Linux hosts                                            |
 |        [`linux_ntp_configuration`](ansible/homelab-ansible-config/roles/general/linux_ntp_configuration/tasks/main.yml)        | Configure **_NTP settings_** for time synchronization on **_Linux hosts_**   |
@@ -111,8 +120,8 @@ flowchart LR
 
 ### Domain
 
-|                                                            Role                                                             | Description                                                             |
-| :-------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------- |
+|                                                        Role                                                         | Description                                                             |
+| :-----------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------- |
 |           [`domain_creation`](ansible/homelab-ansible-config/roles/domain/domain_creation/tasks/main.yml)           | Create a new **_AD forest_** along with its **_domains_** and **_OUs_** |
 | [`domain_user_configuration`](ansible/homelab-ansible-config/roles/domain/domain_user_configuration/tasks/main.yml) | Manage **_domain user accounts_** and **_passwords_**                   |
 |         [`linux_domain_join`](ansible/homelab-ansible-config/roles/domain/linux_domain_join/tasks/main.yml)         | **_Join Linux hosts_** to the **_domain_**                              |
@@ -120,16 +129,16 @@ flowchart LR
 
 ### Hypervisors
 
-|                                                           Role                                                           | Description                                                |
-| :----------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------- |
+|                                                       Role                                                       | Description                                                |
+| :--------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------- |
 |    [`esxi_vm_deployment`](ansible/homelab-ansible-config/roles/hypervisors/esxi_vm_deployment/tasks/main.yml)    | Deploy **_VMs_** on **_ESXi host_**                        |
 | [`hyper-v_configuration`](ansible/homelab-ansible-config/roles/hypervisors/hyper-v_configuration/tasks/main.yml) | Install **_Hyper-V_** and configure **_virtual switches_** |
 | [`hyper-v_vm_deployment`](ansible/homelab-ansible-config/roles/hypervisors/hyper-v_vm_deployment/tasks/main.yml) | Deploy **_VMs_** on **_Hyper-V host_**                     |
 
 ### Services
 
-|                                                               Role                                                                | Description                                                                                                                               |
-| :-------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------- |
+|                                                           Role                                                            | Description                                                                                                                               |
+| :-----------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------- |
 |        [`authentik_deployment`](ansible/homelab-ansible-config/roles/services/authentik_deployment/tasks/main.yml)        | Configure **_Authentik_** as a **_centralized identity provider_** and **_SSO gateway_** for **_authentication_** and **_authorization_** |
 |        [`docker_configuration`](ansible/homelab-ansible-config/roles/services/docker_configuration/tasks/main.yml)        | Configure **_Docker_** settings                                                                                                           |
 |      [`filebrowser_deployment`](ansible/homelab-ansible-config/roles/services/filebrowser_deployment/tasks/main.yml)      | Configure **_Filebrowser_** as a **_self-hosted file manager_**                                                                           |
@@ -192,8 +201,8 @@ flowchart LR
 - [`inventory.yml`](ansible/homelab-ansible-config/inventory.template.yml): Defines the **_target hosts_**.
 - **Docker variables:**
 
-  |                                                      File                                                       | Description                                                                                                       |
-  | :-------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------- |
+  |                                                  File                                                   | Description                                                                                                       |
+  | :-----------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------- |
   |        [`iam_var.yml`](ansible/homelab-ansible-config/variables/docker_var/iam_var.template.yml)        | Define **_Authentik settings_** for **_centralized identity provider_** and **_SSO gateway_**                     |
   |      [`media_var.yml`](ansible/homelab-ansible-config/variables/docker_var/media_var.template.yml)      | Define **_Immich_** and **_Jellyfin settings_** for **_self-hosted media server_**                                |
   | [`management_var.yml`](ansible/homelab-ansible-config/variables/docker_var/management_var.template.yml) | Define **_Portainer_**, **_Home Assistant_**, and **_Homepage settings_** for **_centralized service dashboard_** |
@@ -204,22 +213,22 @@ flowchart LR
 
 - **Domain variables:**
 
-  |                                                  File                                                   | Description                            |
-  | :-----------------------------------------------------------------------------------------------------: | :------------------------------------- |
+  |                                              File                                               | Description                            |
+  | :---------------------------------------------------------------------------------------------: | :------------------------------------- |
   | [`domain_var.yml`](ansible/homelab-ansible-config/variables/domain_var/domain_var.template.yml) | Defines the **_domain configuration_** |
   |   [`user_var.yml`](ansible/homelab-ansible-config/variables/domain_var/user_var.template.yml)   | Defines all **_domain users_**         |
 
 - **Hypervisor variables:**
 
-  |                                                    File                                                    | Description                                                 |
-  | :--------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------- |
+  |                                                File                                                | Description                                                 |
+  | :------------------------------------------------------------------------------------------------: | :---------------------------------------------------------- |
   |    [`esxi_vm_var.yml`](ansible/homelab-ansible-config/variables/hypervisor_var/esxi_vm_var.yml)    | Defines **_ESXi VMs_** and their **_specifications_**       |
   | [`hyper-v_vm_var.yml`](ansible/homelab-ansible-config/variables/hypervisor_var/hyper-v_vm_var.yml) | Define the **_Hyper-V VMs_** and their **_specifications_** |
 
 - **OS variables:**
 
-  |                                                 File                                                  | Description                              |
-  | :---------------------------------------------------------------------------------------------------: | :--------------------------------------- |
+  |                                             File                                              | Description                              |
+  | :-------------------------------------------------------------------------------------------: | :--------------------------------------- |
   |    [`esxi_var.yml`](ansible/homelab-ansible-config/variables/os_var/esxi_var.template.yml)    | Defines **_ESXi-specific variables_**    |
   |   [`linux_var.yml`](ansible/homelab-ansible-config/variables/os_var/linux_var.template.yml)   | Defines **_Linux-specific variables_**   |
   | [`windows_var.yml`](ansible/homelab-ansible-config/variables/os_var/windows_var.template.yml) | Defines **_Windows-specific variables_** |
