@@ -1,4 +1,4 @@
-# Homelab Provisioning & Configuration Automation with Terraform & Ansible
+# Infrastructure as Code (IaC) Homelab
 
 A **_homelab provisioning and configuration automation_** solution powered by **_Terraform_** and **_Ansible_**, containerized with **_Docker_**. This setup simplifies **_Windows_**, **_Linux_**, and **_standalone ESXi_** management by leveraging **_declarative provisioning_** and **_idempotent configuration_**, streamlining **_Infrastructure as Code_** (**_IaC_**) principles across hypervisors and service nodes.
 
