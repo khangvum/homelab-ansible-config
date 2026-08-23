@@ -100,9 +100,13 @@ flowchart LR
   classDef specs fill:#d3d3d3,stroke:#000,color:#000
 ```
 
-## Roles
+## Ansible (Configuration Management)
 
-### General
+Ansible manages **_configuration_**, **_service deployments_**, and **_domain services_** across targeted hosts.
+
+### Roles
+
+#### General
 
 |                                                              Role                                                              | Description                                                                  |
 | :----------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------- |
@@ -118,7 +122,7 @@ flowchart LR
 |      [`windows_ntp_configuration`](ansible/homelab-ansible-config/roles/general/windows_ntp_configuration/tasks/main.yml)      | Configure **_NTP settings_** for time synchronization on **_Windows hosts_** |
 |                [`windows_updates`](ansible/homelab-ansible-config/roles/general/windows_updates/tasks/main.yml)                | Perform **_Windows updates_**                                                |
 
-### Domain
+#### Domain
 
 |                                                        Role                                                         | Description                                                             |
 | :-----------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------- |
@@ -127,7 +131,7 @@ flowchart LR
 |         [`linux_domain_join`](ansible/homelab-ansible-config/roles/domain/linux_domain_join/tasks/main.yml)         | **_Join Linux hosts_** to the **_domain_**                              |
 |       [`windows_domain_join`](ansible/homelab-ansible-config/roles/domain/windows_domain_join/tasks/main.yml)       | **_Join Windows hosts_** to the **_domain_**                            |
 
-### Hypervisors
+#### Hypervisors
 
 |                                                       Role                                                       | Description                                                |
 | :--------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------- |
@@ -135,7 +139,7 @@ flowchart LR
 | [`hyper-v_configuration`](ansible/homelab-ansible-config/roles/hypervisors/hyper-v_configuration/tasks/main.yml) | Install **_Hyper-V_** and configure **_virtual switches_** |
 | [`hyper-v_vm_deployment`](ansible/homelab-ansible-config/roles/hypervisors/hyper-v_vm_deployment/tasks/main.yml) | Deploy **_VMs_** on **_Hyper-V host_**                     |
 
-### Services
+#### Services
 
 |                                                           Role                                                            | Description                                                                                                                               |
 | :-----------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------- |
@@ -157,7 +161,7 @@ flowchart LR
 |        [`tailscale_deployment`](ansible/homelab-ansible-config/roles/services/tailscale_deployment/tasks/main.yml)        | Configure **_Tailscale_** as a **_mesh VPN service_** for **_secure remote access_**                                                      |
 | [`windows_exporter_deployment`](ansible/homelab-ansible-config/roles/services/windows_exporter_deployment/tasks/main.yml) | Configure **_Windows Exporter_** as a **_metrics collector_** for **_Prometheus monitoring_** on **_Windows hosts_**                      |
 
-## Prerequisites
+### Prerequisites
 
 1.  **_[OpenSSH Server](https://github.com/PowerShell/Win32-OpenSSH/releases/latest)_** installed on the **_targeted hosts_**. Alternatively, this can be installed via **_PowerShell_**:
 
@@ -194,7 +198,7 @@ flowchart LR
 
     **_Accept the host key_** on first connection by typing `yes` when prompted.
 
-## Configuration Setup
+### Configuration Setup
 
 1. **Update the inventory and variable files:**
 
@@ -258,11 +262,11 @@ flowchart LR
 > ansible-playbook site.yml -i inventory.yml -t system_information
 > ```
 
-## Ansible Vault Commands
+### Ansible Vault Commands
 
 When managing **_sensitive credentials_** or **_variables_** in the homelab configuration, consider using `ansible-vault`.
 
-### 1. Create an Encrypted File
+#### 1. Create an Encrypted File
 
 To create a new encrypted file:
 
@@ -270,7 +274,7 @@ To create a new encrypted file:
 ansible-vault create "<VAULT_FILE_PATH>"
 ```
 
-### 2. View an Encrypted File
+#### 2. View an Encrypted File
 
 To view the contents of an encrypted file without modifying it:
 
@@ -278,7 +282,7 @@ To view the contents of an encrypted file without modifying it:
 ansible-vault view "<VAULT_FILE_PATH>"
 ```
 
-### 3. Edit an Encrypted File Interactively
+#### 3. Edit an Encrypted File Interactively
 
 To edit an encrypted file directly without manually decrypting, modifying, and re-encrypting it:
 
@@ -286,7 +290,7 @@ To edit an encrypted file directly without manually decrypting, modifying, and r
 ansible-vault edit "<VAULT_FILE_PATH>"
 ```
 
-### 4. Encrypt an Existing Plaintext File
+#### 4. Encrypt an Existing Plaintext File
 
 To secure an unencrypted file:
 
@@ -294,7 +298,7 @@ To secure an unencrypted file:
 ansible-vault encrypt "<VAULT_FILE_PATH>"
 ```
 
-### 5. Decrypt an Existing Encrypted File
+#### 5. Decrypt an Existing Encrypted File
 
 To permanently return an encrypted file to plaintext:
 
@@ -306,7 +310,7 @@ ansible-vault decrypt "<VAULT_FILE_PATH>"
 
 When the inventory or variable files are **_encrypted_**, Ansible requires a **_vault password_** to parse and run them successfully. Execution can be handled using one of the following methods:
 
-### Option 1: Manual Password Prompt
+#### Option 1: Manual Password Prompt
 
 To **_prompt interactively_** for the **_vault password_** at runtime, the `--ask-vault-pass` flag is appended to the execution command:
 
@@ -314,7 +318,7 @@ To **_prompt interactively_** for the **_vault password_** at runtime, the `--as
 ansible-playbook site.yml -i inventory.yml --ask-vault-pass
 ```
 
-### Option 2: Automated Password File
+#### Option 2: Automated Password File
 
 To **_bypass interactive prompts_** during automated runs or continuous deployment pipelines, a **_local password file_** can be referenced directly:
 
