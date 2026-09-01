@@ -1,0 +1,47 @@
+name: Terraform Pipeline
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+    paths:
+      - 'terraform/**'
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'terraform/**'
+
+jobs:
+  terraform:
+    name: Terraform Provisioning
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./terraform
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v4
+        with:
+          terraform_version: "latest"
+
+      - name: Inject terraform.tfvars
+        run: |
+          cat << 'EOF' > terraform.tfvars
+          ${{ secrets.TFVARS_FILE }}
+          EOF
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Plan
+        run: terraform plan
+
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+        run: terraform apply -auto-approve
