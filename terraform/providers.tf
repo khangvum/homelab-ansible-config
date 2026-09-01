@@ -1,5 +1,13 @@
 terraform {
-  required_version = ">= 1.5.0"
+  required_version = ">= 1.16.0"
+
+  cloud {
+    organization = "khangvum"
+
+    workspaces {
+      name = "homelab-iac"
+    }
+  }
 
   required_providers {
     cloudflare = {
