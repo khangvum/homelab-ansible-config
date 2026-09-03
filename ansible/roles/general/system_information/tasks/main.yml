@@ -28,19 +28,21 @@
   when: inventory_hostname == "KVM-SRV02"
 - name: Gather ESXi Host Information
   delegate_to: localhost
-  vars:
-    ansible_connection: local
-    ansible_shell_type: sh
-    ansible_python_interpreter: /usr/bin/python3
   community.vmware.vmware_host_facts:
     hostname: "{{ ansible_host }}"
     username: "{{ ansible_user }}"
     password: "{{ ansible_password }}"
     validate_certs: false
   register: esxi_info
+  ignore_errors: true # Prevent failure if ESXi host is unreachable
   when: inventory_hostname == "KVM-SRV02"
-- debug:
-    msg: "{{ esxi_info }}"
+- name: Reachability Status Set
+  ansible.builtin.set_fact:
+    esxi_reachable: "{{ esxi_info is succeeded }}"
+  when: inventory_hostname == "KVM-SRV02"
+- name: EXSi Host Information Debug
+  ansible.builtin.debug:
+    msg: "{{ esxi_info.ansible_facts | default('ESXi host is unreachable. Skipping dependent tasks.') }}"
   when: inventory_hostname == "KVM-SRV02"
 
 - name: Linux Variables Load

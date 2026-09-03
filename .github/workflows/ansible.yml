@@ -28,7 +28,7 @@ jobs:
         uses: actions/checkout@v7
 
       # Connect to Tailscale and accept subnet routes
-      # OAuth scope: devices:core, devices:routes:read
+      # OAuth scope: api_access_tokens, auth_keys, devices:core, devices:routes:read, oauth_keys
       - name: Connect to Tailscale
         uses: tailscale/github-action@v4
         with:
@@ -39,10 +39,10 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v7
 
-      - name: Install Ansible
+      - name: Install Ansible and Python dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install ansible
+          pip install ansible pyvmomi
 
       - name: Create Vault Password File
         run: echo "$ANSIBLE_VAULT_PASSWORD" > .vault_pass
@@ -51,7 +51,7 @@ jobs:
         run: ansible-playbook site.yml --syntax-check --vault-password-file .vault_pass
 
       - name: Execute Ansible Playbook
-        if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+        # if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
         run: ansible-playbook site.yml --vault-password-file .vault_pass
 
       - name: Clean up Vault Password File

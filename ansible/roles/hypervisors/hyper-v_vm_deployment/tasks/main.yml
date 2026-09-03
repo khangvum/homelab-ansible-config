@@ -15,13 +15,23 @@
   loop: "{{ hyper_v_vm_list }}"
   when: item.host == computer_name
 
-- name: ISO File Copy
-  ansible.windows.win_copy:
-    src: "{{ item.iso_source }}"
-    dest: "{{ hyper_v_parent_dir }}\\{{ item.name }}\\{{ item.iso_destination }}"
-    force: false
+- name: ISO Files' Existence on Remote Hyper-V Host Verification
+  ansible.windows.win_stat:
+    path: "{{ srv_iso_source_dir }}\\{{ item.iso_destination }}"
   loop: "{{ hyper_v_vm_list }}"
   when: item.host == computer_name
+  register: iso_files
+
+- name: ISO File Copy to Remote Hyper-V Host If Not Exists (Skipped on Pipeline)
+  ansible.windows.win_copy:
+    src: "{{ item.iso_source }}"
+    dest: "{{ srv_iso_source_dir }}\\{{ item.iso_destination }}"
+    force: false
+  loop: "{{ iso_files.results }}"
+  when:
+    - item.stat is defined
+    - not item.stat.exists
+    - lookup('env', 'CI') == '' # Only runs if NOT on pipeline
 
 - name: VM Creation
   ansible.windows.win_powershell:
@@ -34,7 +44,7 @@
         $vmName = "{{ item.name }}"
         $vmPath = "{{ hyper_v_parent_dir }}\$vmName"
         $vmDisk = "$vmPath\$vmName.vhdx"
-        $vmISO  = "$vmPath\{{ item.iso_destination }}"
+        $vmISO  = "{{ srv_iso_source_dir }}\{{ item.iso_destination }}"
         $enableTPM = "{{ item.tpm }}".ToLower()
 
         # If the VM does not exist, create it
