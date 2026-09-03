@@ -8,7 +8,7 @@ all:
           computer_name: KVM-SRV01
           ansible_user: {{ USERNAME }}
           ansible_password: {{ PASSWORD }}
-          win_license_key: {{ WIN_SERVER_2025_STANDARD_LICENSE_KEY }}
+          win_license_key: {{ WIN_SERVER_2025_DATACENTER_LICENSE_KEY }}
           v_switches:
             - name: "KVM-SRV01-SW01"
               adapter: "Ethernet"
@@ -31,7 +31,7 @@ all:
               computer_name: KVM-DC01
               ansible_user: {{ USERNAME }}
               ansible_password: {{ PASSWORD }}
-              win_license_key: {{ WIN_SERVER_2025_STANDARD_LICENSE_KEY }}
+              win_license_key: {{ WIN_SERVER_2025_AVMA_LICENSE_KEY }}
               v_switches:
                 - name: "KVM-SRV01-SW01"
                   adapter: "Ethernet"
@@ -44,7 +44,7 @@ all:
               computer_name: KVM-DC02
               ansible_user: {{ USERNAME }}
               ansible_password: {{ PASSWORD }}
-              win_license_key: {{ WIN_SERVER_2025_STANDARD_LICENSE_KEY }}
+              win_license_key: {{ WIN_SERVER_2025_AVMA_LICENSE_KEY }}
               v_switches:
                 - name: "KVM-SRV01-SW01"
                   adapter: "Ethernet"
@@ -59,7 +59,7 @@ all:
               computer_name: KVM-WEB01
               ansible_user: {{ USERNAME }}
               ansible_password: {{ PASSWORD }}
-              win_license_key: {{ WIN_SERVER_2025_STANDARD_LICENSE_KEY }}
+              win_license_key: {{ WIN_SERVER_2025_AVMA_LICENSE_KEY }}
               v_switches:
                 - name: "KVM-SRV01-SW01"
                   adapter: "Ethernet"
@@ -74,7 +74,7 @@ all:
               computer_name: KVM-DB01
               ansible_user: {{ USERNAME }}
               ansible_password: {{ PASSWORD }}
-              win_license_key: {{ WIN_SERVER_2025_STANDARD_LICENSE_KEY }}
+              win_license_key: {{ WIN_SERVER_2025_AVMA_LICENSE_KEY }}
               v_switches:
                 - name: "KVM-SRV01-SW01"
                   adapter: "Ethernet"
@@ -89,7 +89,7 @@ all:
               computer_name: KVM-ROUTER01
               ansible_user: {{ USERNAME }}
               ansible_password: {{ PASSWORD }}
-              win_license_key: {{ WIN_SERVER_2025_STANDARD_LICENSE_KEY }}
+              win_license_key: {{ WIN_SERVER_2025_AVMA_LICENSE_KEY }}
               v_switches:
                 - name: "KVM-SRV01-SW01"
                   adapter: "Ethernet"

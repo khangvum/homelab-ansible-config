@@ -1,0 +1,53 @@
+name: Ansible Pipeline
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+    paths:
+      - 'ansible/**'
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'ansible/**'
+
+jobs:
+  ansible:
+    name: Execute Ansible Playbooks
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./ansible
+    env:
+      ANSIBLE_VAULT_PASSWORD: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      # Connect to Tailscale and accept subnet routes
+      # OAuth scope: devices:core, devices:routes:read
+      - name: Connect to Tailscale
+        uses: tailscale/github-action@v4
+        with:
+          oauth-client-id: ${{ secrets.TAILSCALE_OAUTH_CLIENT_ID }}
+          oauth-secret: ${{ secrets.TAILSCALE_OAUTH_CLIENT_SECRET }}
+          tags: tag:ci
+          args: --accept-routes
+
+      - name: Setup Python
+        uses: actions/setup-python@v7
+
+      - name: Install Ansible
+        run: |
+          python -m pip install --upgrade pip
+          pip install ansible
+
+      - name: Ansible Syntax Check
+        run: ansible-playbook site.yml --syntax-check
+
+      - name: Execute Ansible Playbooks
+        if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+        run: ansible-playbook site.yml
