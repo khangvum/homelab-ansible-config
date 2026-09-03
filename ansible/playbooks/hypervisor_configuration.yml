@@ -51,4 +51,7 @@
       when: inventory_hostname == "KVM-SRV01"
     - include_role:
         name: esxi_vm_deployment
-      when: inventory_hostname == "KVM-SRV02"
+      when:
+        - inventory_hostname == "KVM-SRV02"
+        - esxi_reachable | default(false)
+        
