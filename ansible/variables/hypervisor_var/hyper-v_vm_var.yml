@@ -10,7 +10,7 @@ hyper_v_vm_list:
     storage: 100
     generation: 2
     tpm: false
-    iso_source: /opt/ansible/homelab-ansible-config/installation-files/windows_server_2025_standard_x64_unattend.iso
+    iso_source: /opt/ansible/installation-files/windows_server_2025_standard_x64_unattend.iso
     iso_destination: windows_server_2025_standard_x64_unattend.iso
     secure_boot_template: "Microsoft Windows"
     autostart: start
@@ -24,7 +24,7 @@ hyper_v_vm_list:
     storage: 100
     generation: 2
     tpm: false
-    iso_source: /opt/ansible/homelab-ansible-config/installation-files/windows_server_2025_standard_x64_unattend.iso
+    iso_source: /opt/ansible/installation-files/windows_server_2025_standard_x64_unattend.iso
     iso_destination: windows_server_2025_standard_x64_unattend.iso
     secure_boot_template: "Microsoft Windows"
     autostart: start
@@ -38,7 +38,7 @@ hyper_v_vm_list:
     storage: 100
     generation: 2
     tpm: false
-    iso_source: /opt/ansible/homelab-ansible-config/installation-files/windows_server_2025_standard_x64_unattend.iso
+    iso_source: /opt/ansible/installation-files/windows_server_2025_standard_x64_unattend.iso
     iso_destination: windows_server_2025_standard_x64_unattend.iso
     secure_boot_template: "Microsoft Windows"
     autostart: start
@@ -52,7 +52,7 @@ hyper_v_vm_list:
     storage: 200
     generation: 2
     tpm: false
-    iso_source: /opt/ansible/homelab-ansible-config/installation-files/windows_server_2025_standard_x64_unattend.iso
+    iso_source: /opt/ansible/installation-files/windows_server_2025_standard_x64_unattend.iso
     iso_destination: windows_server_2025_standard_x64_unattend.iso
     secure_boot_template: "Microsoft Windows"
     autostart: start
@@ -66,7 +66,7 @@ hyper_v_vm_list:
     storage: 100
     generation: 2
     tpm: false
-    iso_source: /opt/ansible/homelab-ansible-config/installation-files/windows_server_2025_standard_x64_unattend.iso
+    iso_source: /opt/ansible/installation-files/windows_server_2025_standard_x64_unattend.iso
     iso_destination: windows_server_2025_standard_x64_unattend.iso
     secure_boot_template: "Microsoft Windows"
     autostart: start
@@ -80,7 +80,7 @@ hyper_v_vm_list:
     storage: 100
     generation: 2
     tpm: false
-    iso_source: /opt/ansible/homelab-ansible-config/installation-files/ubuntu_server_24.04_unattend.iso
+    iso_source: /opt/ansible/installation-files/ubuntu_server_24.04_unattend.iso
     iso_destination: ubuntu_server_24.04_unattend.iso
     secure_boot_template: "Microsoft UEFI Certificate Authority"
     autostart: start
@@ -94,7 +94,7 @@ hyper_v_vm_list:
     storage: 50
     generation: 2
     tpm: false
-    iso_source: /opt/ansible/homelab-ansible-config/installation-files/ubuntu_server_24.04_unattend.iso
+    iso_source: /opt/ansible/installation-files/ubuntu_server_24.04_unattend.iso
     iso_destination: ubuntu_server_24.04_unattend.iso
     secure_boot_template: "Microsoft UEFI Certificate Authority"
     autostart: start
@@ -108,7 +108,7 @@ hyper_v_vm_list:
     storage: 100
     generation: 2
     tpm: false
-    iso_source: /opt/ansible/homelab-ansible-config/installation-files/ubuntu_server_24.04_unattend.iso
+    iso_source: /opt/ansible/installation-files/ubuntu_server_24.04_unattend.iso
     iso_destination: ubuntu_server_24.04_unattend.iso
     secure_boot_template: "Microsoft UEFI Certificate Authority"
     autostart: start
@@ -122,7 +122,7 @@ hyper_v_vm_list:
     storage: 50
     generation: 2
     tpm: false
-    iso_source: /opt/ansible/homelab-ansible-config/installation-files/ubuntu_server_24.04_unattend.iso
+    iso_source: /opt/ansible/installation-files/ubuntu_server_24.04_unattend.iso
     iso_destination: ubuntu_server_24.04_unattend.iso
     secure_boot_template: "Microsoft UEFI Certificate Authority"
     autostart: start
@@ -136,7 +136,7 @@ hyper_v_vm_list:
     storage: 50
     generation: 2
     tpm: false
-    iso_source: /opt/ansible/homelab-ansible-config/installation-files/ubuntu_server_24.04_unattend.iso
+    iso_source: /opt/ansible/installation-files/ubuntu_server_24.04_unattend.iso
     iso_destination: ubuntu_server_24.04_unattend.iso
     secure_boot_template: "Microsoft UEFI Certificate Authority"
     autostart: start
@@ -150,7 +150,7 @@ hyper_v_vm_list:
     storage: 20
     generation: 2
     tpm: false
-    iso_source: /opt/ansible/homelab-ansible-config/installation-files/ubuntu_server_24.04_unattend.iso
+    iso_source: /opt/ansible/installation-files/ubuntu_server_24.04_unattend.iso
     iso_destination: ubuntu_server_24.04_unattend.iso
     secure_boot_template: "Microsoft UEFI Certificate Authority"
     autostart: start
@@ -164,7 +164,7 @@ hyper_v_vm_list:
     storage: 40
     generation: 2
     tpm: false
-    iso_source: /opt/ansible/homelab-ansible-config/installation-files/ubuntu_server_24.04_unattend.iso
+    iso_source: /opt/ansible/installation-files/ubuntu_server_24.04_unattend.iso
     iso_destination: ubuntu_server_24.04_unattend.iso
     secure_boot_template: "Microsoft UEFI Certificate Authority"
     autostart: start
@@ -179,7 +179,7 @@ hyper_v_vm_list:
   #   storage: 100
   #   generation: 2
   #   tpm: true
-  #   iso_source: /opt/ansible/homelab-ansible-config/installation-files/windows_11_pro_x64_unattend.iso
+  #   iso_source: /opt/ansible/installation-files/windows_11_pro_x64_unattend.iso
   #   iso_destination: windows_11_pro_x64_unattend.iso
   #   secure_boot_template: "Microsoft Windows"
   #   autostart: start
