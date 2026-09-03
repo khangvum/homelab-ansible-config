@@ -28,10 +28,6 @@
   when: inventory_hostname == "KVM-SRV02"
 - name: Gather ESXi Host Information
   delegate_to: localhost
-  vars:
-    ansible_connection: local
-    ansible_shell_type: sh
-    ansible_python_interpreter: /usr/bin/python3
   community.vmware.vmware_host_facts:
     hostname: "{{ ansible_host }}"
     username: "{{ ansible_user }}"
