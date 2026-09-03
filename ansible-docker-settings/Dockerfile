@@ -55,7 +55,7 @@ RUN mkdir /run/sshd
 RUN chmod 0755 /run/sshd
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-WORKDIR /opt/ansible/homelab-ansible-config
+WORKDIR /opt/ansible
 
 # Start the services when the server starts
 CMD ["/usr/bin/supervisord"]
