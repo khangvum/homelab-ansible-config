@@ -1,5 +1,6 @@
 ---
 srv_hyper_v_parent_dir: "V:"
+srv_iso_source_dir: "V:\\ISO-Files"
 pc_hyper_v_parent_dir: "C:\\VMs\\Hyper-V"
 
 hyper_v_vm_list:
