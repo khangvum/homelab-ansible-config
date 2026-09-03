@@ -51,7 +51,7 @@ jobs:
         run: ansible-playbook site.yml --syntax-check --vault-password-file .vault_pass
 
       - name: Execute Ansible Playbook
-        if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+        # if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
         run: ansible-playbook site.yml --vault-password-file .vault_pass
 
       - name: Clean up Vault Password File
