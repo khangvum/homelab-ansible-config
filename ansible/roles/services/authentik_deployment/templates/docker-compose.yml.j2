@@ -14,7 +14,7 @@ services:
     environment:
       POSTGRES_USER: "{{ postgres_user }}"
       POSTGRES_PASSWORD: "{{ postgres_password }}"
-      POSTGRES_DB: "{{ postgres_db }}"
+      POSTGRES_DB: "{{ authentik_postgres_db }}"
 
   redis:
     image: docker.io/library/redis:7-alpine
@@ -39,7 +39,7 @@ services:
       AUTHENTIK_POSTGRESQL__HOST: postgresql
       AUTHENTIK_POSTGRESQL__USER: "{{ postgres_user }}"
       AUTHENTIK_POSTGRESQL__PASSWORD: "{{ postgres_password }}"
-      AUTHENTIK_POSTGRESQL__NAME: "{{ postgres_db }}"
+      AUTHENTIK_POSTGRESQL__NAME: "{{ authentik_postgres_db }}"
       AUTHENTIK_SECRET_KEY: "{{ authentik_secret_key }}"
     volumes:
       - ./media:/media
@@ -63,7 +63,7 @@ services:
       AUTHENTIK_POSTGRESQL__HOST: postgresql
       AUTHENTIK_POSTGRESQL__USER: "{{ postgres_user }}"
       AUTHENTIK_POSTGRESQL__PASSWORD: "{{ postgres_password }}"
-      AUTHENTIK_POSTGRESQL__NAME: "{{ postgres_db }}"
+      AUTHENTIK_POSTGRESQL__NAME: "{{ authentik_postgres_db }}"
       AUTHENTIK_SECRET_KEY: "{{ authentik_secret_key }}"
     volumes:
       - ./media:/media

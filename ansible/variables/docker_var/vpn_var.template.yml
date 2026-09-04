@@ -28,9 +28,9 @@ docker_services:
   - name: authentik
     forward_host: "{{ hostvars['KVM-IAM01'].ansible_host }}"
     forward_port: 9000
-  - name: filebrowser
+  - name: nextcloud
     forward_host: "{{ hostvars['KVM-NAS01'].ansible_host }}"
-    forward_port: 8095
+    forward_port: 8080
   - name: grafana
     forward_host: "{{ hostvars['KVM-MONITOR01'].ansible_host }}"
     forward_port: 3000

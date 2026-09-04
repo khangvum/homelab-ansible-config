@@ -1,6 +1,8 @@
 ---
 media_mount_dir: /mnt/nas/media
 media_path: "//{{ hostvars['KVM-SRV01'].ansible_host }}/NAS/media"
+administrator_uid: 1000
+administrator_gid: 1000
 
 # Jellyfin
 jellyfin_parent_dir: "/home/{{ ansible_user }}/docker/jellyfin"

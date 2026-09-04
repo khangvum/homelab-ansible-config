@@ -37,7 +37,7 @@
       when: "'containers' not in group_names"
     # KVM-NAS01
     - include_role:
-        name: filebrowser_deployment
+        name: nextcloud_deployment
       when: inventory_hostname == "KVM-NAS01"
     # KVM-MONITOR01
     - include_role:

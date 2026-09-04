@@ -1,0 +1,93 @@
+---
+# Reference: https://github.com/nextcloud/docker
+- name: Linux Variables Load
+  ansible.builtin.include_vars:
+    file: ../../../variables/os_var/linux_var.yml
+
+- name: CIFS (Common Internet File System) Utilities Installation
+  ansible.builtin.apt:
+    name: cifs-utils
+    state: present
+
+- name: Mount Point Directory Creation
+  ansible.builtin.file:
+    name: "{{ nas_mount_dir }}"
+    state: directory
+    owner: "{{ www_data_uid }}"
+    group: "{{ www_data_gid }}"
+    mode: '0770'
+
+- name: NAS Credentials File Creation
+  ansible.builtin.template:
+    src: cifs_credentials.j2
+    dest: /etc/cifs_credentials
+    owner: root
+    group: root
+    mode: '0600'
+
+- name: Permanent Mount Configuration
+  ansible.posix.mount:
+    src: "{{ nas_path }}"
+    path: "{{ nas_mount_dir }}"
+    fstype: cifs
+    opts: "credentials=/etc/cifs_credentials,uid={{ www_data_uid }},gid={{ www_data_gid }},file_mode=0770,dir_mode=0770,iocharset=utf8,vers=3.0,nofail"
+    state: mounted
+  register: permanent_mount
+
+- name: Reload to Apply Changes
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+  when: permanent_mount.changed
+
+- name: Mount Execution
+  ansible.builtin.command:
+    cmd: mount -a
+  when: permanent_mount.changed
+
+# - name: Nextcloud Parent & Infrastructure Directories Creation
+#   ansible.builtin.file:
+#     path: "{{ item }}"
+#     state: directory
+#     owner: "{{ ansible_user }}"
+#     group: "{{ ansible_user }}"
+#     mode: '0755'
+#   loop:
+#     - "{{ nextcloud_parent_dir }}"
+#     - "{{ nextcloud_parent_dir }}/postgres_data"
+#     - "{{ nextcloud_parent_dir }}/redis_data"
+
+- name: Nextcloud Parent & Infrastructure Directories Creation
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
+    mode: "{{ item.mode }}"
+  loop:
+    - { path: "{{ nextcloud_parent_dir }}", owner: "{{ ansible_user }}", group: "{{ ansible_user }}", mode: '0755' }
+    - { path: "{{ nextcloud_parent_dir }}/postgres_data", owner: "{{ ansible_user }}", group: "{{ ansible_user }}", mode: '0755' }
+    - { path: "{{ nextcloud_parent_dir }}/redis_data", owner: '999', group: '999', mode: '0770' }
+
+- name: Nextcloud Web Root Directory Creation (www-data ownership)
+  ansible.builtin.file:
+    path: "{{ nextcloud_parent_dir }}/html"
+    state: directory
+    owner: "{{ www_data_uid }}"
+    group: "{{ www_data_gid }}"
+    mode: '0770'
+
+- name: Docker Compose File Creation
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: "{{ nextcloud_parent_dir }}/docker-compose.yml"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0644'
+  register: docker_compose_file
+
+- name: Nextcloud Deployment
+  community.docker.docker_compose_v2:
+    project_src: "{{ nextcloud_parent_dir }}"
+    pull: "{{ docker_image_pull_action }}"
+    state: present
+    remove_orphans: true
