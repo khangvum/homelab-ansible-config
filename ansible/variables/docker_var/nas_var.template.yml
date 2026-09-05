@@ -1,5 +1,22 @@
 ---
 nextcloud_parent_dir: "/home/{{ ansible_user }}/docker/nextcloud"
+nextcloud_directories:
+  - path: "{{ nextcloud_parent_dir }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0755'
+  - path: "{{ nextcloud_parent_dir }}/postgres_data"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0755'
+  - path: "{{ nextcloud_parent_dir }}/redis_data"
+    owner: '999'
+    group: '999'
+    mode: '0770'
+  - path: "{{ nextcloud_parent_dir }}/html"
+    owner: "{{ www_data_uid }}"
+    group: "{{ www_data_gid }}"
+    mode: '0770'
 nextcloud_postgres_db: "nextcloud"
 nextcloud_version: "34.0.3"
 nas_mount_dir: /mnt/nas

@@ -44,37 +44,14 @@
     cmd: mount -a
   when: permanent_mount.changed
 
-# - name: Nextcloud Parent & Infrastructure Directories Creation
-#   ansible.builtin.file:
-#     path: "{{ item }}"
-#     state: directory
-#     owner: "{{ ansible_user }}"
-#     group: "{{ ansible_user }}"
-#     mode: '0755'
-#   loop:
-#     - "{{ nextcloud_parent_dir }}"
-#     - "{{ nextcloud_parent_dir }}/postgres_data"
-#     - "{{ nextcloud_parent_dir }}/redis_data"
-
-- name: Nextcloud Parent & Infrastructure Directories Creation
+- name: Nextcloud Directory Creation
   ansible.builtin.file:
     path: "{{ item.path }}"
     state: directory
     owner: "{{ item.owner }}"
     group: "{{ item.group }}"
     mode: "{{ item.mode }}"
-  loop:
-    - { path: "{{ nextcloud_parent_dir }}", owner: "{{ ansible_user }}", group: "{{ ansible_user }}", mode: '0755' }
-    - { path: "{{ nextcloud_parent_dir }}/postgres_data", owner: "{{ ansible_user }}", group: "{{ ansible_user }}", mode: '0755' }
-    - { path: "{{ nextcloud_parent_dir }}/redis_data", owner: '999', group: '999', mode: '0770' }
-
-- name: Nextcloud Web Root Directory Creation (www-data ownership)
-  ansible.builtin.file:
-    path: "{{ nextcloud_parent_dir }}/html"
-    state: directory
-    owner: "{{ www_data_uid }}"
-    group: "{{ www_data_gid }}"
-    mode: '0770'
+  loop: "{{ nextcloud_directories }}"
 
 - name: Docker Compose File Creation
   ansible.builtin.template:
