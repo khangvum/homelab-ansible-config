@@ -292,3 +292,23 @@ To permanently return an encrypted file to plaintext:
 ```bash
 ansible-vault decrypt "<VAULT_FILE_PATH>"
 ```
+
+## Playbook Execution with Ansible Vault
+
+When the inventory or variable files are **_encrypted_**, Ansible requires a **_vault password_** to parse and run them successfully. Execution can be handled using one of the following methods:
+
+### Option 1: Manual Password Prompt
+
+To **_prompt interactively_** for the **_vault password_** at runtime, the `--ask-vault-pass` flag is appended to the execution command:
+
+```bash
+ansible-playbook site.yml -i inventory.yml --ask-vault-pass
+```
+
+### Option 2: Automated Password File
+
+To **_bypass interactive prompts_** during automated runs or continuous deployment pipelines, a **_local password file_** can be referenced directly:
+
+```bash
+ansible-playbook site.yml -i inventory.yml --vault-password-file "<PASSWORD_FILE_PATH>"
+```
