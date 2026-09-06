@@ -41,6 +41,7 @@ services:
       AUTHENTIK_POSTGRESQL__PASSWORD: "{{ postgres_password }}"
       AUTHENTIK_POSTGRESQL__NAME: "{{ authentik_postgres_db }}"
       AUTHENTIK_SECRET_KEY: "{{ authentik_secret_key }}"
+      AUTHENTIK_WEB__BASE_URL: "https://authentik.{{ public_domain_name }}"
     volumes:
       - ./media:/media
       - ./templates:/templates

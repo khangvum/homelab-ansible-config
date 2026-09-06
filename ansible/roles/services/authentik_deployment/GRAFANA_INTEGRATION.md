@@ -14,7 +14,7 @@ A comprehensive guide to **_integrating Authentik OIDC_** with a **_Grafana_** i
   |         **Name**          | `Grafana - OIDC`                                                          |
   |  **Authorization Flow**   | `default-provider-authorization-explicit-consent (Authorize Application)` |
   |      **Client Type**      | `Confidential`                                                            |
-  | **Redirect URIs/Origins** | `http://grafana.khangvum.lab/login/generic_oauth`                         |
+  | **Redirect URIs/Origins** | `https://grafana.khangvum.com/login/generic_oauth`                         |
 
 > [!IMPORTANT]
 > Copy your **_Client ID_** and **_Client Secret_**, which are needed for Grafana environment variables later.
@@ -28,7 +28,7 @@ A comprehensive guide to **_integrating Authentik OIDC_** with a **_Grafana_** i
   | :------------: | ----------------------------- |
   |    **Name**    | `Grafana`                     |
   |  **Provider**  | Select `Grafana - OIDC`       |
-  | **Launch URL** | `http://grafana.khangvum.lab` |
+  | **Launch URL** | `https://grafana.khangvum.com` |
 
 ## 2. Grafana Configuration
 
@@ -55,18 +55,18 @@ services:
       GF_AUTH_GENERIC_OAUTH_SCOPES: "openid profile email groups"
       
       # Authentik OIDC Endpoints
-      GF_AUTH_GENERIC_OAUTH_AUTH_URL: "http://authentik.khangvum.lab/application/o/authorize/"
-      GF_AUTH_GENERIC_OAUTH_TOKEN_URL: "http://authentik.khangvum.lab/application/o/token/"
-      GF_AUTH_GENERIC_OAUTH_API_URL: "http://authentik.khangvum.lab/application/o/userinfo/"
+      GF_AUTH_GENERIC_OAUTH_AUTH_URL: "https://authentik.khangvum.com/application/o/authorize/"
+      GF_AUTH_GENERIC_OAUTH_TOKEN_URL: "https://authentik.khangvum.com/application/o/token/"
+      GF_AUTH_GENERIC_OAUTH_API_URL: "https://authentik.khangvum.com/application/o/userinfo/"
       
       # Logout configuration
-      GF_AUTH_SIGNOUT_REDIRECT_URL: "http://authentik.khangvum.lab/application/o/grafana/end-session/"
+      GF_AUTH_SIGNOUT_REDIRECT_URL: "https://authentik.khangvum.com/application/o/grafana/end-session/"
       
       # Optional: Auto-login (Bypasses Grafana login screen and sends user straight to Authentik)
       GF_AUTH_OAUTH_AUTO_LOGIN: "false"
       
       # Required for reverse proxy (NPM)
-      GF_SERVER_ROOT_URL: "http://grafana.khangvum.lab"
+      GF_SERVER_ROOT_URL: "https://grafana.khangvum.com"
     ...
 ```
 

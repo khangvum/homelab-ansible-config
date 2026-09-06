@@ -14,7 +14,7 @@ A comprehensive guide to **_integrating Authentik OIDC_** with a **_Jellyfin_** 
   |         **Name**          | `Jellyfin - OIDC`                                                         |
   |  **Authorization Flow**   | `default-provider-authorization-explicit-consent (Authorize Application)` |
   |      **Client Type**      | `Confidential`                                                            |
-  | **Redirect URIs/Origins** | `http://jellyfin.khangvum.lab/sso/OID/redirect/authentik`                 |
+  | **Redirect URIs/Origins** | `https://jellyfin.khangvum.com/sso/OID/redirect/authentik`                 |
 
 > [!IMPORTANT]
 > Copy your **_Client ID_** and **_Client Secret_**, which are needed for Jellyfin plugin configuration later.
@@ -28,7 +28,7 @@ A comprehensive guide to **_integrating Authentik OIDC_** with a **_Jellyfin_** 
   | :------------: | ------------------------------ |
   |    **Name**    | `Jellyfin`                     |
   |  **Provider**  | Select `Jellyfin - OIDC`       |
-  | **Launch URL** | `http://jellyfin.khangvum.lab` |
+  | **Launch URL** | `https://jellyfin.khangvum.com` |
 
 ## 2. Jellyfin Plugin Configuration
 
@@ -70,7 +70,7 @@ Once restarted, click on the **_SSO-Auth_** plugin icon in the installed plugins
 To display the **_"Sign in with SSO"_** button, inject this HTML into the **_Login disclaimer_** (found in **Dashboard** > **Branding**):
 
 ```html
-<form action="http://jellyfin.khangvum.lab/sso/OID/start/authentik">
+<form action="https://jellyfin.khangvum.com/sso/OID/start/authentik">
   <button class="raised block emby-button button-submit">
     Sign in with SSO
   </button>
