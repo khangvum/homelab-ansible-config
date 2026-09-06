@@ -39,8 +39,9 @@
       add:
         - "Domain Users"
     password: "{{ item.password }}"
-    update_password: when_changed
+    update_password: on_create
     password_never_expires: "{{ item.password_never_expires }}"
+    user_cannot_change_password: false
     description: "{{ item.description | default(omit) }}"
     # Built-in attributes
     street: "{{ item.street | default(omit) }}"
