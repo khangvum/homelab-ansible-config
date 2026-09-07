@@ -15,7 +15,7 @@
     - "{{ authentik_parent_dir }}"
     - "{{ authentik_parent_dir }}/postgres_data"
     - "{{ authentik_parent_dir }}/redis_data"
-    - "{{ authentik_parent_dir }}/media"
+    - "{{ authentik_parent_dir }}/data"
     - "{{ authentik_parent_dir }}/templates"
 
 - name: Docker Compose File Creation
