@@ -42,8 +42,9 @@ services:
       AUTHENTIK_POSTGRESQL__NAME: "{{ authentik_postgres_db }}"
       AUTHENTIK_SECRET_KEY: "{{ authentik_secret_key }}"
       AUTHENTIK_WEB__BASE_URL: "https://authentik.{{ public_domain_name }}"
+      AUTHENTIK_STORAGE__FILE__PATH: /data
     volumes:
-      - ./media:/media
+      - ./data:/data
       - ./templates:/templates
     ports:
       - "9000:9000"
@@ -67,7 +68,7 @@ services:
       AUTHENTIK_POSTGRESQL__NAME: "{{ authentik_postgres_db }}"
       AUTHENTIK_SECRET_KEY: "{{ authentik_secret_key }}"
     volumes:
-      - ./media:/media
+      - ./data:/data
       - ./templates:/templates
       - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
