@@ -68,3 +68,11 @@
     pull: "{{ docker_image_pull_action }}"
     state: present
     remove_orphans: true
+
+- name: Nextcloud File Scan Execution
+  community.docker.docker_container_exec:
+    container: nextcloud-app-1
+    user: www-data
+    command: php occ files:scan --all
+  register: nextcloud_scan_result
+  changed_when: "'Scanned' in nextcloud_scan_result.stdout"
