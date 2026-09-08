@@ -2,6 +2,39 @@ name: Ansible Pipeline
 
 on:
   workflow_dispatch:
+    inputs:
+      global_configuration:
+        type: boolean
+        description: 'Global Configuration'
+        default: false
+      hyper_v_host_configuration:
+        type: boolean
+        description: 'Hyper-V Host Configuration'
+        default: false
+      vm_deployment:
+        type: boolean
+        description: 'VM Deployment'
+        default: false
+      windows_vm_configuration:
+        type: boolean
+        description: 'Windows VM Configuration'
+        default: false
+      linux_vm_configuration:
+        type: boolean
+        description: 'Linux VM Configuration'
+        default: false
+      domain_configuration:
+        type: boolean
+        description: 'Domain Configuration'
+        default: false
+      iis_configuration:
+        type: boolean
+        description: 'IIS Configuration'
+        default: false
+      container_deployment:
+        type: boolean
+        description: 'Container Deployment'
+        default: false
   schedule:
     # Runs daily at 02:00 UTC
     # - 10:00 PM EDT
@@ -55,12 +88,40 @@ jobs:
       - name: Create Vault Password File
         run: echo "$ANSIBLE_VAULT_PASSWORD" > .vault_pass
 
+      - name: Parse Selected Tags
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            TAGS=""
+
+            # Append selected tags
+            [ "${{ inputs.global_configuration }}" = "true" ] && TAGS="${TAGS:+$TAGS,}global_configuration"
+            [ "${{ inputs.hyper_v_host_configuration }}" = "true" ] && TAGS="${TAGS:+$TAGS,}hyper-v_host_configuration"
+            [ "${{ inputs.vm_deployment }}" = "true" ] && TAGS="${TAGS:+$TAGS,}vm_deployment"
+            [ "${{ inputs.windows_vm_configuration }}" = "true" ] && TAGS="${TAGS:+$TAGS,}windows_vm_configuration"
+            [ "${{ inputs.linux_vm_configuration }}" = "true" ] && TAGS="${TAGS:+$TAGS,}linux_vm_configuration"
+            [ "${{ inputs.domain_configuration }}" = "true" ] && TAGS="${TAGS:+$TAGS,}domain_configuration"
+            [ "${{ inputs.iis_configuration }}" = "true" ] && TAGS="${TAGS:+$TAGS,}iis_configuration"
+            [ "${{ inputs.container_deployment }}" = "true" ] && TAGS="${TAGS:+$TAGS,}container_deployment"
+
+            # If any tag was selected, prepend host_connection_test
+            if [ -n "$TAGS" ]; then
+              TAGS="host_connection_test,$TAGS"
+              echo "TAG_ARGS=--tags $TAGS" >> $GITHUB_ENV
+            else
+              # No checkboxes checked -> run all tasks without tags
+              echo "TAG_ARGS=" >> $GITHUB_ENV
+            fi
+          else
+            # For pushes, schedule runs, and pull requests -> run all tasks
+            echo "TAG_ARGS=" >> $GITHUB_ENV
+          fi
+
       - name: Ansible Syntax Check
-        run: ansible-playbook site.yml --syntax-check --vault-password-file .vault_pass
+        run: ansible-playbook site.yml $TAG_ARGS --syntax-check --vault-password-file .vault_pass
 
       - name: Execute Ansible Playbook
         if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch' || github.event_name == 'schedule')
-        run: ansible-playbook site.yml --vault-password-file .vault_pass
+        run: ansible-playbook site.yml $TAG_ARGS --vault-password-file .vault_pass
 
       - name: Clean up Vault Password File
         if: always()
