@@ -4,5 +4,5 @@ authentik_version: "2026.5.2"
 
 postgres_user: "{{ ansible_user }}"
 postgres_password: "{{ ansible_password }}"
-postgres_db: "authentik"
+authentik_postgres_db: "authentik"
 authentik_secret_key: {{ AUTHENTIK_SECRET_KEY }}
