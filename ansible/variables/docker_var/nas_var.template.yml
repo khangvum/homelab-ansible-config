@@ -1,7 +1,9 @@
 ---
-filebrowser_parent_dir: "/home/{{ ansible_user }}/docker/filebrowser"
+nextcloud_parent_dir: "/home/{{ ansible_user }}/docker/nextcloud"
+nextcloud_postgres_db: "nextcloud"
+nextcloud_version: "34.0.3"
 nas_mount_dir: /mnt/nas
 nas_path: "//{{ hostvars['KVM-SRV01'].ansible_host }}/NAS"
 
-administrator_uid: 1000
-administrator_gid: 1000
+www_data_uid: 33
+www_data_gid: 33
